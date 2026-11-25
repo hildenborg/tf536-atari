@@ -1,0 +1,3 @@
+# Checksummed: no line-ending conversion
+firmware/* -text
+rtl/* -text
