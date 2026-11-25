@@ -2,6 +2,10 @@
 
 Version 1.0, 2026-11-25
 
+Written by Claude (Anthropic's AI model) by analyzing the TF536 schematics,
+component datasheets and the simulated pin behaviour of the existing firmware.
+Reviewed by Mikael Hildenborg.
+
 ## 1. Purpose and rules
 
 This document specifies a replacement firmware for the CPLD on the TF536 Rev 2
@@ -521,11 +525,9 @@ normally, with undefined data.
 
 - Device: XC95288XL-10. Logic on the 100 MHz clock has 10 ns from register to
   register. REQ: run the vendor's timing analysis and report every path over 10 ns;
-  justify each one (multi-cycle) or remove it. The existing firmware has some up to
-  12.6 ns.
-- Clock-to-output of the existing build is 10–26 ns (slow slew). Include CLKRAM's
-  own output delay when calculating SDRAM setup and hold: what matters is the
-  difference between outputs.
+  justify each one (multi-cycle) or remove it.
+- Include CLKRAM's own output delay when calculating SDRAM setup and hold: what
+  matters is the difference between outputs.
 - Synchronise every asynchronous input (socket clock, DTACK, VPA, BR/BGACK
   where used in clocked logic, RESET release, IORDY).
 - The CPU drives AS30, DS30 and address from CLKCPU, so know the relation between
@@ -604,6 +606,4 @@ image relies only on sections 4 and 10.
 ## 15. Tool constraints
 
 The available tools are Xilinx ISE 10.1 (XST), which accepts Verilog-2001 and
-VHDL, with cpldfit. Any other legal flow for the XC9500XL is fine. Reference
-resource use of the existing build, as a size check only: 177 macrocells,
-691 product terms, 124 registers.
+VHDL, with cpldfit. Any other legal flow for the XC9500XL is fine.

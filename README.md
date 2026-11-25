@@ -4,6 +4,10 @@ Replacement CPLD firmware for the TF536 Rev 2 accelerator (68030, 64 MB SDRAM,
 IDE) fitted in the 68000 socket of an Atari ST or STE. Written from
 [FIRMWARE_SPEC.md](FIRMWARE_SPEC.md). **Not yet run on hardware.**
 
+The clean-room specification was written by Claude (Anthropic's AI model) by
+analyzing the TF536 schematics, component datasheets and the simulated pin
+behaviour of the existing firmware. It has been reviewed by Mikael Hildenborg.
+
 | Path | Contents |
 |---|---|
 | `rtl/tf536atari.v`, `rtl/tf536atari.ucf` | Design and pins |
