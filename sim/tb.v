@@ -1,11 +1,17 @@
 // Self-checking bench for tf536atari: 68030, socket, SDRAM and IDE models.
+// -DFS selects the checks for the full-speed variant, tf536atari_fs.v.
 // DLY=1 adds the CPLD's pin delays (taken from the timing report).
 `timescale 1ns/10ps
+`ifdef FS
+`define FSV 1
+`else
+`define FSV 0
+`endif
 module tb;
 parameter PHASE=1, DLY=1; parameter real TAS=5.0, TSK=62.35;
-parameter LONG=1;
+parameter LONG=1; parameter real BH=50;   // BERR release after AS30, full-speed variant
 localparam real OF = DLY?5.8:0.2, OS = DLY?10.3:0.2, OC=DLY?18.0:0.2,
-                OA = DLY?14.5:0.2, IN = DLY?3.5:0.1, CR=DLY?10.0:4.0;
+                OA = DLY?14.5:0.2, IN = DLY?3.5:0.1, OR = `FSV?OC:OA-IN, CR=DLY?10.0:4.0;
 integer errs=0, test=0; reg quiet=0;
 task fail(input [8*60-1:0] m); begin
   errs=errs+1; if(errs<25) $display("FAIL test %0d @%0t: %0s",test,$realtime,m); end endtask
@@ -43,29 +49,44 @@ tf536atari #(.PHASE(PHASE)) dut
 wire cclk,bsen,csn,ras,cas,we,roe; wire [12:0] ra; wire [1:0] rb; wire [3:0] dm; wire E;
 assign #(OF) cclk=cclk0; assign #(OF) dsk0=ds0o; assign #(OF) dsk1=ds1o; assign #(OF) sterm=sto;
 assign #(OS) avec=avo; assign #(OF) cback=cbo; assign #(OF) ciin=cio;
-// rise/fall split: assert = clock path, negate = AS30 pad path less IN
-assign #(OA-IN,OC) as=aso; assign #(OA-IN,OC) uds=udso; assign #(OA-IN,OC) lds=ldso;
+// rise/fall split: assert = clock path, negate = AS30 pad path less IN;
+// the full-speed variant negates by the clock too
+reg as_r,uds_r,lds_r; assign as=as_r; assign uds=uds_r; assign lds=lds_r;
+wire byclk = `FSV && !AS30;
+always @(aso)  as_r  <= #((aso===0||byclk)?OC:OA-IN) aso;
+always @(udso) uds_r <= #((udso===0||byclk)?OC:OA-IN) udso;
+always @(ldso) lds_r <= #((ldso===0||byclk)?OC:OA-IN) ldso;
 assign #(OS) vma=vmao; assign #(OS) E=eo; assign #(OS) bg=bgo_;
 assign #(OF) bsen=buseno; assign #(OF) csn=csno; assign #(OF) ras=raso; assign #(OF) cas=caso;
 assign #(OF) we=weo; assign #(OF) roe=oeo; assign #(OF) ra=ao; assign #(OF) rb=bao; assign #(OF) dm=dmo;
-assign #(OS) cs0=i0; assign #(OS) cs1=i1; assign #(OA-IN,OC) ior=ioro; assign #(OS) iow=iowo;
+assign #(OS) cs0=i0; assign #(OS) cs1=i1; assign #(OR,OC) ior=ioro; assign #(OS) iow=iowo;
 reg rk=0; always @(crk) rk <= #(CR) crk;
 
 // ---- generic monitors
 realtime tc=0; reg cm=0;
-always @(cclk) begin if(cm && $realtime>100 && $realtime-tc<9.9) fail("short CPU clock phase"); tc=$realtime; cm=1; end
+always @(cclk) begin if(cm && $realtime>100 && $realtime-tc<9.9) fail("short CPU clock phase"); 
+`ifdef FS
+  if(cm && $realtime>100 && $realtime-tc>30.5) fail("long CPU clock phase");
+`endif
+  tc=$realtime; cm=1; end
 always @(ipl) if (ipl!==3'b010 && $time>0) fail("IPL driven");
 wire sdrv; wire drv_bus = ~bsen&RW, drv_ram=sdrv&~roe, drv_ide=~ior;
 
 `ifdef GATE
 wire [2:0] nd=cdoe+drv_bus+drv_ram+drv_ide;
+`elsif FS
+wire [2:0] nd=cdoe+drv_bus+drv_ram+drv_ide+(dut.doe&~as_);
 `else
 wire [2:0] nd=cdoe+drv_bus+drv_ram+drv_ide+(dut.ctl_oe&~as_);
 `endif
 realtime tn; always @(nd) begin if(nd>1) tn=$realtime; end
 always @(nd) if(nd>1) begin:cc #4 if(nd>1 && $realtime-tn>=3.9) fail("D bus contention"); end
 always @(negedge dsk0) fail("DSACK0 asserted");
-`ifndef GATE
+`ifdef GATE
+`elsif FS
+always @(posedge dut.doe) if(!RW||!roe||!bsen||!ior) fail("D driven with another driver on");
+realtime tdoe=0; always @(posedge dut.doe) tdoe=$realtime;   // 14.5 ns to the pin
+`else
 always @(posedge dut.ctl_oe) if(A[31:16]!=16'h0500||!RW||FC==7) fail("D driven for non control");
 `endif
 always @(bsen) if(!bsen && !bgack) fail("BUSEN low under BGACK");
@@ -73,16 +94,20 @@ always @(as or uds or lds or bgack) if(!bgack && (aso!==1'bz||udso!==1'bz||ldso!
 reg nomb=0; always @(negedge as) if(nomb) fail("motherboard AS in card cycle");
 // 68000 bus rules
 realtime tA=0,tasr=-1000,tasf=0,tudf=0,tudr=-1000,tbs=0;
-always @(A or RW or FC) begin tA=$realtime; if($realtime-tasr<29.5) fail("address hold after AS"); if(!as) fail("address changed under AS"); end
+always @(A or RW or FC) begin tA=$realtime; if($realtime-tasr<29.5 && !(`FSV && lterm==3)) fail("address hold after AS"); if(!as) fail("address changed under AS"); end
 always @(negedge as) if($time>100) begin
   if($realtime-tA<30) fail("address setup"); if($realtime-tasr<150) fail("AS high time"); tasf=$realtime; end
-always @(posedge as) begin tasr=$realtime; if(!AS30) fail("AS off before AS30"); end
+always @(posedge as) begin tasr=$realtime; if(!`FSV && !AS30) fail("AS off before AS30"); end
+integer lterm=0;    // how the latest CPU cycle ended
+realtime tbg=0; always @(posedge bgack) tbg=$realtime;
+always @(posedge as) if(`FSV && $time>100 && !AS30 && !vma && vmao!==1'bz && E) fail("strobes off before E fell");
+always @(posedge bgack30) if(`FSV && $time>100 && $realtime-tbg<140) fail("BGACK30 released early");
 wire anyds=uds&lds;
 always @(negedge anyds) begin tudf=$realtime; if(!RW) begin
    if($realtime-tasf<100) fail("write strobe too early");
    if(!cdoe||bsen) fail("write data not on socket"); if($realtime-tbs<30) fail("write data setup"); end
   else if($realtime-tasf>5 && !as) fail("read strobe late"); end
-always @(bsen) begin tbs=$realtime; if(bsen && $realtime-tudr<29.5 && !RW) fail("write data hold"); end
+always @(bsen) begin tbs=$realtime; if(bsen && `FSV && !RW && !AS30 && !anyds) fail("write data off under strobe"); if(bsen && $realtime-tudr<29.5 && !RW) fail("write data hold"); end
 always @(cdoe) if(!cdoe && !bsen) if($realtime-tudr<29.5) fail("CPU write hold");
 always @(posedge anyds) begin tudr=$realtime; end
 // E
@@ -189,12 +214,18 @@ task cyc(input [31:0] a,input [2:0] fc,input rw,input [1:0] siz,input [31:0] wd,
    if(sy) begin q[nq]=cd; nq=nq+1; term=2; if(!cont) done=1; else if(nq==3) begin #4 CBREQ=1; end end
    else if(berr_d===0) begin term=3; done=1; @(negedge cclk); end
    else if(dsk1_d===0 && av_d===0) fail("AVEC and DSACK");
-   else if(dsk1_d===0 || av_d===0) begin term=(av_d===0)?4:1; if(cbk_d===0) fail("CBACK on async"); @(negedge cclk); q[0]=cd; nq=1; cii=cii_d; done=1; end
+   else if(dsk1_d===0 || av_d===0) begin term=(av_d===0)?4:1; if(cbk_d===0) fail("CBACK on async"); @(negedge cclk);
+`ifdef FS
+`ifndef GATE
+    if(rw && term==1 && $realtime-tdoe<15.5) fail("data too late from the latch");
+`endif
+`endif
+    q[0]=cd; nq=1; cii=cii_d; done=1; end
    end
    if(!rw && first) begin #4 DS30=0; end first=0;
    if(lim>30000) begin fail("cycle hung"); done=1; end
   end
-  #(TAS) AS30=1; DS30=1; CBREQ=1; tend=$realtime;
+  lterm=term; #(TAS) AS30=1; DS30=1; CBREQ=1; tend=$realtime;
  end endtask
 function [31:0] rep(input [31:0] v,input [1:0] a,input [1:0] s); // 68030 operand placement (long regs)
   case(s) 1: rep={4{v[7:0]}}; 2: rep = a[0]?{v[15:8],v[15:8],v[7:0],v[15:8]}:{2{v[15:0]}};
@@ -233,6 +264,8 @@ initial begin
  test=3;
  fork rd(32'h00f70000); begin #5000 if(AS30) fail("ended without DTACK"); xberr=1; wait(AS30); #20 xberr=0; end join exp(3);
  rd(32'h12010); exp(1); expw(mbm[16'h9008]);
+ if(`FSV) for(i=0;i<40;i=i+1) begin // the socket releases BERR late
+  fork rd(32'h00f70000); begin #(1000+i*3) xberr=1; wait(AS30); fork #(BH) xberr=0; begin exp(3); rd(32'h12010); exp(1); expw(mbm[16'h9008]); end join end join end
  test=4;
  for(i=0;i<25;i=i+1) begin #($random&1023);
   rd(32'hfffffc00); exp(1); if(!sawvma) fail("no VMA"); expw(mbm[16'hfe00]);
@@ -317,10 +350,11 @@ initial begin
    begin if(i) wait(!AS30); if(i) #(i*9%60) BG30=0; else begin wait(AS30===0); wait(AS30); BG30=0; end wait(bg===0); if(!AS30) fail("BG under AS30"); if(as!==1||uds!==1||lds!==1||!bsen||!AS30) fail("BG before strobes off"); end join
   #40 bgack=0; br=1; #2 if(aso!==1'bz||vmao!==1'bz) fail("AS driven"); if(bgack30!==0) fail("BGACK30");
   #50 BG30=1; t0=tc; n0=nref; #(i==5?60000:1500); if(i==5&&nref==n0) fail("no refresh under BGACK"); 
-  @(posedge cclk) t0=$realtime; @(posedge cclk) if($realtime-t0<100) fail("CPU not slow"); bgack=1; #200; rd(32'h12010); exp(1); expw(mbm[16'h9008]); end
+  @(posedge cclk) t0=$realtime; @(posedge cclk) if(!`FSV && $realtime-t0<100) fail("CPU not slow"); bgack=1; #200; rd(32'h12010); exp(1); expw(mbm[16'h9008]); end
  // resets
  if(LONG) begin
  test=17; mem[ix(32'h01234560)]=32'hfeedface; ctl(16'he053);
+ if(`FSV) begin idle(3); res=0; t0=$realtime; idle(512); if($realtime-t0<15500) fail("RESET instruction too short"); res=1; #1000; end
  reset(64000); rl(32'h01234560); expl(32'hfeedface); rd(32'h05000000); expw(16'he053); rl(0); expl(32'h70000000);
  reset(15.0e6); rd(32'h05000000); expw(16'he053); rl(32'h01234560); expl(32'hfeedface); t0=tcyc;
  reset(17.0e6); rd(32'h05000000); expw(16'he050); rd(0); exp(1); 

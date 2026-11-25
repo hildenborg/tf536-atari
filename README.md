@@ -11,9 +11,10 @@ behaviour of the existing firmware. It has been reviewed by Mikael Hildenborg.
 | Path | Contents |
 |---|---|
 | `rtl/tf536atari.v`, `rtl/tf536atari.ucf` | Design and pins |
-| `build.sh [phase]` | ISE 10.1 build in podman (output in `build/phaseN`) |
+| `rtl/tf536atari_fs.v` | Full-speed variant, see below |
+| `build.sh [phase] [fs]` | ISE 10.1 build in podman (output in `build/phaseN`, `build/fs-phaseN`) |
 | `firmware/` | `.jed`, `.svf`, checksums and fitter report per phase; builds add a timing report (`.tim`, not in git) |
-| `sim/tb.v`, `sim/run.sh` | Bench; `run.sh matrix`, `long`, `mutate`, `gate` or `all`. Needs Icarus Verilog and Python 3 |
+| `sim/tb.v`, `sim/run.sh` | Bench; `run.sh matrix`, `long`, `mutate`, `gate` or `all`; add `fs` for the variant. Needs Icarus Verilog and Python 3 |
 | `sim/abel2v.py` | Converts a fitter report to a gate model for `run.sh gate` |
 | `tools/jtag/` | Programming scripts |
 | `tools/tosload/` | TOSLOAD.PRG, which loads a TOS image into the ROM shadow and registers the Alt-RAM. Usage is at the top of `tosload.c`; `make` builds it with an Atari cross-compiler |
@@ -34,6 +35,21 @@ Start with `tf536-atari_phase1.jed`; by the pin delays it puts AS about 12-22 ns
 the socket clock rise. Phase 0 is 10 ns earlier, 2 and 3 are later.
 Follow section 13.2 of the specification and leave IDE empty until the end.
 
+## Full-speed variant
+
+The standard firmware slows the CPU to 8 MHz for motherboard cycles, and to
+12.5 MHz at the end of an IDE cycle. Both are below the 68030's minimum clock
+(25 MHz for a 50 MHz part). The variant, `firmware/tf536-atari-fs_phaseN.jed`,
+stays at 25-50 MHz and is made for a 50 MHz 68030. It is described in section 16
+of the specification. A motherboard read still takes 4 clocks (499 ns); an IDE
+data cycle takes 800 ns instead of 900.
+
+Start with phase 1, as above. Its open question is how long the machine holds BERR after
+AS: in simulation up to 70 ns after AS30 rises is tolerated, against a datasheet
+limit of 15 ns. If it is longer, the cycle after a bus error fails too, so test
+software that probes for missing hardware. A 33 MHz or slower part is out of
+specification at 50 MHz with either firmware.
+
 ## Timing (fitter report, worst case)
 
 - Every register-to-register path is at most 10.0 ns: zero margin at 100 MHz
@@ -42,9 +58,10 @@ Follow section 13.2 of the specification and leave IDE empty until the end.
   5.8 ns around the clock edge (worst-case numbers; both scale together).
 - Read data: CL 2, valid by 27.5 ns after the READ edge; CPU latches at 35.8 ns
   or later. The data are then held by clock suspend (CKE).
-- 68000 strobes: 18.0 ns to assert, 14.5 ns from AS30 to negate.
+- 68000 strobes: 18.0 ns to assert, 14.5 ns from AS30 to negate (the variant
+  negates them from the clock, 18.0 ns).
 
-## Choices worth knowing
+## Choices worth knowing (standard firmware)
 
 - The slow CPU clock is *in phase* with the socket clock, 10 ns late (the OBS in
   5.1 describes the opposite phase). The CPU then samples DTACK and
@@ -61,7 +78,8 @@ Follow section 13.2 of the specification and leave IDE empty until the end.
 Simulated: tests 1-21 of section 13.1, with and without pin delays, all phases,
 8.02 and 8.08 MHz, AS30 delays of 3, 5 and 8 ns; 20 deliberate faults, all
 detected. The fitted netlists of all four phases also pass the bench with pin
-delays. `sim/run.sh` repeats all of this and fails if any of it does. The models
+delays. `sim/run.sh` repeats all of this and fails if any of it does. The
+full-speed variant passes the same runs (`sim/run.sh all fs`), with 29 faults. The models
 are the author's reading of the datasheets.
 
 Not verified: anything on a board; signal integrity; the 68030's behaviour if

@@ -112,7 +112,10 @@ if [ "$cmd" = program ]; then
     svf=${jed%.jed}.svf
     [ -f "$sums" ] || die "missing $sums, which build.sh writes; for a .jed from elsewhere use: cpld.sh restore $jed"
     [ -f "$svf" ] || die "missing $svf; run: cpld.sh svf $jed"
-    for src in "$root/rtl/tf536atari.v" "$root/rtl/tf536atari.ucf"; do
+    # which design it is: tf536atari.v, or tf536atari_fs.v for the full-speed variant
+    v=$(awk '$2 ~ /\.v$/ { print $2 }' "$sums")
+    case $v in tf536atari.v|tf536atari_fs.v) ;; *) die "$sums names no known design; rebuild" ;; esac
+    for src in "$root/rtl/$v" "$root/rtl/tf536atari.ucf"; do
         [ -f "$src" ] || die "missing $src"
         sum_ok "$src" || die "$jed was not built from this $src; rebuild"
     done

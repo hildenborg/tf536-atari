@@ -10,7 +10,7 @@ eq=eq.split('Mapped Logic')[1]; eq=re.sub(r'//.*','',eq); eq=re.sub(r'\*{3,}.*',
 sig={}
 def idn(s):return re.sub(r'<(\d+)>',r'[\1]',s).replace('.EXP','_EXP').replace('.PIN','').replace('.FB','').replace('.LFBK','')
 def expr(e):
-    e=re.sub(r'D<(1[67])>(?!\.PIN|\d)',r'q_D_\1_',e)
+    e=re.sub(r'\bD<(\d+)>(?!\.PIN)',lambda m:'q_D_%s_'%m[1] if m[0] in init else m[0],e)
     return idn(e).replace('#','|').replace('$','^')
 for st in eq.split(';'):
     st=st.strip()

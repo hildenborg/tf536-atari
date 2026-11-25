@@ -607,3 +607,22 @@ image relies only on sections 4 and 10.
 
 The available tools are Xilinx ISE 10.1 (XST), which accepts Verilog-2001 and
 VHDL, with cpldfit. Any other legal flow for the XC9500XL is fine.
+
+## 16. Full-speed variant
+
+The slow clock in 5.1 is outside the 68030's limits (STD, MC68030 electrical
+specifications). A 50 MHz part needs 25-50 MHz, a cycle of 20-40 ns and clock
+phases of 9.5-30.5 ns. This variant keeps the clock within them. It meets
+sections 1-15 except where stated here.
+
+| Section | Replaced by (REQ) |
+|---|---|
+| 3.3 | The CPLD may also drive D16-D31 to return read data that it captured from the motherboard or IDE, while BUSEN, IOR and RAMOE are high |
+| 5.1 | The CPU clock is 50 MHz; 25 MHz is allowed. No phase is shorter than 9.5 ns or longer than 30.5 ns, also when switching. The clock has no relation to the socket clock |
+| 5.1 | 25 MHz while RESET is low: 512 clocks are then 20.5 us, longer than the 68000's 124 clocks (15.5 us, STD). RESET cannot be stretched, because the CPU shares it |
+| 6.1 | The 68000 cycle ends first: read data are captured at the end of S6, then AS, UDS and LDS go off, then DSACK1 or AVEC. Address, FC and R/W stay for 30 ns after AS, and write data for 30 ns after UDS/LDS |
+| 6.1 | If BERR ends the cycle, address and R/W must not change before AS is off; the 30 ns hold is not required |
+| 6.1 | A BERR released up to 50 ns after AS30 rises must not affect the next cycle (the socket's real figure is not measured) |
+| 7.2 | Data are captured before E falls, and strobes go off after it |
+| 8 | BGACK reaches the CPU at once but is released at least 140 ns late |
+| 11.2 | Reads: capture the data, raise IOR, then DSACK1 with the captured data |
