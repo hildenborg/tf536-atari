@@ -1,6 +1,7 @@
 # Fitter report (cpldfit -ofmt abel) to Verilog for gate-level runs:
-# abel2v.py tf536atari.rpt gate.v   (from the project root); bench: iverilog -DGATE
-import re,sys
+# abel2v.py REPORT.rpt gate.v; bench: iverilog -DGATE. sim/run.sh gate does both.
+import os,re,sys
+if len(sys.argv)!=3: sys.exit('usage: abel2v.py REPORT.rpt OUTPUT.v')
 t=open(sys.argv[1]).read()
 hdr=t[:t.index('  Equations  ')]
 init={m[1]:m[2] for m in re.finditer(r'^(\S+) +\d+ +\d+ +FB.*?(SET|RESET) *$',hdr,re.M)}
@@ -19,7 +20,12 @@ for st in eq.split(';'):
     n,k=(m[1],m[2]) if m else (l,'C')
     e=' '.join(e.split()); e=expr(e)
     sig.setdefault(n,{})[k]='~(%s)'%e if neg else '(%s)'%e
-src=open('rtl/tf536atari.v').read()
+# every register in the summary must have an equation, or this is not an ABEL-format report
+lost=[n for n in init if not {'D','T'}&set(sig.get(n,{}))]
+if lost or not init:
+    sys.exit('abel2v.py: %s: no equations for %d of %d registers; build the report with cpldfit -ofmt abel'
+             %(sys.argv[1],len(lost),len(init)))
+src=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','rtl','tf536atari.v')).read()
 ports=src[src.index(') ('):src.index(');',src.index(') ('))+2][2:]
 o=['`timescale 1ns/10ps','module tf536atari '+ports]
 port=set(re.findall(r'\b[A-Z][A-Z0-9_]+\b|\bA\b|\bD\b|\bE\b',ports))

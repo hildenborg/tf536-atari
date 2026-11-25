@@ -1,25 +1,30 @@
 # TF536-ATARI: TF536 Rev 2 firmware for the Atari ST/STE
 
-Written from [FIRMWARE_SPEC.md](FIRMWARE_SPEC.md). **Not yet run on hardware.**
+Replacement CPLD firmware for the TF536 Rev 2 accelerator (68030, 64 MB SDRAM,
+IDE) fitted in the 68000 socket of an Atari ST or STE. Written from
+[FIRMWARE_SPEC.md](FIRMWARE_SPEC.md). **Not yet run on hardware.**
 
 | Path | Contents |
 |---|---|
 | `rtl/tf536atari.v`, `rtl/tf536atari.ucf` | Design and pins |
 | `build.sh [phase]` | ISE 10.1 build in podman (output in `build/phaseN`) |
 | `firmware/` | `.jed`, `.svf`, checksums and fitter report per phase; builds add a timing report (`.tim`, not in git) |
-| `sim/tb.v`, `sim/run.sh` | Bench; `run.sh matrix`, `long`, `mutate` or `all` |
-| `sim/abel2v.py` | Converts an ABEL-format fitter report to a gate model for the bench |
-| `tools/` | JTAG programming scripts and the TOS loader |
+| `sim/tb.v`, `sim/run.sh` | Bench; `run.sh matrix`, `long`, `mutate`, `gate` or `all`. Needs Icarus Verilog and Python 3 |
+| `sim/abel2v.py` | Converts a fitter report to a gate model for `run.sh gate` |
+| `tools/jtag/` | Programming scripts |
+| `tools/tosload/` | TOSLOAD.PRG, which loads a TOS image into the ROM shadow and registers the Alt-RAM. Usage is at the top of `tosload.c`; `make` builds it with an Atari cross-compiler |
 
 ## Programming
 
-    tools/jtag/cpld.sh id                                   # reads only
-    tools/jtag/cpld.sh program firmware/tf536-atari_phase1.jed    # asks, then verifies
+    tools/jtag/cpld.sh id                                        # reads only
+    tools/jtag/cpld.sh program firmware/tf536-atari_phase1.jed   # asks, then verifies
+    tools/jtag/cpld.sh restore original.jed                      # any other .jed
 
 This needs a USB-Blaster, OpenOCD and podman. `program` also uses the `.svf` and
 `.sha256` next to the `.jed`; `build.sh` makes all three, and
 `cpld.sh svf FILE.jed` remakes the `.svf`. Firmware whose checksums do not match
-`rtl/` is refused.
+`rtl/` is refused. `restore` programs any other `.jed`, such as the board's
+original firmware, without that check.
 
 Start with `tf536-atari_phase1.jed`; by the pin delays it puts AS about 12-22 ns after
 the socket clock rise. Phase 0 is 10 ns earlier, 2 and 3 are later.
@@ -28,7 +33,7 @@ Follow section 13.2 of the specification and leave IDE empty until the end.
 ## Timing (fitter report, worst case)
 
 - Every register-to-register path is at most 10.0 ns: zero margin at 100 MHz
-  by the speed file, but nothing exceeds it.
+  by the speed file, but nothing exceeds it. `build.sh` fails if one does.
 - SDRAM: outputs 5.8 ns, CLKRAM 10.0 ns. Commands are set up 4.2 ns and held
   5.8 ns around the clock edge (worst-case numbers; both scale together).
 - Read data: CL 2, valid by 27.5 ns after the READ edge; CPU latches at 35.8 ns
@@ -51,8 +56,9 @@ Follow section 13.2 of the specification and leave IDE empty until the end.
 
 Simulated: tests 1-21 of section 13.1, with and without pin delays, all phases,
 8.02 and 8.08 MHz, AS30 delays of 3, 5 and 8 ns; 20 deliberate faults, all
-detected. The fitted netlist (phase 1) was also run through the bench with pin
-delays. The models are the author's reading of the datasheets.
+detected. The fitted netlists of all four phases also pass the bench with pin
+delays. `sim/run.sh` repeats all of this and fails if any of it does. The models
+are the author's reading of the datasheets.
 
 Not verified: anything on a board; signal integrity; the 68030's behaviour if
 CBREQ is withdrawn exactly as STERM is given; socket-side masters other than a

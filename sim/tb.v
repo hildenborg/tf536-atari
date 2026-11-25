@@ -55,8 +55,7 @@ reg rk=0; always @(crk) rk <= #(CR) crk;
 realtime tc=0; reg cm=0;
 always @(cclk) begin if(cm && $realtime>100 && $realtime-tc<9.9) fail("short CPU clock phase"); tc=$realtime; cm=1; end
 always @(ipl) if (ipl!==3'b010 && $time>0) fail("IPL driven");
-wire sdrv; wire drv_bus = ~bsen&RW, drv_ram=sdrv&~roe, drv_ide=~ior,
-     drv_unused=0;
+wire sdrv; wire drv_bus = ~bsen&RW, drv_ram=sdrv&~roe, drv_ide=~ior;
 
 `ifdef GATE
 wire [2:0] nd=cdoe+drv_bus+drv_ram+drv_ide;
@@ -78,7 +77,7 @@ always @(A or RW or FC) begin tA=$realtime; if($realtime-tasr<29.5) fail("addres
 always @(negedge as) if($time>100) begin
   if($realtime-tA<30) fail("address setup"); if($realtime-tasr<150) fail("AS high time"); tasf=$realtime; end
 always @(posedge as) begin tasr=$realtime; if(!AS30) fail("AS off before AS30"); end
-wire anyds=uds&lds; reg [15:0] wsd;
+wire anyds=uds&lds;
 always @(negedge anyds) begin tudf=$realtime; if(!RW) begin
    if($realtime-tasf<100) fail("write strobe too early");
    if(!cdoe||bsen) fail("write data not on socket"); if($realtime-tbs<30) fail("write data setup"); end
@@ -90,25 +89,23 @@ always @(posedge anyds) begin tudr=$realtime; end
 realtime te=0; always @(posedge E) begin if(te>0 && ($realtime-te>10*2*TSK+25||$realtime-te<10*2*TSK-25)) fail("E period"); te=$realtime; end
 always @(negedge E) if(te>0 && ($realtime-te>8*TSK+25||$realtime-te<8*TSK-25)) fail("E high");
 always @(negedge vma) if(FC==7) fail("VMA in CPU space");
-realtime tv=0,tef=0; always @(negedge vma) tv=$realtime; always @(negedge E) begin tef=$realtime;
-  if(!vpa && !vma && !AS30 && $time>0) begin end end
+realtime tv=0,tef=0; always @(negedge vma) tv=$realtime; always @(negedge E) tef=$realtime;
 always @(posedge E) if(!vma && $realtime-tv<200) fail("VMA setup to E");
 always @(posedge vma) if($time>100 && vmao!==1'bz && (E||$realtime-tef>400)) fail("VMA off before E fell");
 
 // ---- socket slave
-reg [15:0] mbm[0:65535]; integer dly; wire [15:0] sdr; integer wr_cnt=0; reg nodt=0;
+reg [15:0] mbm[0:65535]; wire [15:0] sdr; integer wr_cnt=0; reg nodt=0;
 wire [15:0] swr = cd[31:16];
 wire iack = (FC==7)&&(A[19:16]==15);
 wire selv = iack ? (A[3:1]!=6) : (A[23:8]==16'hfffc);
 assign sdr = iack ? 16'h0042 : mbm[A[16:1]];
 assign cd[31:16] = (~bsen&RW) ? ((~as&~anyds) ? sdr : 16'hxxxx) : 16'hz;
-integer sdel=0, sc=0; reg dtsync=1;
+integer sdel=0, sc=0;
 always @(negedge sck) if(!as && !anyds && !selv && !(A[23:16]==8'hf7) && !nodt) begin if(sc>=sdel) #5 dtack = as; else sc=sc+1; end
 always @(posedge as) begin sc=0; #10 dtack=1; end
 always @(negedge as) if(selv) #60 if(!as) vpa=0;
 always @(posedge as) #10 vpa=1;
-always @(posedge anyds) if($time>100 && !wrabort) begin end
-reg wrabort=0; reg u_=0,l_=0; always @(negedge uds) if(!RW)u_=1; always @(negedge lds) if(!RW) l_=1;
+reg u_=0,l_=0; always @(negedge uds) if(!RW)u_=1; always @(negedge lds) if(!RW) l_=1;
 always @(posedge as) if($time>100 && (u_||l_)) begin
   if(A[23:16]!=8'hf7) begin if(u_) mbm[A[16:1]][15:8]=swr[15:8]; if(l_) mbm[A[16:1]][7:0]=swr[7:0]; wr_cnt=wr_cnt+1; end u_=0;l_=0; end
 reg sawu,sawl,sawas,sawvma; always @(negedge uds) sawu=1; always @(negedge lds) sawl=1; always @(negedge as) sawas=1; always @(negedge vma) sawvma=1;
@@ -117,7 +114,7 @@ reg sawu,sawl,sawas,sawvma; always @(negedge uds) sawu=1; always @(negedge lds) 
 reg [31:0] mem[0:(1<<24)-1]; reg [12:0] row[0:3]; reg [3:0] open=0;
 realtime tact[0:3], tpre[0:3], tref=0, tlmr=0, tup=0, twr=-1000, trefl=0; integer nref=0,k; reg inited=0; integer ini=0;
 realtime lastchg=0; always @(ras or cas or we or ra or rb or dm or csn) lastchg=$realtime;
-reg [31:0] dq=0; reg dqe=0; reg rdp=0; reg [23:0] rdadr; reg [3:0] rdm; reg [31:0] dqn;
+reg [31:0] dq=0; reg dqe=0; reg [23:0] rdadr;
 assign sdrv=dqe; assign cd = (dqe&~roe)?dq:32'hz;
 integer nrd=0,nwr=0,nact=0; realtime maxgap=0;
 initial for(k=0;k<4;k=k+1) begin tact[k]=-1000; tpre[k]=-1000; end
@@ -149,8 +146,8 @@ always @(posedge res) tup=$realtime;
 initial tup=0;
 
 // ---- IDE
-reg [15:0] idr[0:15]; realtime tior=-5000,tcs=0,tiowr=0; reg [3:0] ira;
-wire ior_d,iow_d,cs0_d,cs1_d; localparam real BUFR=8.0;
+reg [15:0] idr[0:15]; realtime tiowr=0;
+wire ior_d,iow_d,cs0_d,cs1_d;
 assign #(8.0) ior_d=ior; assign #(8.0) iow_d=iow; assign #(2) cs0_d=cs0; assign #(2) cs1_d=cs1;
 wire [2:0] da=A[4:2]; wire strobe=ior_d&iow_d; realtime tst=-5000,tda=0;
 reg [1:0] iom=0; // 0 ready 1 short 2 1us 3 stuck
@@ -165,10 +162,10 @@ always @(da or cs0_d or cs1_d) if(!strobe) fail("IDE address moved under strobe"
 always @(posedge strobe) tiup=$realtime; realtime tiup=-100;
 always @(da) if($realtime-tiup<20) fail("IDE address hold");
 always @(posedge strobe) if($time>100) begin if($realtime-tst<(idat?165:290)) fail("IDE strobe width"); if(iom==3) iordy=1; end
-realtime tdsf; always @(negedge dsk1) begin tdsf=$realtime; if(!ior && $realtime-(tst)<((!cs0&&da==0)?165:290)-0.1) fail("IDE read dsack early");
+always @(negedge dsk1) begin if(!ior && $realtime-(tst)<((!cs0&&da==0)?165:290)-0.1) fail("IDE read dsack early");
   if(!iow) fail("DSACK under IOW"); if(iom!=0 && iom!=3 && !iordy) fail("IORDY ignored"); end
 assign cd[31:16]=(!ior)?(!ior_d?idr[{cs0,da}]:16'hxxxx):16'hz;
-reg [15:0] wl; reg isw=0;
+reg [15:0] wl;
 always @(posedge iow_d) if($time>100) begin wl=cd[31:16]; if(!cdoe) fail("IDE write data gone"); else idr[{cs0,da}]=wl; tiowr=$realtime; niow=niow+1; end
 always @(cdoe) if(!cdoe && $realtime-tiowr<30) fail("IDE write hold");
 always @(negedge ior) begin nior=nior+1; if(!bsen||!roe||cdoe) fail("IOR with other driver"); end
@@ -176,7 +173,7 @@ always @(negedge ior) begin nior=nior+1; if(!bsen||!roe||cdoe) fail("IOR with ot
 // ---- 68030
 wire dsk1_d,st_d,berr_d,av_d,cbk_d,cii_d; assign #0.1 dsk1_d=dsk1; assign #0.1 st_d=sterm; assign #0.1 berr_d=berr; assign #0.1 av_d=avec; assign #0.1 cbk_d=cback; assign #0.1 cii_d=ciin;
 always @(posedge cclk) if(AS30 && cdoe) begin #3 cdoe=0; end
-reg [31:0] q[0:3]; integer nq, term; reg cii; integer ncb; reg slowseen; realtime tcyc,tend; integer alt=0; integer lim;
+reg [31:0] q[0:3]; integer nq, term; reg cii; integer ncb; realtime tcyc,tend; integer lim;
 task cyc(input [31:0] a,input [2:0] fc,input rw,input [1:0] siz,input [31:0] wd,input bu);
  reg done,sy,first; begin
   sawu=0;sawl=0;sawas=0;sawvma=0;nq=0;term=0;done=0;first=1;lim=0;ncb=0;
@@ -197,7 +194,6 @@ task cyc(input [31:0] a,input [2:0] fc,input rw,input [1:0] siz,input [31:0] wd,
    if(!rw && first) begin #4 DS30=0; end first=0;
    if(lim>30000) begin fail("cycle hung"); done=1; end
   end
-  if(!res) begin end
   #(TAS) AS30=1; DS30=1; CBREQ=1; tend=$realtime;
  end endtask
 function [31:0] rep(input [31:0] v,input [1:0] a,input [1:0] s); // 68030 operand placement (long regs)
@@ -217,8 +213,7 @@ task reset(input real ns); begin idle(3); res=0; #(ns) res=1; #1000; end endtask
 task ctl(input [15:0] v); begin wr(32'h05000000,v); exp(1); end endtask
 function [23:0] ix(input [31:0] a); ix=a[25:2]; endfunction
 
-integer i,j,s0,n0; reg [31:0] v,w,a; realtime t0,t1;
-reg mst=0; // external master for arbitration
+integer i,j,s0,n0; reg [31:0] v,w,a; realtime t0;
 initial begin
  for(i=0;i<65536;i=i+1) mbm[i]=i*3+7; for(i=0;i<16;i=i+1) idr[i]=16'h5a00+i;
  res=0; #2000 res=1; tup=$realtime; #500;

@@ -1,7 +1,7 @@
  
 cpldfit:  version K.31                              Xilinx Inc.
                                   Fitter Report
-Design Name: tf536atari                          Date: 11-25-2026,  5:48AM
+Design Name: tf536atari                          Date: 11-25-2026,  8:56AM
 Device Used: XC95288XL-10-TQ144
 Fitting Status: Successful
 
@@ -1201,869 +1201,878 @@ BR30                 .X...................................... 1
 
 ********** Mapped Logic **********
 
-FDCPE FDCPE_ARAM0 (ARAM[0],ARAM_D[0],CLK100M,1'b0,1'b0);
-assign ARAM_D[0] = ((A[11] && !col && ready)
-	|| (A[2] && col && ready));
+ARAM<0>.D = A<11> & !col & ready
+	# A<2> & col & ready;
+   ARAM<0>.CLK = CLK100M;	// GCK    
+
+!ARAM<1>.D = !A<12> & !col & ready
+	# !A<3> & col & ready;
+   ARAM<1>.CLK = CLK100M;	// GCK    
+
+ARAM<2>.D = A<13> & !col & ready
+	# A<4> & col & ready;
+   ARAM<2>.CLK = CLK100M;	// GCK    
+
+ARAM<3>.D = A<14> & !col & ready
+	# A<5> & col & ready;
+   ARAM<3>.CLK = CLK100M;	// GCK    
+
+ARAM<4>.D = A<6> & col & ready
+	# A<15> & !col & ready;
+   ARAM<4>.CLK = CLK100M;	// GCK    
+
+!ARAM<5>.D = !A<16> & !col & ready
+	# !A<7> & col & ready;
+   ARAM<5>.CLK = CLK100M;	// GCK    
+
+ARAM<6>.D = A<17> & !col & ready
+	# A<8> & col & ready;
+   ARAM<6>.CLK = CLK100M;	// GCK    
+
+ARAM<7>.D = A<18> & !col & ready
+	# A<9> & col & ready;
+   ARAM<7>.CLK = CLK100M;	// GCK    
+
+ARAM<8>.D = A<19> & !col & ready
+	# A<10> & col & ready
+	# !col & ready & p_ovl;
+   ARAM<8>.CLK = CLK100M;	// GCK    
+
+!ARAM<9>.D = col & ready
+	# !A<20> & ready & !p_ovl;
+   ARAM<9>.CLK = CLK100M;	// GCK    
+
+ARAM<10>.D = !inum<1> & !ready
+	# A<21> & !col & ready
+	# !col & ready & p_ovl
+	# !CIIN & col & z_xfer & ready & xold;
+   ARAM<10>.CLK = CLK100M;	// GCK    
+
+ARAM<11>.D = A<22> & !col & ready
+	# !col & ready & p_ovl;
+   ARAM<11>.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM1 (ARAM[1],ARAM_D[1],CLK100M,1'b0,1'b0);
-assign ARAM_D[1] = ((!A[12] && !col && ready)
-	|| (!A[3] && col && ready));
+ARAM<12>.D = A<23> & !col & ready
+	# !col & ready & p_ovl;
+   ARAM<12>.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM2 (ARAM[2],ARAM_D[2],CLK100M,1'b0,1'b0);
-assign ARAM_D[2] = ((A[13] && !col && ready)
-	|| (A[4] && col && ready));
+!AS = !AS30 & m_as;
+   AS.OE = BGACK & drv;    
 
-FDCPE FDCPE_ARAM3 (ARAM[3],ARAM_D[3],CLK100M,1'b0,1'b0);
-assign ARAM_D[3] = ((A[14] && !col && ready)
-	|| (A[5] && col && ready));
+AVEC.D = Gnd;
+   AVEC.CLK = CLK100M;	// GCK
+   AVEC.AP = AS30;
+   AVEC.CE = m_s4 & p_cpu & cd<2> & !q1 & !vp2;    
 
-FDCPE FDCPE_ARAM4 (ARAM[4],ARAM_D[4],CLK100M,1'b0,1'b0);
-assign ARAM_D[4] = ((A[6] && col && ready)
-	|| (A[15] && !col && ready));
+BA<0>.D = A<24> & ready & !p_ovl;
+   BA<0>.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM5 (ARAM[5],ARAM_D[5],CLK100M,1'b0,1'b0);
-assign ARAM_D[5] = ((!A[16] && !col && ready)
-	|| (!A[7] && col && ready));
+BA<1>.D = A<25> & ready & !p_ovl;
+   BA<1>.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM6 (ARAM[6],ARAM_D[6],CLK100M,1'b0,1'b0);
-assign ARAM_D[6] = ((A[17] && !col && ready)
-	|| (A[8] && col && ready));
+BERR = Gnd;
+   BERR.OE = !AS30 & berr_rnm0;    
 
-FDCPE FDCPE_ARAM7 (ARAM[7],ARAM_D[7],CLK100M,1'b0,1'b0);
-assign ARAM_D[7] = ((A[18] && !col && ready)
-	|| (A[9] && col && ready));
+!BG.D = as2 & as3 & !mbt & !bg2 & !bg3 & BUSEN;
+   BG.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM8 (ARAM[8],ARAM_D[8],CLK100M,1'b0,1'b0);
-assign ARAM_D[8] = ((A[19] && !col && ready)
-	|| (A[10] && col && ready)
-	|| (!col && ready && p_ovl));
+BGACK30 = BGACK;    
 
-FDCPE FDCPE_ARAM9 (ARAM[9],ARAM_D[9],CLK100M,1'b0,1'b0);
-assign ARAM_D[9] = ((col && ready)
-	|| (!A[20] && ready && !p_ovl));
+BR30 = BR;    
 
-FDCPE FDCPE_ARAM10 (ARAM[10],ARAM_D[10],CLK100M,1'b0,1'b0);
-assign ARAM_D[10] = ((!inum[1] && !ready)
-	|| (A[21] && !col && ready)
-	|| (!col && ready && p_ovl)
-	|| (!CIIN && col && z_xfer && ready && xold));
+BUSEN.D = !m_as & BUSEN
+	# !m_as & as2 & as3 & as4;
+   BUSEN.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM11 (ARAM[11],ARAM_D[11],CLK100M,1'b0,1'b0);
-assign ARAM_D[11] = ((A[22] && !col && ready)
-	|| (!col && ready && p_ovl));
+!CAS.D = RW30 & rst2 & z_rcd
+	# rq & rst2 & z_idle & i_cas
+	# !RW30 & CIIN & !wdone & rst2 & z_xfer & !ds2;
+   CAS.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_ARAM12 (ARAM[12],ARAM_D[12],CLK100M,1'b0,1'b0);
-assign ARAM_D[12] = ((A[23] && !col && ready)
-	|| (!col && ready && p_ovl));
+!CBACK.D = !A<3> & RW30 & CIIN & !A<2> & !as2 & !as1 & !cq2 & 
+	!p_vec;
+   CBACK.CLK = CLK100M;	// GCK
+   CBACK.AP = AS30;
+   CBACK.CE = STERM;    
 
+CIIN.D = CIIN & !as2 & !as3
+	# !as2 & !p_cpu & p_ovl & as3
+	# !as2 & !p_cpu & as3 & !p_prot & p_ram;
+   CIIN.CLK = CLK100M;	// GCK    
+
+CLKCPU.D = !rst2 & !q1
+	# mbt & !q1
+	# !q1 & !ba2
+	# !CLKCPU & rst2 & !idt & !mbt & ba2
+	# rst2 & tc<2> & !as1 & idt & !mbt & ba2;
+   CLKCPU.CLK = CLK100M;	// GCK    
+
+CLKRAM = CLK100M;    
 
-assign AS_I = !((!AS30 && m_as));
-assign AS = AS_OE ? AS_I : 1'bZ;
-assign AS_OE = (BGACK && drv);
+!CLKRAME.D = RW30 & CIIN & CLKCPU & rst2 & z_xfer & !as2 & 
+	!as1
+	# RW30 & CIIN & rst2 & z_xfer & !as2 & !as1 & 
+	CBACK
+	# RW30 & CIIN & rst2 & z_xfer & !as2 & !as1 & 
+	STERM;
+   CLKRAME.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_AVEC (AVEC,1'b0,CLK100M,1'b0,AS30,AVEC_CE);
-assign AVEC_CE = (m_s4 && p_cpu && cd[2] && !q1 && !vp2);
+D<16>.D = D<16>.PIN & !rlong & wcap
+	# D<16> & !rlong & !wcap;
+   D<16>.CLK = CLK100M;	// GCK
+   D<16>.OE = !AS30 & ctl_oe;    
 
-FDCPE FDCPE_BA0 (BA[0],BA_D[0],CLK100M,1'b0,1'b0);
-assign BA_D[0] = (A[24] && ready && !p_ovl);
+D<17>.D = D<17>.PIN & !rlong & wcap
+	# D<17> & !rlong & !wcap;
+   D<17>.CLK = CLK100M;	// GCK
+   D<17>.OE = !AS30 & ctl_oe;    
 
-FDCPE FDCPE_BA1 (BA[1],BA_D[1],CLK100M,1'b0,1'b0);
-assign BA_D[1] = (A[25] && ready && !p_ovl);
+D<18> = Gnd;
+   D<18>.OE = !AS30 & ctl_oe;    
 
+D<19> = Gnd;
+   D<19>.OE = !AS30 & ctl_oe;    
 
-assign BERR_I = 1'b0;
-assign BERR = BERR_OE ? BERR_I : 1'bZ;
-assign BERR_OE = (!AS30 && berr_rnm0);
+D<20> = Vcc;
+   D<20>.OE = !AS30 & ctl_oe;    
 
-FDCPE FDCPE_BG (BG,BG_D,CLK100M,1'b0,1'b0);
-assign BG_D = (as2 && as3 && !mbt && !bg2 && !bg3 && BUSEN);
+D<21> = Gnd;
+   D<21>.OE = !AS30 & ctl_oe;    
+
+D<22> = Vcc;
+   D<22>.OE = !AS30 & ctl_oe;    
 
+D<23> = Gnd;
+   D<23>.OE = !AS30 & ctl_oe;    
+
+D<24> = Gnd;
+   D<24>.OE = !AS30 & ctl_oe;    
+
+D<25> = Gnd;
+   D<25>.OE = !AS30 & ctl_oe;    
+
+D<26> = Gnd;
+   D<26>.OE = !AS30 & ctl_oe;    
+
+D<27> = Gnd;
+   D<27>.OE = !AS30 & ctl_oe;    
+
+D<28> = Gnd;
+   D<28>.OE = !AS30 & ctl_oe;    
+
+D<29> = Vcc;
+   D<29>.OE = !AS30 & ctl_oe;    
+
+D<30> = Vcc;
+   D<30>.OE = !AS30 & ctl_oe;    
+
+D<31> = Vcc;
+   D<31>.OE = !AS30 & ctl_oe;    
+
+DQM<0>.D = !col
+	# !RW30 & SIZ<0> & !SIZ<1> & !A<0>
+	# !RW30 & SIZ<0> & !SIZ<1> & !A<1>
+	# !RW30 & SIZ<0> & !A<0> & !A<1>
+	# !RW30 & !SIZ<0> & SIZ<1> & !A<1>;
+   DQM<0>.CLK = CLK100M;	// GCK    
+
+DQM<1>.D = !col
+	# !RW30 & A<0> & A<1>
+	# !RW30 & SIZ<0> & !SIZ<1> & !A<1>
+	# !RW30 & !SIZ<0> & SIZ<1> & !A<0> & !A<1>;
+   DQM<1>.CLK = CLK100M;	// GCK    
+
+DQM<2>.D = !col
+	# !RW30 & A<1>
+	# !RW30 & SIZ<0> & !SIZ<1> & !A<0>;
+   DQM<2>.CLK = CLK100M;	// GCK    
+
+!DQM<3>.D = RW30 & col
+	# !A<0> & col & !A<1>;
+   DQM<3>.CLK = CLK100M;	// GCK    
+
+DSACK0 = Vcc;    
+
+DSACK1.T = t_ide & !as2 & !as1 & ifin & DSACK1
+	# t_ctl & !as2 & !as1 & ctl_rdy & DSACK1
+	# m_s4 & cd<2> & !q1 & !dt2 & DSACK1
+	# !VMA & !ec<0> & !ec<1> & !ec<2> & ec<3> & m_s4 & 
+	cd<2> & !q1 & DSACK1;
+   DSACK1.CLK = CLK100M;	// GCK
+   DSACK1.AP = AS30;    
+
+E.D = e1;
+   E.CLK = CLK100M;	// GCK    
+
+!IDECS0.D = !A<5> & t_ide;
+   IDECS0.CLK = CLK100M;	// GCK    
+
+!IDECS1.D = A<5> & t_ide;
+   IDECS1.CLK = CLK100M;	// GCK    
 
-assign BGACK30 = BGACK;
+!IOR = !AS30 & ior_rnm0;    
 
+!IOW.D = !iend & !IOW
+	# !RW30 & t_ide & !ic<6> & !ic<0> & !ic<2> & !ic<4> & 
+	ic<5> & !ic<1> & ic<3> & !ic<7> & !iend & !as2 & !as1;
+   IOW.CLK = CLK100M;	// GCK
+   IOW.AP = AS30;    
 
-assign BR30 = BR;
+!LDS = !AS30 & m_lds;
+   LDS.OE = BGACK & drv;    
 
-FDCPE FDCPE_BUSEN (BUSEN,BUSEN_D,CLK100M,1'b0,1'b0);
-assign BUSEN_D = ((!m_as && BUSEN)
-	|| (!m_as && as2 && as3 && as4));
+RAMCS.D = !rst2;
+   RAMCS.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_CAS (CAS,CAS_D,CLK100M,1'b0,1'b0);
-assign CAS_D = ((RW30 && rst2 && z_rcd)
-	|| (rq && rst2 && z_idle && i_cas)
-	|| (!RW30 && CIIN && !wdone && rst2 && z_xfer && !ds2));
+RAMOE.D = Gnd;
+   RAMOE.CLK = CLK100M;	// GCK
+   RAMOE.AP = AS30;
+   RAMOE.CE = !as2 & !as1 & z_act;    
 
-FDCPE FDCPE_CBACK (CBACK,CBACK_D,CLK100M,1'b0,AS30,STERM);
-assign CBACK_D = (!A[3] && RW30 && CIIN && !A[2] && !as2 && !as1 && !cq2 && 
-	!p_vec);
+!RAMWE.D = !CIIN & rst2 & z_xfer & xold
+	# rq & rst2 & z_idle & i_we
+	# !RW30 & CIIN & !wdone & rst2 & z_xfer & !ds2;
+   RAMWE.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_CIIN (CIIN,CIIN_D,CLK100M,1'b0,1'b0);
-assign CIIN_D = ((CIIN && !as2 && !as3)
-	|| (!as2 && !p_cpu && p_ovl && as3)
-	|| (!as2 && !p_cpu && as3 && !p_prot && p_ram));
+!RAS.D = !CIIN & rst2 & z_xfer & xold
+	# rq & rst2 & z_idle & i_ras
+	# CIIN & !rq & rst2 & ready & z_idle;
+   RAS.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_CLKCPU (CLKCPU,CLKCPU_D,CLK100M,1'b0,1'b0);
-assign CLKCPU_D = ((!rst2 && !q1)
-	|| (mbt && !q1)
-	|| (!q1 && !ba2)
-	|| (!CLKCPU && rst2 && !idt && !mbt && ba2)
-	|| (rst2 && tc[2] && !as1 && idt && !mbt && ba2));
+!STERM.D = !CLKCPU & z_xfer & !STERM
+	# CIIN & wdone & !fin & CLKCPU & rst2 & z_xfer & 
+	!as2 & !as1 & !mbt & ba2 & !cq2 & STERM
+	# CIIN & wdone & !fin & CLKCPU & rst2 & z_xfer & 
+	!as2 & !as1 & !mbt & ba2 & gap & STERM
+	# CIIN & !b<0> & wdone & !b<1> & !fin & CLKCPU & 
+	rst2 & z_xfer & !as2 & !as1 & !mbt & ba2 & STERM;
+   STERM.CLK = CLK100M;	// GCK    
 
+!UDS = !AS30 & m_uds;
+   UDS.OE = BGACK & drv;    
 
-assign CLKRAM = CLK100M;
+!VMA.D = !VMA & !vp2
+	# !ec<0> & ec<1> & !ec<2> & !ec<3> & m_s4 & !p_cpu & 
+	cd<2> & !q1 & !vp2;
+   VMA.CLK = CLK100M;	// GCK
+   VMA.OE = BGACK & drv;    
 
-FDCPE FDCPE_CLKRAME (CLKRAME,CLKRAME_D,CLK100M,1'b0,1'b0);
-assign CLKRAME_D = ((RW30 && CIIN && CLKCPU && rst2 && z_xfer && !as2 && 
-	!as1)
-	|| (RW30 && CIIN && rst2 && z_xfer && !as2 && !as1 && 
-	CBACK)
-	|| (RW30 && CIIN && rst2 && z_xfer && !as2 && !as1 && 
-	STERM));
+arm.D = Vcc;
+   arm.CLK = CLK100M;	// GCK
+   arm.AR = AS30;
+   arm.CE = t_mb & !as2 & !as1;    
 
-FDCPE FDCPE_D16 (D_I[16],D[16],CLK100M,1'b0,1'b0);
-assign D[16] = ((D[16].PIN && !rlong && wcap)
-	|| (D[16] && !rlong && !wcap));
-assign D[16] = D_OE[16] ? D_I[16] : 1'bZ;
-assign D_OE[16] = (!AS30 && ctl_oe);
+as1.D = AS30;
+   as1.CLK = CLK100M;	// GCK    
 
-FDCPE FDCPE_D17 (D_I[17],D[17],CLK100M,1'b0,1'b0);
-assign D[17] = ((D[17].PIN && !rlong && wcap)
-	|| (D[17] && !rlong && !wcap));
-assign D[17] = D_OE[17] ? D_I[17] : 1'bZ;
-assign D_OE[17] = (!AS30 && ctl_oe);
+as2.D = as1;
+   as2.CLK = CLK100M;	// GCK    
 
+as3.D = as2;
+   as3.CLK = CLK100M;	// GCK    
 
-assign D_I[18] = 1'b0;
-assign D[18] = D_OE[18] ? D_I[18] : 1'bZ;
-assign D_OE[18] = (!AS30 && ctl_oe);
+as4.D = as3;
+   as4.CLK = CLK100M;	// GCK    
 
+b<0>.D = b<0> & CLKCPU & z_xfer
+	# b<0> & z_xfer & STERM
+	# b<1> & !CLKCPU & z_xfer & !STERM
+	# !b<0> & !CLKCPU & z_xfer & !CBACK & !STERM;
+   b<0>.CLK = CLK100M;	// GCK    
 
-assign D_I[19] = 1'b0;
-assign D[19] = D_OE[19] ? D_I[19] : 1'bZ;
-assign D_OE[19] = (!AS30 && ctl_oe);
+b<1>.D = b<1> & z_xfer
+	# b<0> & !CLKCPU & z_xfer & !STERM;
+   b<1>.CLK = CLK100M;	// GCK    
 
+ba1.D = BGACK;
+   ba1.CLK = CLK100M;	// GCK    
 
-assign D_I[20] = 1'b1;
-assign D[20] = D_OE[20] ? D_I[20] : 1'bZ;
-assign D_OE[20] = (!AS30 && ctl_oe);
+ba2.D = ba1;
+   ba2.CLK = CLK100M;	// GCK    
 
+berr_rnm0.D = Vcc;
+   berr_rnm0.CLK = CLK100M;	// GCK
+   berr_rnm0.AR = AS30;
+   berr_rnm0.CE = t_err & !as2 & !as1;    
 
-assign D_I[21] = 1'b0;
-assign D[21] = D_OE[21] ? D_I[21] : 1'bZ;
-assign D_OE[21] = (!AS30 && ctl_oe);
+bg1.D = BG30;
+   bg1.CLK = CLK100M;	// GCK    
 
+bg2.D = bg1;
+   bg2.CLK = CLK100M;	// GCK    
 
-assign D_I[22] = 1'b1;
-assign D[22] = D_OE[22] ? D_I[22] : 1'bZ;
-assign D_OE[22] = (!AS30 && ctl_oe);
+bg3.D = bg2;
+   bg3.CLK = CLK100M;	// GCK    
 
+c1.D = CLK7M_RAW;
+   c1.CLK = CLK100M;	// GCK    
 
-assign D_I[23] = 1'b0;
-assign D[23] = D_OE[23] ? D_I[23] : 1'bZ;
-assign D_OE[23] = (!AS30 && ctl_oe);
+c2.D = c1;
+   c2.CLK = CLK100M;	// GCK    
 
+c3.D = c2;
+   c3.CLK = CLK100M;	// GCK    
 
-assign D_I[24] = 1'b0;
-assign D[24] = D_OE[24] ? D_I[24] : 1'bZ;
-assign D_OE[24] = (!AS30 && ctl_oe);
+cd<1>.D = cd_0;
+   cd<1>.CLK = CLK100M;	// GCK    
 
+cd<2>.D = cd<1>;
+   cd<2>.CLK = CLK100M;	// GCK    
 
-assign D_I[25] = 1'b0;
-assign D[25] = D_OE[25] ? D_I[25] : 1'bZ;
-assign D_OE[25] = (!AS30 && ctl_oe);
+cd_0.D = cf;
+   cd_0.CLK = CLK100M;	// GCK    
 
+cf.T = !lock<0> & cf & !lock<1> & !c2 & !c3
+	# !lock<0> & !cf & !lock<1> & c2 & c3;
+   cf.CLK = CLK100M;	// GCK    
 
-assign D_I[26] = 1'b0;
-assign D[26] = D_OE[26] ? D_I[26] : 1'bZ;
-assign D_OE[26] = (!AS30 && ctl_oe);
+!col.D = !z_xfer & !z_act & !z_rcd;
+   col.CLK = CLK100M;	// GCK    
 
+cq1.D = CBREQ;
+   cq1.CLK = CLK100M;	// GCK    
 
-assign D_I[27] = 1'b0;
-assign D[27] = D_OE[27] ? D_I[27] : 1'bZ;
-assign D_OE[27] = (!AS30 && ctl_oe);
+cq2.D = cq1;
+   cq2.CLK = CLK100M;	// GCK    
 
+ctl_oe.D = Vcc;
+   ctl_oe.CLK = CLK100M;	// GCK
+   ctl_oe.AR = AS30;
+   ctl_oe.CE = RW30 & t_ctl & !as2 & !as1 & ctl_rdy;    
 
-assign D_I[28] = 1'b0;
-assign D[28] = D_OE[28] ? D_I[28] : 1'bZ;
-assign D_OE[28] = (!AS30 && ctl_oe);
+ctl_rdy.D = RW30 & t_ctl & !as2 & !as1
+	# t_ctl & !as2 & !ds2 & !as1;
+   ctl_rdy.CLK = CLK100M;	// GCK    
 
+drv.D = BG & ba2;
+   drv.CLK = CLK100M;	// GCK    
 
-assign D_I[29] = 1'b1;
-assign D[29] = D_OE[29] ? D_I[29] : 1'bZ;
-assign D_OE[29] = (!AS30 && ctl_oe);
+ds1.D = DS30;
+   ds1.CLK = CLK100M;	// GCK    
 
+ds2.D = ds1;
+   ds2.CLK = CLK100M;	// GCK    
 
-assign D_I[30] = 1'b1;
-assign D[30] = D_OE[30] ? D_I[30] : 1'bZ;
-assign D_OE[30] = (!AS30 && ctl_oe);
-
-
-assign D_I[31] = 1'b1;
-assign D[31] = D_OE[31] ? D_I[31] : 1'bZ;
-assign D_OE[31] = (!AS30 && ctl_oe);
-
-FDCPE FDCPE_DQM0 (DQM[0],DQM_D[0],CLK100M,1'b0,1'b0);
-assign DQM_D[0] = ((!col)
-	|| (!RW30 && SIZ[0] && !SIZ[1] && !A[0])
-	|| (!RW30 && SIZ[0] && !SIZ[1] && !A[1])
-	|| (!RW30 && SIZ[0] && !A[0] && !A[1])
-	|| (!RW30 && !SIZ[0] && SIZ[1] && !A[1]));
-
-FDCPE FDCPE_DQM1 (DQM[1],DQM_D[1],CLK100M,1'b0,1'b0);
-assign DQM_D[1] = ((!col)
-	|| (!RW30 && A[0] && A[1])
-	|| (!RW30 && SIZ[0] && !SIZ[1] && !A[1])
-	|| (!RW30 && !SIZ[0] && SIZ[1] && !A[0] && !A[1]));
-
-FDCPE FDCPE_DQM2 (DQM[2],DQM_D[2],CLK100M,1'b0,1'b0);
-assign DQM_D[2] = ((!col)
-	|| (!RW30 && A[1])
-	|| (!RW30 && SIZ[0] && !SIZ[1] && !A[0]));
-
-FDCPE FDCPE_DQM3 (DQM[3],DQM_D[3],CLK100M,1'b0,1'b0);
-assign DQM_D[3] = ((RW30 && col)
-	|| (!A[0] && col && !A[1]));
-
-
-assign DSACK0 = 1'b1;
-
-FTCPE FTCPE_DSACK1 (DSACK1,DSACK1_T,CLK100M,1'b0,AS30);
-assign DSACK1_T = ((t_ide && !as2 && !as1 && ifin && DSACK1)
-	|| (t_ctl && !as2 && !as1 && ctl_rdy && DSACK1)
-	|| (m_s4 && cd[2] && !q1 && !dt2 && DSACK1)
-	|| (!VMA && !ec[0] && !ec[1] && !ec[2] && ec[3] && m_s4 && 
-	cd[2] && !q1 && DSACK1));
-
-FDCPE FDCPE_E (E,e1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_IDECS0 (IDECS0,IDECS0_D,CLK100M,1'b0,1'b0);
-assign IDECS0_D = (!A[5] && t_ide);
-
-FDCPE FDCPE_IDECS1 (IDECS1,IDECS1_D,CLK100M,1'b0,1'b0);
-assign IDECS1_D = (A[5] && t_ide);
-
-
-assign IOR = !((!AS30 && ior_rnm0));
-
-FDCPE FDCPE_IOW (IOW,IOW_D,CLK100M,1'b0,AS30);
-assign IOW_D = ((!iend && !IOW)
-	|| (!RW30 && t_ide && !ic[6] && !ic[0] && !ic[2] && !ic[4] && 
-	ic[5] && !ic[1] && ic[3] && !ic[7] && !iend && !as2 && !as1));
-
-
-assign LDS_I = !((!AS30 && m_lds));
-assign LDS = LDS_OE ? LDS_I : 1'bZ;
-assign LDS_OE = (BGACK && drv);
-
-FDCPE FDCPE_RAMCS (RAMCS,!rst2,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_RAMOE (RAMOE,1'b0,CLK100M,1'b0,AS30,RAMOE_CE);
-assign RAMOE_CE = (!as2 && !as1 && z_act);
-
-FDCPE FDCPE_RAMWE (RAMWE,RAMWE_D,CLK100M,1'b0,1'b0);
-assign RAMWE_D = ((!CIIN && rst2 && z_xfer && xold)
-	|| (rq && rst2 && z_idle && i_we)
-	|| (!RW30 && CIIN && !wdone && rst2 && z_xfer && !ds2));
-
-FDCPE FDCPE_RAS (RAS,RAS_D,CLK100M,1'b0,1'b0);
-assign RAS_D = ((!CIIN && rst2 && z_xfer && xold)
-	|| (rq && rst2 && z_idle && i_ras)
-	|| (CIIN && !rq && rst2 && ready && z_idle));
-
-FDCPE FDCPE_STERM (STERM,STERM_D,CLK100M,1'b0,1'b0);
-assign STERM_D = ((!CLKCPU && z_xfer && !STERM)
-	|| (CIIN && wdone && !fin && CLKCPU && rst2 && z_xfer && 
-	!as2 && !as1 && !mbt && ba2 && !cq2 && STERM)
-	|| (CIIN && wdone && !fin && CLKCPU && rst2 && z_xfer && 
-	!as2 && !as1 && !mbt && ba2 && gap && STERM)
-	|| (CIIN && !b[0] && wdone && !b[1] && !fin && CLKCPU && 
-	rst2 && z_xfer && !as2 && !as1 && !mbt && ba2 && STERM));
-
-
-assign UDS_I = !((!AS30 && m_uds));
-assign UDS = UDS_OE ? UDS_I : 1'bZ;
-assign UDS_OE = (BGACK && drv);
-
-FDCPE FDCPE_VMA (VMA_I,VMA,CLK100M,1'b0,1'b0);
-assign VMA = ((!VMA && !vp2)
-	|| (!ec[0] && ec[1] && !ec[2] && !ec[3] && m_s4 && !p_cpu && 
-	cd[2] && !q1 && !vp2));
-assign VMA = VMA_OE ? VMA_I : 1'bZ;
-assign VMA_OE = (BGACK && drv);
-
-FDCPE FDCPE_arm (arm,1'b1,CLK100M,AS30,1'b0,arm_CE);
-assign arm_CE = (t_mb && !as2 && !as1);
-
-FDCPE FDCPE_as1 (as1,AS30,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_as2 (as2,as1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_as3 (as3,as2,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_as4 (as4,as3,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_b0 (b[0],b_D[0],CLK100M,1'b0,1'b0);
-assign b_D[0] = ((b[0] && CLKCPU && z_xfer)
-	|| (b[0] && z_xfer && STERM)
-	|| (b[1] && !CLKCPU && z_xfer && !STERM)
-	|| (!b[0] && !CLKCPU && z_xfer && !CBACK && !STERM));
-
-FDCPE FDCPE_b1 (b[1],b_D[1],CLK100M,1'b0,1'b0);
-assign b_D[1] = ((b[1] && z_xfer)
-	|| (b[0] && !CLKCPU && z_xfer && !STERM));
-
-FDCPE FDCPE_ba1 (ba1,BGACK,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_ba2 (ba2,ba1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_berr_rnm0 (berr_rnm0,1'b1,CLK100M,AS30,1'b0,berr_rnm0_CE);
-assign berr_rnm0_CE = (t_err && !as2 && !as1);
-
-FDCPE FDCPE_bg1 (bg1,BG30,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_bg2 (bg2,bg1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_bg3 (bg3,bg2,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_c1 (c1,CLK7M_RAW,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_c2 (c2,c1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_c3 (c3,c2,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_cd1 (cd[1],cd_0,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_cd2 (cd[2],cd[1],CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_cd_0 (cd_0,cf,CLK100M,1'b0,1'b0);
-
-FTCPE FTCPE_cf (cf,cf_T,CLK100M,1'b0,1'b0);
-assign cf_T = ((!lock[0] && cf && !lock[1] && !c2 && !c3)
-	|| (!lock[0] && !cf && !lock[1] && c2 && c3));
-
-FDCPE FDCPE_col (col,col_D,CLK100M,1'b0,1'b0);
-assign col_D = (!z_xfer && !z_act && !z_rcd);
-
-FDCPE FDCPE_cq1 (cq1,CBREQ,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_cq2 (cq2,cq1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_ctl_oe (ctl_oe,1'b1,CLK100M,AS30,1'b0,ctl_oe_CE);
-assign ctl_oe_CE = (RW30 && t_ctl && !as2 && !as1 && ctl_rdy);
-
-FDCPE FDCPE_ctl_rdy (ctl_rdy,ctl_rdy_D,CLK100M,1'b0,1'b0);
-assign ctl_rdy_D = ((RW30 && t_ctl && !as2 && !as1)
-	|| (t_ctl && !as2 && !ds2 && !as1));
-
-FDCPE FDCPE_drv (drv,drv_D,CLK100M,1'b0,1'b0);
-assign drv_D = (BG && ba2);
-
-FDCPE FDCPE_ds1 (ds1,DS30,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_ds2 (ds2,ds1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_dt1 (dt1,DTACK,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_dt2 (dt2,dt1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_e0 (e0,e0_D,CLK100M,1'b0,1'b0);
-assign e0_D = ((ec[3])
-	|| (ec[1] && ec[2]));
-
-FDCPE FDCPE_e1 (e1,e0,CLK100M,1'b0,1'b0);
-
-FTCPE FTCPE_ec0 (ec[0],1'b1,CLK100M,1'b0,1'b0,ec_CE[0]);
-assign ec_CE[0] = (cd[2] && !q1);
-
-FTCPE FTCPE_ec1 (ec[1],ec_T[1],CLK100M,1'b0,1'b0,ec_CE[1]);
-assign ec_T[1] = ((!ec[0])
-	|| (!ec[1] && !ec[2] && ec[3] && cd[2] && !q1));
-assign ec_CE[1] = (cd[2] && !q1);
-
-FTCPE FTCPE_ec2 (ec[2],ec_T[2],CLK100M,1'b0,1'b0,ec_CE[2]);
-assign ec_T[2] = (ec[0] && ec[1]);
-assign ec_CE[2] = (cd[2] && !q1);
-
-FTCPE FTCPE_ec3 (ec[3],ec_T[3],CLK100M,1'b0,1'b0,ec_CE[3]);
-assign ec_T[3] = ((ec[0] && ec[1] && ec[2])
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && cd[2] && !q1));
-assign ec_CE[3] = (cd[2] && !q1);
-
-FDCPE FDCPE_fin (fin,fin_D,CLK100M,1'b0,1'b0);
-assign fin_D = ((fin && z_xfer)
-	|| (b[0] && b[1] && !CLKCPU && z_xfer && !STERM)
-	|| (!b[0] && !b[1] && !CLKCPU && z_xfer && CBACK && !STERM));
-
-FDCPE FDCPE_gap (gap,gap_D,CLK100M,1'b0,1'b0);
-assign gap_D = ((b[0] && z_xfer && gap && STERM)
-	|| (b[1] && z_xfer && gap && STERM)
-	|| (b[0] && CLKCPU && rst2 && z_xfer && !mbt && ba2 && 
-	STERM)
-	|| (b[1] && CLKCPU && rst2 && z_xfer && !mbt && ba2 && 
-	STERM));
-
-FDCPE FDCPE_hc0 (hc[0],hc_D[0],CLK100M,1'b0,1'b0);
-assign hc_D[0] = ((t_ide && hc[0] && !iend)
-	|| (t_ide && !hc[0] && iend && !hc[1])
-	|| (t_ide && !hc[0] && iend && !hc[2]));
-
-FTCPE FTCPE_hc1 (hc[1],hc_T[1],CLK100M,1'b0,1'b0);
-assign hc_T[1] = ((!t_ide && hc[1])
-	|| (t_ide && hc[0] && iend));
-
-FTCPE FTCPE_hc2 (hc[2],hc_T[2],CLK100M,1'b0,1'b0);
-assign hc_T[2] = ((!t_ide && hc[2])
-	|| (t_ide && hc[0] && iend && hc[1]));
-
-FDCPE FDCPE_hicnt0 (hicnt[0],hicnt_D[0],CLK100M,1'b0,1'b0);
-assign hicnt_D[0] = ((!m_as && !hicnt[0])
-	|| (!m_as && hicnt[1] && hicnt[2] && hicnt[3]));
-
-FDCPE FDCPE_hicnt1 (hicnt[1],hicnt_D[1],CLK100M,1'b0,1'b0);
-assign hicnt_D[1] = ((!m_as && hicnt[1] && !hicnt[0])
-	|| (!m_as && !hicnt[1] && hicnt[0])
-	|| (!m_as && hicnt[1] && hicnt[2] && hicnt[3]));
-
-FTCPE FTCPE_hicnt2 (hicnt[2],hicnt_T[2],CLK100M,1'b0,1'b0);
-assign hicnt_T[2] = ((m_as && hicnt[2])
-	|| (!m_as && hicnt[1] && !hicnt[2] && hicnt[0])
-	|| (hicnt[1] && hicnt[2] && hicnt[0] && !hicnt[3]));
-
-FDCPE FDCPE_hicnt3 (hicnt[3],hicnt_D[3],CLK100M,1'b0,1'b0);
-assign hicnt_D[3] = ((!m_as && hicnt[3])
-	|| (!m_as && hicnt[1] && hicnt[2] && hicnt[0]));
-
-FDCPE FDCPE_i_cas (i_cas,i_cas_D,CLK100M,1'b0,1'b0);
-assign i_cas_D = ((inum[3] && inum[2] && inum[4])
-	|| (inum[3] && inum[4] && inum[0])
-	|| (inum[3] && inum[4] && inum[1]));
-
-FDCPE FDCPE_i_ras (i_ras,i_ras_D,CLK100M,1'b0,1'b0);
-assign i_ras_D = (inum[3] && inum[4]);
-
-FDCPE FDCPE_i_we (i_we,i_we_D,CLK100M,1'b0,1'b0);
-assign i_we_D = ((inum[3] && !inum[2] && inum[4] && inum[0] && 
-	inum[1])
-	|| (inum[3] && !inum[2] && inum[4] && !inum[0] && 
-	!inum[1]));
-
-FTCPE FTCPE_ic0 (ic[0],ic_T[0],CLK100M,1'b0,1'b0);
-assign ic_T[0] = ((!t_ide && !ic[0])
-	|| (t_ide && ic[6] && ic[7]));
-
-FTCPE FTCPE_ic1 (ic[1],ic_T[1],CLK100M,1'b0,1'b0);
-assign ic_T[1] = ((t_ide && !ic[0])
-	|| (!t_ide && !ic[1])
-	|| (t_ide && ic[6] && ic[7]));
-
-FTCPE FTCPE_ic2 (ic[2],ic_T[2],CLK100M,1'b0,1'b0);
-assign ic_T[2] = ((t_ide && !ic[0])
-	|| (t_ide && !ic[1])
-	|| (!t_ide && !ic[2])
-	|| (t_ide && ic[6] && ic[7]));
-
-FTCPE FTCPE_ic3 (ic[3],ic_T[3],CLK100M,1'b0,1'b0);
-assign ic_T[3] = ((!t_ide && ic[3])
-	|| (t_ide && !ic[6] && ic[0] && ic[2] && ic[1])
-	|| (t_ide && ic[0] && ic[2] && ic[1] && !ic[7]));
-
-FTCPE FTCPE_ic4 (ic[4],ic_T[4],CLK100M,1'b0,1'b0);
-assign ic_T[4] = ((!t_ide && ic[4])
-	|| (t_ide && !ic[6] && ic[0] && ic[2] && ic[1] && ic[3])
-	|| (t_ide && ic[0] && ic[2] && ic[1] && ic[3] && !ic[7]));
-
-FTCPE FTCPE_ic5 (ic[5],ic_T[5],CLK100M,1'b0,1'b0);
-assign ic_T[5] = ((!t_ide && ic[5])
-	|| (t_ide && !ic[6] && ic[0] && ic[2] && ic[4] && ic[1] && 
-	ic[3])
-	|| (t_ide && ic[0] && ic[2] && ic[4] && ic[1] && ic[3] && 
-	!ic[7]));
-
-FTCPE FTCPE_ic6 (ic[6],ic_T[6],CLK100M,1'b0,1'b0);
-assign ic_T[6] = ((!t_ide && ic[6])
-	|| (t_ide && !ic[6] && ic[0] && ic[2] && ic[4] && ic[5] && 
-	ic[1] && ic[3])
-	|| (ic[6] && ic[0] && ic[2] && ic[4] && ic[5] && ic[1] && 
-	ic[3] && !ic[7]));
-
-FDCPE FDCPE_ic7 (ic[7],ic_D[7],CLK100M,1'b0,1'b0);
-assign ic_D[7] = ((t_ide && ic[7])
-	|| (t_ide && ic[6] && ic[0] && ic[2] && ic[4] && ic[5] && 
-	ic[1] && ic[3]));
-
-FDCPE FDCPE_idt (idt,idt_D,CLK100M,1'b0,1'b0);
-assign idt_D = ((t_ide && ifin)
-	|| (!as2 && idt)
-	|| (!as3 && idt));
-
-FDCPE FDCPE_iend (iend,iend_D,CLK100M,1'b0,1'b0);
-assign iend_D = ((t_ide && iend)
-	|| (t_ide && imin && iw2)
-	|| (t_ide && ic[6] && ic[7] && imin));
-
-FDCPE FDCPE_ifin (ifin,ifin_D,CLK100M,1'b0,1'b0);
-assign ifin_D = ((RW30 && t_ide && iend)
-	|| (t_ide && !hc[0] && iend && hc[1] && hc[2]));
-
-FDCPE FDCPE_imin (imin,imin_D,CLK100M,1'b0,1'b0);
-assign imin_D = ((t_ide && imin)
-	|| (t_ide && ic[6] && !ic[0] && !ic[2] && !ic[4] && !ic[5] && 
-	!ic[1] && ic[3] && !ic[7])
-	|| (!A[5] && !A[4] && !A[3] && t_ide && !ic[6] && !ic[0] && 
-	ic[2] && ic[4] && ic[5] && !ic[1] && ic[3] && !ic[7] && !A[2]));
-
-FTCPE FTCPE_inum0 (inum[0],inum_T[0],CLK100M,1'b0,1'b0);
-assign inum_T[0] = ((!inum[0] && !rst2)
-	|| (rst2 && !tick)
-	|| (inum[3] && inum[2] && inum[4] && rst2));
-
-FTCPE FTCPE_inum1 (inum[1],inum_T[1],CLK100M,1'b0,1'b0);
-assign inum_T[1] = ((!inum[0] && rst2)
-	|| (!inum[1] && !rst2)
-	|| (rst2 && !tick)
-	|| (inum[3] && inum[2] && inum[4] && rst2));
-
-FTCPE FTCPE_inum2 (inum[2],inum_T[2],CLK100M,1'b0,1'b0);
-assign inum_T[2] = ((inum[2] && !rst2)
-	|| (!inum[3] && inum[2] && inum[0] && inum[1] && tick)
-	|| (inum[2] && !inum[4] && inum[0] && inum[1] && tick)
-	|| (!inum[2] && inum[0] && inum[1] && rst2 && tick));
-
-FTCPE FTCPE_inum3 (inum[3],inum_T[3],CLK100M,1'b0,1'b0);
-assign inum_T[3] = ((inum[3] && !rst2)
-	|| (inum[3] && inum[2] && !inum[4] && inum[0] && 
-	inum[1] && tick)
-	|| (!inum[3] && inum[2] && inum[0] && inum[1] && rst2 && 
-	tick));
-
-FDCPE FDCPE_inum4 (inum[4],inum_D[4],CLK100M,1'b0,1'b0);
-assign inum_D[4] = ((inum[4] && rst2)
-	|| (inum[3] && inum[2] && inum[0] && inum[1] && rst2 && 
-	tick));
-
-FDCPE FDCPE_ior_rnm0 (ior_rnm0,1'b1,CLK100M,AS30,1'b0,ior_rnm0_CE);
-assign ior_rnm0_CE = (RW30 && t_ide && !ic[6] && !ic[0] && !ic[2] && !ic[4] && 
-	ic[5] && !ic[1] && ic[3] && !ic[7] && !as2 && !as1);
-
-FDCPE FDCPE_iw1 (iw1,IDEWAIT,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_iw2 (iw2,iw1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_lock0 (lock[0],lock_D[0],CLK100M,1'b0,1'b0);
-assign lock_D[0] = ((!lock[0] && lock[1])
-	|| (!lock[0] && cf && !c2 && !c3)
-	|| (!lock[0] && !cf && c2 && c3));
-
-FDCPE FDCPE_lock1 (lock[1],lock_D[1],CLK100M,1'b0,1'b0);
-assign lock_D[1] = ((lock[0] && lock[1])
-	|| (!lock[0] && cf && !lock[1] && !c2 && !c3)
-	|| (!lock[0] && !cf && !lock[1] && c2 && c3));
-
-FDCPE FDCPE_m_as (m_as,1'b1,CLK100M,AS30,1'b0,m_as_CE);
-assign m_as_CE = (hicnt[1] && hicnt[2] && hicnt[3] && arm && !cd[2] && 
-	q1);
-
-FTCPE FTCPE_m_lds (m_lds,m_lds_T,CLK100M,AS30,1'b0);
-assign m_lds_T = ((!RW30 && m_lds && m_as && !ds2 && !cd[2] && q1 && !p_l)
-	|| (!RW30 && !m_lds && m_as && !ds2 && !cd[2] && q1 && p_l)
-	|| (RW30 && m_lds && hicnt[1] && hicnt[2] && hicnt[3] && 
-	arm && !cd[2] && q1 && !p_l)
-	|| (RW30 && !m_lds && hicnt[1] && hicnt[2] && hicnt[3] && 
-	arm && !cd[2] && q1 && p_l));
-
-FTCPE FTCPE_m_s4 (m_s4,m_s4_T,CLK100M,AS30,1'b0);
-assign m_s4_T = ((RW30 && m_as && !m_s4 && !cd[2] && q1)
-	|| (m_as && !m_s4 && !ds2 && !cd[2] && q1));
-
-FTCPE FTCPE_m_uds (m_uds,m_uds_T,CLK100M,AS30,1'b0);
-assign m_uds_T = ((!RW30 && m_uds && m_as && !ds2 && !cd[2] && q1 && !p_u)
-	|| (!RW30 && !m_uds && m_as && !ds2 && !cd[2] && q1 && p_u)
-	|| (RW30 && m_uds && hicnt[1] && hicnt[2] && hicnt[3] && 
-	arm && !cd[2] && q1 && !p_u)
-	|| (RW30 && !m_uds && hicnt[1] && hicnt[2] && hicnt[3] && 
-	arm && !cd[2] && q1 && p_u));
-
-FDCPE FDCPE_mbt (mbt,mbt_D,CLK100M,1'b0,1'b0);
-assign mbt_D = ((!t_mb && !mbt)
-	|| (!t_mb && as2 && as3));
-
-FDCPE FDCPE_p_cperr (p_cperr,p_cperr_D,CLK100M,1'b0,1'b0);
-assign p_cperr_D = ((!A[19] && !A[18] && !A[17] && FC[2] && FC[1] && FC[0])
-	|| (!A[19] && !A[18] && !A[16] && FC[2] && FC[1] && FC[0]));
-
-FDCPE FDCPE_p_cpu (p_cpu,p_cpu_D,CLK100M,1'b0,1'b0);
-assign p_cpu_D = (FC[2] && FC[1] && FC[0]);
-
-FDCPE FDCPE_p_ctl (p_ctl,p_ctl_D,CLK100M,1'b0,1'b0);
-assign p_ctl_D = (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	!A[23] && !A[22] && A[26] && A[24] && !A[19] && !A[18] && !A[17] && 
-	!A[16] && !A[21] && !A[20]);
-
-FDCPE FDCPE_p_ide (p_ide,p_ide_D,CLK100M,1'b0,1'b0);
-assign p_ide_D = ((A[31] && A[30] && A[29] && A[28] && A[27] && A[25] && 
-	A[23] && A[22] && A[26] && A[24] && !A[6] && !A[19] && !A[18] && 
-	!A[17] && !A[16] && !A[15] && !A[14] && !A[13] && !A[12] && !A[11] && 
-	!A[10] && A[21] && !A[9] && !A[8] && !A[7] && A[20])
-	|| (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	A[23] && A[22] && !A[26] && !A[24] && !A[6] && !A[19] && !A[18] && 
-	!A[17] && !A[16] && !A[15] && !A[14] && !A[13] && !A[12] && !A[11] && 
-	!A[10] && A[21] && !A[9] && !A[8] && !A[7] && A[20]));
-
-FDCPE FDCPE_p_l (p_l,p_l_D,CLK100M,1'b0,1'b0);
-assign p_l_D = (SIZ[0] && !SIZ[1] && !A[0]);
-
-FDCPE FDCPE_p_ovl (p_ovl,p_ovl_D,CLK100M,1'b0,1'b0);
-assign p_ovl_D = ((A[31] && A[30] && A[29] && A[28] && A[27] && A[25] && 
-	A[23] && A[22] && A[26] && A[24] && !A[19] && !A[18] && A[21] && 
-	!A[20] && D[16] && RW30)
-	|| (A[31] && A[30] && A[29] && A[28] && A[27] && A[25] && 
-	A[23] && A[22] && A[26] && A[24] && !A[19] && A[21] && !A[20] && 
-	D[16] && D[17] && RW30)
-	|| (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	A[23] && A[22] && !A[26] && !A[24] && !A[19] && !A[18] && A[21] && 
-	!A[20] && D[16] && RW30)
-	|| (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	A[23] && A[22] && !A[26] && !A[24] && !A[19] && A[21] && !A[20] && 
-	D[16] && D[17] && RW30)
-	|| (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	!A[23] && !A[22] && !A[26] && !A[24] && !A[6] && !A[19] && !A[18] && 
-	!A[17] && !A[16] && !A[15] && !A[14] && !A[13] && !A[12] && !A[11] && 
-	!A[10] && !A[5] && !A[4] && !A[3] && !A[21] && !A[9] && !A[8] && 
-	!A[7] && !A[20] && D[16] && RW30));
-
-FDCPE FDCPE_p_prot (p_prot,p_prot_D,CLK100M,1'b0,1'b0);
-assign p_prot_D = (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	A[23] && A[22] && A[26] && !A[24] && A[19] && A[21] && A[20] && 
-	D[16]);
-
-FDCPE FDCPE_p_ram (p_ram,p_ram_D,CLK100M,1'b0,1'b0);
-assign p_ram_D = ((!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && A[25] && 
-	!A[26])
-	|| (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[26] && 
-	A[24])
-	|| (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	A[26] && !A[24]));
-
-FDCPE FDCPE_p_u (p_u,!A[0],CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_p_vec (p_vec,p_vec_D,CLK100M,1'b0,1'b0);
-assign p_vec_D = (!A[31] && !A[30] && !A[29] && !A[28] && !A[27] && !A[25] && 
-	!A[23] && !A[22] && !A[26] && !A[24] && !A[6] && !A[19] && !A[18] && 
-	!A[17] && !A[16] && !A[15] && !A[14] && !A[13] && !A[12] && !A[11] && 
-	!A[10] && !A[5] && !A[4] && !A[3] && !A[21] && !A[9] && !A[8] && 
-	!A[7] && !A[20] && D[16] && RW30);
-
-FDCPE FDCPE_q1 (q1,cd[2],CLK100M,1'b0,1'b0);
-
-FTCPE FTCPE_rcnt0 (rcnt[0],rcnt_T[0],CLK100M,1'b0,1'b0);
-assign rcnt_T[0] = ((rcnt[0] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && !rst2 && !rlong && 
-	cd[2] && !q1));
-
-FTCPE FTCPE_rcnt1 (rcnt[1],rcnt_T[1],CLK100M,1'b0,1'b0);
-assign rcnt_T[1] = ((rcnt[1] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	!rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt2 (rcnt[2],rcnt_T[2],CLK100M,1'b0,1'b0);
-assign rcnt_T[2] = ((rcnt[2] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt3 (rcnt[3],rcnt_T[3],CLK100M,1'b0,1'b0);
-assign rcnt_T[3] = ((rcnt[3] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[2] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt4 (rcnt[4],rcnt_T[4],CLK100M,1'b0,1'b0);
-assign rcnt_T[4] = ((rcnt[4] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[3] && rcnt[2] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt5 (rcnt[5],rcnt_T[5],CLK100M,1'b0,1'b0);
-assign rcnt_T[5] = ((rcnt[5] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[3] && rcnt[2] && rcnt[4] && !rst2 && !rlong && 
-	cd[2] && !q1));
-
-FTCPE FTCPE_rcnt6 (rcnt[6],rcnt_T[6],CLK100M,1'b0,1'b0);
-assign rcnt_T[6] = ((rcnt[6] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[3] && rcnt[5] && rcnt[2] && rcnt[4] && !rst2 && 
-	!rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt7 (rcnt[7],rcnt_T[7],CLK100M,1'b0,1'b0);
-assign rcnt_T[7] = ((rcnt[7] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[3] && rcnt[5] && rcnt[2] && rcnt[4] && 
-	rcnt[6] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt8 (rcnt[8],rcnt_T[8],CLK100M,1'b0,1'b0);
-assign rcnt_T[8] = ((rcnt[8] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[3] && rcnt[5] && rcnt[7] && rcnt[2] && 
-	rcnt[4] && rcnt[6] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt9 (rcnt[9],rcnt_T[9],CLK100M,1'b0,1'b0);
-assign rcnt_T[9] = ((rcnt[9] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[1] && rcnt[3] && rcnt[5] && rcnt[7] && rcnt[8] && 
-	rcnt[2] && rcnt[4] && rcnt[6] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt10 (rcnt[10],rcnt_T[10],CLK100M,1'b0,1'b0);
-assign rcnt_T[10] = ((rcnt[10] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[9] && rcnt[1] && rcnt[3] && rcnt[5] && rcnt[7] && 
-	rcnt[8] && rcnt[2] && rcnt[4] && rcnt[6] && !rst2 && !rlong && 
-	cd[2] && !q1));
-
-FTCPE FTCPE_rcnt11 (rcnt[11],rcnt_T[11],CLK100M,1'b0,1'b0);
-assign rcnt_T[11] = ((rcnt[11] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[9] && rcnt[1] && rcnt[3] && rcnt[5] && rcnt[7] && 
-	rcnt[8] && rcnt[10] && rcnt[2] && rcnt[4] && rcnt[6] && !rst2 && 
-	!rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt12 (rcnt[12],rcnt_T[12],CLK100M,1'b0,1'b0);
-assign rcnt_T[12] = ((rcnt[12] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[9] && rcnt[11] && rcnt[1] && rcnt[3] && rcnt[5] && 
-	rcnt[7] && rcnt[8] && rcnt[10] && rcnt[2] && rcnt[4] && 
-	rcnt[6] && !rst2 && !rlong && cd[2] && !q1));
-
-FTCPE FTCPE_rcnt13 (rcnt[13],rcnt_T[13],CLK100M,1'b0,1'b0);
-assign rcnt_T[13] = ((rcnt[13] && rst2)
-	|| (ec[0] && !ec[1] && !ec[2] && ec[3] && rcnt[0] && 
-	rcnt[9] && rcnt[11] && rcnt[12] && rcnt[1] && rcnt[3] && 
-	rcnt[5] && rcnt[7] && rcnt[8] && rcnt[10] && rcnt[2] && 
-	rcnt[4] && rcnt[6] && !rst2 && !rlong && cd[2] && !q1));
-
-FDCPE FDCPE_ready (ready,ready_D,CLK100M,1'b0,1'b0);
-assign ready_D = (inum[3] && inum[2] && inum[4]);
-
-FDCPE FDCPE_rlong (rlong,rlong_D,CLK100M,1'b0,1'b0);
-assign rlong_D = (rcnt[9] && rcnt[12] && rcnt[8] && rcnt[13]);
-
-FDCPE FDCPE_rq (rq,rq_D,CLK100M,1'b0,1'b0);
-assign rq_D = ((rst2 && tick2)
-	|| (rq && rst2 && !z_idle));
-
-FDCPE FDCPE_rst1 (rst1,RESET,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_rst2 (rst2,rst1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_t_ctl (t_ctl,t_ctl_D,CLK100M,1'b0,1'b0);
-assign t_ctl_D = ((t_ctl && !as2 && !as3)
-	|| (!as2 && !p_cpu && as3 && p_ctl));
-
-FDCPE FDCPE_t_err (t_err,t_err_D,CLK100M,1'b0,1'b0);
-assign t_err_D = ((t_err && !as2 && !as3)
-	|| (!as2 && as3 && p_cperr)
-	|| (!as2 && !p_cpu && as3 && p_prot));
-
-FDCPE FDCPE_t_ide (t_ide,t_ide_D,CLK100M,1'b0,1'b0);
-assign t_ide_D = ((t_ide && !as2 && !as3)
-	|| (!as2 && !p_cpu && as3 && p_ide));
-
-FDCPE FDCPE_t_mb (t_mb,t_mb_D,CLK100M,1'b0,1'b0);
-assign t_mb_D = ((t_mb && !as2 && !as3)
-	|| (!as2 && p_cpu && as3 && !p_cperr)
-	|| (!as2 && !p_cpu && !p_ovl && as3 && !p_ctl && !p_ide && 
-	!p_ram));
-
-FTCPE FTCPE_tc0 (tc[0],1'b1,CLK100M,1'b0,1'b0);
-
-FTCPE FTCPE_tc1 (tc[1],tc[0],CLK100M,1'b0,1'b0);
-
-FTCPE FTCPE_tc2 (tc[2],tc_T[2],CLK100M,1'b0,1'b0);
-assign tc_T[2] = (tc[0] && tc[1]);
-
-FTCPE FTCPE_tc3 (tc[3],tc_T[3],CLK100M,1'b0,1'b0);
-assign tc_T[3] = (tc[0] && tc[2] && tc[1]);
-
-FTCPE FTCPE_tc4 (tc[4],tc_T[4],CLK100M,1'b0,1'b0);
-assign tc_T[4] = (tc[0] && tc[2] && tc[1] && tc[3]);
-
-FTCPE FTCPE_tc5 (tc[5],tc_T[5],CLK100M,1'b0,1'b0);
-assign tc_T[5] = (tc[0] && tc[2] && tc[1] && tc[3] && tc[4]);
-
-FTCPE FTCPE_tc6 (tc[6],tc_T[6],CLK100M,1'b0,1'b0);
-assign tc_T[6] = (tc[0] && tc[2] && tc[1] && tc[3] && tc[4] && tc[5]);
-
-FTCPE FTCPE_tc7 (tc[7],tc_T[7],CLK100M,1'b0,1'b0);
-assign tc_T[7] = (tc[0] && tc[2] && tc[1] && tc[3] && tc[4] && tc[5] && 
-	tc[6]);
-
-FTCPE FTCPE_tc8 (tc[8],tc_T[8],CLK100M,1'b0,1'b0);
-assign tc_T[8] = (tc[0] && tc[2] && tc[1] && tc[3] && tc[4] && tc[5] && 
-	tc[6] && tc[7]);
-
-FDCPE FDCPE_tick (tick,tick_D,CLK100M,1'b0,1'b0);
-assign tick_D = (tc[0] && tc[2] && tc[1] && tc[3] && tc[4] && tc[5] && 
-	tc[6] && tc[7] && tc[8]);
-
-FDCPE FDCPE_tick2 (tick2,tick,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_vp1 (vp1,VPA,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_vp2 (vp2,vp1,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_wc0 (wc[0],wc_D[0],CLK100M,1'b0,1'b0);
-assign wc_D[0] = (rst2 && !wc[0] && z_wait);
-
-FDCPE FDCPE_wc1 (wc[1],wc_D[1],CLK100M,1'b0,1'b0);
-assign wc_D[1] = ((rst2 && wc[0] && !wc[1] && z_wait)
-	|| (rst2 && !wc[0] && wc[1] && z_wait));
-
-FDCPE FDCPE_wc2 (wc[2],wc_D[2],CLK100M,1'b0,1'b0);
-assign wc_D[2] = ((rst2 && !wc[0] && z_wait && wc[2])
-	|| (rst2 && !wc[1] && z_wait && wc[2])
-	|| (rst2 && wc[0] && wc[1] && z_wait && !wc[2]));
-
-FDCPE FDCPE_wcap (wcap,wcap_D,CLK100M,1'b0,1'b0);
-assign wcap_D = (!D[27].PIN && !D[26].PIN && !D[25].PIN && !D[24].PIN && 
-	!D[23].PIN && !D[21].PIN && !RW30 && D[22].PIN && D[20].PIN && 
-	t_ctl && !as2 && !ds2 && !as1 && !ctl_rdy && !D[28].PIN && 
-	D[31].PIN && D[30].PIN && D[29].PIN);
-
-FDCPE FDCPE_wdone (wdone,wdone_D,CLK100M,1'b0,1'b0);
-assign wdone_D = ((RW30 && z_xfer)
-	|| (wdone && z_xfer)
-	|| (CIIN && z_xfer && !ds2));
-
-FDCPE FDCPE_xold (xold,z_xfer,CLK100M,1'b0,1'b0);
-
-FDCPE FDCPE_z_act (z_act,z_act_D,CLK100M,1'b0,1'b0);
-assign z_act_D = (CIIN && !rq && rst2 && ready && z_idle);
-
-FDCPE FDCPE_z_idle (z_idle,z_idle_D,CLK100M,1'b0,1'b0);
-assign z_idle_D = ((!rst2)
-	|| (z_pre)
-	|| (!CIIN && !rq && z_idle)
-	|| (!rq && !ready && z_idle)
-	|| (wc[0] && wc[1] && z_wait && wc[2]));
-
-FDCPE FDCPE_z_pre (z_pre,z_pre_D,CLK100M,1'b0,1'b0);
-assign z_pre_D = (!CIIN && rst2 && z_xfer && xold);
-
-FDCPE FDCPE_z_rcd (z_rcd,z_rcd_D,CLK100M,1'b0,1'b0);
-assign z_rcd_D = (rst2 && z_act);
-
-FDCPE FDCPE_z_wait (z_wait,z_wait_D,CLK100M,1'b0,1'b0);
-assign z_wait_D = ((rq && rst2 && z_idle)
-	|| (rst2 && !wc[0] && z_wait)
-	|| (rst2 && !wc[1] && z_wait)
-	|| (rst2 && z_wait && !wc[2]));
-
-FDCPE FDCPE_z_xfer (z_xfer,z_xfer_D,CLK100M,1'b0,1'b0);
-assign z_xfer_D = ((rst2 && z_rcd)
-	|| (CIIN && rst2 && z_xfer)
-	|| (rst2 && z_xfer && !xold));
-
-Register Legend:
- FDCPE (Q,D,C,CLR,PRE,CE); 
- FTCPE (Q,D,C,CLR,PRE,CE); 
- LDCP  (Q,D,G,CLR,PRE); 
+dt1.D = DTACK;
+   dt1.CLK = CLK100M;	// GCK    
+
+dt2.D = dt1;
+   dt2.CLK = CLK100M;	// GCK    
+
+e0.D = ec<3>
+	# ec<1> & ec<2>;
+   e0.CLK = CLK100M;	// GCK    
+
+e1.D = e0;
+   e1.CLK = CLK100M;	// GCK    
+
+ec<0>.T = Vcc;
+   ec<0>.CLK = CLK100M;	// GCK
+   ec<0>.CE = cd<2> & !q1;    
+
+!ec<1>.T = !ec<0>
+	# !ec<1> & !ec<2> & ec<3> & cd<2> & !q1;
+   ec<1>.CLK = CLK100M;	// GCK
+   ec<1>.CE = cd<2> & !q1;    
+
+ec<2>.T = ec<0> & ec<1>;
+   ec<2>.CLK = CLK100M;	// GCK
+   ec<2>.CE = cd<2> & !q1;    
+
+ec<3>.T = ec<0> & ec<1> & ec<2>
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & cd<2> & !q1;
+   ec<3>.CLK = CLK100M;	// GCK
+   ec<3>.CE = cd<2> & !q1;    
+
+fin.D = fin & z_xfer
+	# b<0> & b<1> & !CLKCPU & z_xfer & !STERM
+	# !b<0> & !b<1> & !CLKCPU & z_xfer & CBACK & !STERM;
+   fin.CLK = CLK100M;	// GCK    
+
+gap.D = b<0> & z_xfer & gap & STERM
+	# b<1> & z_xfer & gap & STERM
+	# b<0> & CLKCPU & rst2 & z_xfer & !mbt & ba2 & 
+	STERM
+	# b<1> & CLKCPU & rst2 & z_xfer & !mbt & ba2 & 
+	STERM;
+   gap.CLK = CLK100M;	// GCK    
+
+hc<0>.D = t_ide & hc<0> & !iend
+	# t_ide & !hc<0> & iend & !hc<1>
+	# t_ide & !hc<0> & iend & !hc<2>;
+   hc<0>.CLK = CLK100M;	// GCK    
+
+hc<1>.T = !t_ide & hc<1>
+	# t_ide & hc<0> & iend;
+   hc<1>.CLK = CLK100M;	// GCK    
+
+hc<2>.T = !t_ide & hc<2>
+	# t_ide & hc<0> & iend & hc<1>;
+   hc<2>.CLK = CLK100M;	// GCK    
+
+hicnt<0>.D = !m_as & !hicnt<0>
+	# !m_as & hicnt<1> & hicnt<2> & hicnt<3>;
+   hicnt<0>.CLK = CLK100M;	// GCK    
+
+hicnt<1>.D = !m_as & hicnt<1> & !hicnt<0>
+	# !m_as & !hicnt<1> & hicnt<0>
+	# !m_as & hicnt<1> & hicnt<2> & hicnt<3>;
+   hicnt<1>.CLK = CLK100M;	// GCK    
+
+hicnt<2>.T = m_as & hicnt<2>
+	# !m_as & hicnt<1> & !hicnt<2> & hicnt<0>
+	# hicnt<1> & hicnt<2> & hicnt<0> & !hicnt<3>;
+   hicnt<2>.CLK = CLK100M;	// GCK    
+
+hicnt<3>.D = !m_as & hicnt<3>
+	# !m_as & hicnt<1> & hicnt<2> & hicnt<0>;
+   hicnt<3>.CLK = CLK100M;	// GCK    
+
+i_cas.D = inum<3> & inum<2> & inum<4>
+	# inum<3> & inum<4> & inum<0>
+	# inum<3> & inum<4> & inum<1>;
+   i_cas.CLK = CLK100M;	// GCK    
+
+i_ras.D = inum<3> & inum<4>;
+   i_ras.CLK = CLK100M;	// GCK    
+
+i_we.D = inum<3> & !inum<2> & inum<4> & inum<0> & 
+	inum<1>
+	# inum<3> & !inum<2> & inum<4> & !inum<0> & 
+	!inum<1>;
+   i_we.CLK = CLK100M;	// GCK    
+
+!ic<0>.T = !t_ide & !ic<0>
+	# t_ide & ic<6> & ic<7>;
+   ic<0>.CLK = CLK100M;	// GCK    
+
+!ic<1>.T = t_ide & !ic<0>
+	# !t_ide & !ic<1>
+	# t_ide & ic<6> & ic<7>;
+   ic<1>.CLK = CLK100M;	// GCK    
+
+!ic<2>.T = t_ide & !ic<0>
+	# t_ide & !ic<1>
+	# !t_ide & !ic<2>
+	# t_ide & ic<6> & ic<7>;
+   ic<2>.CLK = CLK100M;	// GCK    
+
+ic<3>.T = !t_ide & ic<3>
+	# t_ide & !ic<6> & ic<0> & ic<2> & ic<1>
+	# t_ide & ic<0> & ic<2> & ic<1> & !ic<7>;
+   ic<3>.CLK = CLK100M;	// GCK    
+
+ic<4>.T = !t_ide & ic<4>
+	# t_ide & !ic<6> & ic<0> & ic<2> & ic<1> & ic<3>
+	# t_ide & ic<0> & ic<2> & ic<1> & ic<3> & !ic<7>;
+   ic<4>.CLK = CLK100M;	// GCK    
+
+ic<5>.T = !t_ide & ic<5>
+	# t_ide & !ic<6> & ic<0> & ic<2> & ic<4> & ic<1> & 
+	ic<3>
+	# t_ide & ic<0> & ic<2> & ic<4> & ic<1> & ic<3> & 
+	!ic<7>;
+   ic<5>.CLK = CLK100M;	// GCK    
+
+ic<6>.T = !t_ide & ic<6>
+	# t_ide & !ic<6> & ic<0> & ic<2> & ic<4> & ic<5> & 
+	ic<1> & ic<3>
+	# ic<6> & ic<0> & ic<2> & ic<4> & ic<5> & ic<1> & 
+	ic<3> & !ic<7>;
+   ic<6>.CLK = CLK100M;	// GCK    
+
+ic<7>.D = t_ide & ic<7>
+	# t_ide & ic<6> & ic<0> & ic<2> & ic<4> & ic<5> & 
+	ic<1> & ic<3>;
+   ic<7>.CLK = CLK100M;	// GCK    
+
+idt.D = t_ide & ifin
+	# !as2 & idt
+	# !as3 & idt;
+   idt.CLK = CLK100M;	// GCK    
+
+iend.D = t_ide & iend
+	# t_ide & imin & iw2
+	# t_ide & ic<6> & ic<7> & imin;
+   iend.CLK = CLK100M;	// GCK    
+
+ifin.D = RW30 & t_ide & iend
+	# t_ide & !hc<0> & iend & hc<1> & hc<2>;
+   ifin.CLK = CLK100M;	// GCK    
+
+imin.D = t_ide & imin
+	# t_ide & ic<6> & !ic<0> & !ic<2> & !ic<4> & !ic<5> & 
+	!ic<1> & ic<3> & !ic<7>
+	# !A<5> & !A<4> & !A<3> & t_ide & !ic<6> & !ic<0> & 
+	ic<2> & ic<4> & ic<5> & !ic<1> & ic<3> & !ic<7> & !A<2>;
+   imin.CLK = CLK100M;	// GCK    
+
+!inum<0>.T = !inum<0> & !rst2
+	# rst2 & !tick
+	# inum<3> & inum<2> & inum<4> & rst2;
+   inum<0>.CLK = CLK100M;	// GCK    
+
+!inum<1>.T = !inum<0> & rst2
+	# !inum<1> & !rst2
+	# rst2 & !tick
+	# inum<3> & inum<2> & inum<4> & rst2;
+   inum<1>.CLK = CLK100M;	// GCK    
+
+inum<2>.T = inum<2> & !rst2
+	# !inum<3> & inum<2> & inum<0> & inum<1> & tick
+	# inum<2> & !inum<4> & inum<0> & inum<1> & tick
+	# !inum<2> & inum<0> & inum<1> & rst2 & tick;
+   inum<2>.CLK = CLK100M;	// GCK    
+
+inum<3>.T = inum<3> & !rst2
+	# inum<3> & inum<2> & !inum<4> & inum<0> & 
+	inum<1> & tick
+	# !inum<3> & inum<2> & inum<0> & inum<1> & rst2 & 
+	tick;
+   inum<3>.CLK = CLK100M;	// GCK    
+
+inum<4>.D = inum<4> & rst2
+	# inum<3> & inum<2> & inum<0> & inum<1> & rst2 & 
+	tick;
+   inum<4>.CLK = CLK100M;	// GCK    
+
+ior_rnm0.D = Vcc;
+   ior_rnm0.CLK = CLK100M;	// GCK
+   ior_rnm0.AR = AS30;
+   ior_rnm0.CE = RW30 & t_ide & !ic<6> & !ic<0> & !ic<2> & !ic<4> & 
+	ic<5> & !ic<1> & ic<3> & !ic<7> & !as2 & !as1;    
+
+iw1.D = IDEWAIT;
+   iw1.CLK = CLK100M;	// GCK    
+
+iw2.D = iw1;
+   iw2.CLK = CLK100M;	// GCK    
+
+lock<0>.D = !lock<0> & lock<1>
+	# !lock<0> & cf & !c2 & !c3
+	# !lock<0> & !cf & c2 & c3;
+   lock<0>.CLK = CLK100M;	// GCK    
+
+lock<1>.D = lock<0> & lock<1>
+	# !lock<0> & cf & !lock<1> & !c2 & !c3
+	# !lock<0> & !cf & !lock<1> & c2 & c3;
+   lock<1>.CLK = CLK100M;	// GCK    
+
+m_as.D = Vcc;
+   m_as.CLK = CLK100M;	// GCK
+   m_as.AR = AS30;
+   m_as.CE = hicnt<1> & hicnt<2> & hicnt<3> & arm & !cd<2> & 
+	q1;    
+
+m_lds.T = !RW30 & m_lds & m_as & !ds2 & !cd<2> & q1 & !p_l
+	# !RW30 & !m_lds & m_as & !ds2 & !cd<2> & q1 & p_l
+	# RW30 & m_lds & hicnt<1> & hicnt<2> & hicnt<3> & 
+	arm & !cd<2> & q1 & !p_l
+	# RW30 & !m_lds & hicnt<1> & hicnt<2> & hicnt<3> & 
+	arm & !cd<2> & q1 & p_l;
+   m_lds.CLK = CLK100M;	// GCK
+   m_lds.AR = AS30;    
+
+m_s4.T = RW30 & m_as & !m_s4 & !cd<2> & q1
+	# m_as & !m_s4 & !ds2 & !cd<2> & q1;
+   m_s4.CLK = CLK100M;	// GCK
+   m_s4.AR = AS30;    
+
+m_uds.T = !RW30 & m_uds & m_as & !ds2 & !cd<2> & q1 & !p_u
+	# !RW30 & !m_uds & m_as & !ds2 & !cd<2> & q1 & p_u
+	# RW30 & m_uds & hicnt<1> & hicnt<2> & hicnt<3> & 
+	arm & !cd<2> & q1 & !p_u
+	# RW30 & !m_uds & hicnt<1> & hicnt<2> & hicnt<3> & 
+	arm & !cd<2> & q1 & p_u;
+   m_uds.CLK = CLK100M;	// GCK
+   m_uds.AR = AS30;    
+
+!mbt.D = !t_mb & !mbt
+	# !t_mb & as2 & as3;
+   mbt.CLK = CLK100M;	// GCK    
+
+p_cperr.D = !A<19> & !A<18> & !A<17> & FC<2> & FC<1> & FC<0>
+	# !A<19> & !A<18> & !A<16> & FC<2> & FC<1> & FC<0>;
+   p_cperr.CLK = CLK100M;	// GCK    
+
+p_cpu.D = FC<2> & FC<1> & FC<0>;
+   p_cpu.CLK = CLK100M;	// GCK    
+
+p_ctl.D = !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	!A<23> & !A<22> & A<26> & A<24> & !A<19> & !A<18> & !A<17> & 
+	!A<16> & !A<21> & !A<20>;
+   p_ctl.CLK = CLK100M;	// GCK    
+
+p_ide.D = A<31> & A<30> & A<29> & A<28> & A<27> & A<25> & 
+	A<23> & A<22> & A<26> & A<24> & !A<6> & !A<19> & !A<18> & 
+	!A<17> & !A<16> & !A<15> & !A<14> & !A<13> & !A<12> & !A<11> & 
+	!A<10> & A<21> & !A<9> & !A<8> & !A<7> & A<20>
+	# !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	A<23> & A<22> & !A<26> & !A<24> & !A<6> & !A<19> & !A<18> & 
+	!A<17> & !A<16> & !A<15> & !A<14> & !A<13> & !A<12> & !A<11> & 
+	!A<10> & A<21> & !A<9> & !A<8> & !A<7> & A<20>;
+   p_ide.CLK = CLK100M;	// GCK    
+
+!p_l.D = SIZ<0> & !SIZ<1> & !A<0>;
+   p_l.CLK = CLK100M;	// GCK    
+
+p_ovl.D = A<31> & A<30> & A<29> & A<28> & A<27> & A<25> & 
+	A<23> & A<22> & A<26> & A<24> & !A<19> & !A<18> & A<21> & 
+	!A<20> & D<16> & RW30
+	# A<31> & A<30> & A<29> & A<28> & A<27> & A<25> & 
+	A<23> & A<22> & A<26> & A<24> & !A<19> & A<21> & !A<20> & 
+	D<16> & D<17> & RW30
+	# !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	A<23> & A<22> & !A<26> & !A<24> & !A<19> & !A<18> & A<21> & 
+	!A<20> & D<16> & RW30
+	# !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	A<23> & A<22> & !A<26> & !A<24> & !A<19> & A<21> & !A<20> & 
+	D<16> & D<17> & RW30
+	# !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	!A<23> & !A<22> & !A<26> & !A<24> & !A<6> & !A<19> & !A<18> & 
+	!A<17> & !A<16> & !A<15> & !A<14> & !A<13> & !A<12> & !A<11> & 
+	!A<10> & !A<5> & !A<4> & !A<3> & !A<21> & !A<9> & !A<8> & 
+	!A<7> & !A<20> & D<16> & RW30;
+   p_ovl.CLK = CLK100M;	// GCK    
+
+p_prot.D = !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	A<23> & A<22> & A<26> & !A<24> & A<19> & A<21> & A<20> & 
+	D<16>;
+   p_prot.CLK = CLK100M;	// GCK    
+
+p_ram.D = !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & A<25> & 
+	!A<26>
+	# !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<26> & 
+	A<24>
+	# !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	A<26> & !A<24>;
+   p_ram.CLK = CLK100M;	// GCK    
+
+p_u.D = !A<0>;
+   p_u.CLK = CLK100M;	// GCK    
+
+p_vec.D = !A<31> & !A<30> & !A<29> & !A<28> & !A<27> & !A<25> & 
+	!A<23> & !A<22> & !A<26> & !A<24> & !A<6> & !A<19> & !A<18> & 
+	!A<17> & !A<16> & !A<15> & !A<14> & !A<13> & !A<12> & !A<11> & 
+	!A<10> & !A<5> & !A<4> & !A<3> & !A<21> & !A<9> & !A<8> & 
+	!A<7> & !A<20> & D<16> & RW30;
+   p_vec.CLK = CLK100M;	// GCK    
+
+q1.D = cd<2>;
+   q1.CLK = CLK100M;	// GCK    
+
+rcnt<0>.T = rcnt<0> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & !rst2 & !rlong & 
+	cd<2> & !q1;
+   rcnt<0>.CLK = CLK100M;	// GCK    
+
+rcnt<1>.T = rcnt<1> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	!rst2 & !rlong & cd<2> & !q1;
+   rcnt<1>.CLK = CLK100M;	// GCK    
+
+rcnt<2>.T = rcnt<2> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<2>.CLK = CLK100M;	// GCK    
+
+rcnt<3>.T = rcnt<3> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<2> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<3>.CLK = CLK100M;	// GCK    
+
+rcnt<4>.T = rcnt<4> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<3> & rcnt<2> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<4>.CLK = CLK100M;	// GCK    
+
+rcnt<5>.T = rcnt<5> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<3> & rcnt<2> & rcnt<4> & !rst2 & !rlong & 
+	cd<2> & !q1;
+   rcnt<5>.CLK = CLK100M;	// GCK    
+
+rcnt<6>.T = rcnt<6> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<3> & rcnt<5> & rcnt<2> & rcnt<4> & !rst2 & 
+	!rlong & cd<2> & !q1;
+   rcnt<6>.CLK = CLK100M;	// GCK    
+
+rcnt<7>.T = rcnt<7> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<3> & rcnt<5> & rcnt<2> & rcnt<4> & 
+	rcnt<6> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<7>.CLK = CLK100M;	// GCK    
+
+rcnt<8>.T = rcnt<8> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<3> & rcnt<5> & rcnt<7> & rcnt<2> & 
+	rcnt<4> & rcnt<6> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<8>.CLK = CLK100M;	// GCK    
+
+rcnt<9>.T = rcnt<9> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<1> & rcnt<3> & rcnt<5> & rcnt<7> & rcnt<8> & 
+	rcnt<2> & rcnt<4> & rcnt<6> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<9>.CLK = CLK100M;	// GCK    
+
+rcnt<10>.T = rcnt<10> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<9> & rcnt<1> & rcnt<3> & rcnt<5> & rcnt<7> & 
+	rcnt<8> & rcnt<2> & rcnt<4> & rcnt<6> & !rst2 & !rlong & 
+	cd<2> & !q1;
+   rcnt<10>.CLK = CLK100M;	// GCK    
+
+rcnt<11>.T = rcnt<11> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<9> & rcnt<1> & rcnt<3> & rcnt<5> & rcnt<7> & 
+	rcnt<8> & rcnt<10> & rcnt<2> & rcnt<4> & rcnt<6> & !rst2 & 
+	!rlong & cd<2> & !q1;
+   rcnt<11>.CLK = CLK100M;	// GCK    
+
+rcnt<12>.T = rcnt<12> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<9> & rcnt<11> & rcnt<1> & rcnt<3> & rcnt<5> & 
+	rcnt<7> & rcnt<8> & rcnt<10> & rcnt<2> & rcnt<4> & 
+	rcnt<6> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<12>.CLK = CLK100M;	// GCK    
+
+rcnt<13>.T = rcnt<13> & rst2
+	# ec<0> & !ec<1> & !ec<2> & ec<3> & rcnt<0> & 
+	rcnt<9> & rcnt<11> & rcnt<12> & rcnt<1> & rcnt<3> & 
+	rcnt<5> & rcnt<7> & rcnt<8> & rcnt<10> & rcnt<2> & 
+	rcnt<4> & rcnt<6> & !rst2 & !rlong & cd<2> & !q1;
+   rcnt<13>.CLK = CLK100M;	// GCK    
+
+ready.D = inum<3> & inum<2> & inum<4>;
+   ready.CLK = CLK100M;	// GCK    
+
+rlong.D = rcnt<9> & rcnt<12> & rcnt<8> & rcnt<13>;
+   rlong.CLK = CLK100M;	// GCK    
+
+rq.D = rst2 & tick2
+	# rq & rst2 & !z_idle;
+   rq.CLK = CLK100M;	// GCK    
+
+rst1.D = RESET;
+   rst1.CLK = CLK100M;	// GCK    
+
+rst2.D = rst1;
+   rst2.CLK = CLK100M;	// GCK    
+
+t_ctl.D = t_ctl & !as2 & !as3
+	# !as2 & !p_cpu & as3 & p_ctl;
+   t_ctl.CLK = CLK100M;	// GCK    
+
+t_err.D = t_err & !as2 & !as3
+	# !as2 & as3 & p_cperr
+	# !as2 & !p_cpu & as3 & p_prot;
+   t_err.CLK = CLK100M;	// GCK    
+
+t_ide.D = t_ide & !as2 & !as3
+	# !as2 & !p_cpu & as3 & p_ide;
+   t_ide.CLK = CLK100M;	// GCK    
+
+t_mb.D = t_mb & !as2 & !as3
+	# !as2 & p_cpu & as3 & !p_cperr
+	# !as2 & !p_cpu & !p_ovl & as3 & !p_ctl & !p_ide & 
+	!p_ram;
+   t_mb.CLK = CLK100M;	// GCK    
+
+tc<0>.T = Vcc;
+   tc<0>.CLK = CLK100M;	// GCK    
+
+tc<1>.T = tc<0>;
+   tc<1>.CLK = CLK100M;	// GCK    
+
+tc<2>.T = tc<0> & tc<1>;
+   tc<2>.CLK = CLK100M;	// GCK    
+
+tc<3>.T = tc<0> & tc<2> & tc<1>;
+   tc<3>.CLK = CLK100M;	// GCK    
+
+tc<4>.T = tc<0> & tc<2> & tc<1> & tc<3>;
+   tc<4>.CLK = CLK100M;	// GCK    
+
+tc<5>.T = tc<0> & tc<2> & tc<1> & tc<3> & tc<4>;
+   tc<5>.CLK = CLK100M;	// GCK    
+
+tc<6>.T = tc<0> & tc<2> & tc<1> & tc<3> & tc<4> & tc<5>;
+   tc<6>.CLK = CLK100M;	// GCK    
+
+tc<7>.T = tc<0> & tc<2> & tc<1> & tc<3> & tc<4> & tc<5> & 
+	tc<6>;
+   tc<7>.CLK = CLK100M;	// GCK    
+
+tc<8>.T = tc<0> & tc<2> & tc<1> & tc<3> & tc<4> & tc<5> & 
+	tc<6> & tc<7>;
+   tc<8>.CLK = CLK100M;	// GCK    
+
+tick.D = tc<0> & tc<2> & tc<1> & tc<3> & tc<4> & tc<5> & 
+	tc<6> & tc<7> & tc<8>;
+   tick.CLK = CLK100M;	// GCK    
+
+tick2.D = tick;
+   tick2.CLK = CLK100M;	// GCK    
+
+vp1.D = VPA;
+   vp1.CLK = CLK100M;	// GCK    
+
+vp2.D = vp1;
+   vp2.CLK = CLK100M;	// GCK    
+
+wc<0>.D = rst2 & !wc<0> & z_wait;
+   wc<0>.CLK = CLK100M;	// GCK    
+
+wc<1>.D = rst2 & wc<0> & !wc<1> & z_wait
+	# rst2 & !wc<0> & wc<1> & z_wait;
+   wc<1>.CLK = CLK100M;	// GCK    
+
+wc<2>.D = rst2 & !wc<0> & z_wait & wc<2>
+	# rst2 & !wc<1> & z_wait & wc<2>
+	# rst2 & wc<0> & wc<1> & z_wait & !wc<2>;
+   wc<2>.CLK = CLK100M;	// GCK    
+
+wcap.D = !D<27>.PIN & !D<26>.PIN & !D<25>.PIN & !D<24>.PIN & 
+	!D<23>.PIN & !D<21>.PIN & !RW30 & D<22>.PIN & D<20>.PIN & 
+	t_ctl & !as2 & !ds2 & !as1 & !ctl_rdy & !D<28>.PIN & 
+	D<31>.PIN & D<30>.PIN & D<29>.PIN;
+   wcap.CLK = CLK100M;	// GCK    
+
+wdone.D = RW30 & z_xfer
+	# wdone & z_xfer
+	# CIIN & z_xfer & !ds2;
+   wdone.CLK = CLK100M;	// GCK    
+
+xold.D = z_xfer;
+   xold.CLK = CLK100M;	// GCK    
+
+z_act.D = CIIN & !rq & rst2 & ready & z_idle;
+   z_act.CLK = CLK100M;	// GCK    
+
+z_idle.D = !rst2
+	# z_pre
+	# !CIIN & !rq & z_idle
+	# !rq & !ready & z_idle
+	# wc<0> & wc<1> & z_wait & wc<2>;
+   z_idle.CLK = CLK100M;	// GCK    
+
+z_pre.D = !CIIN & rst2 & z_xfer & xold;
+   z_pre.CLK = CLK100M;	// GCK    
+
+z_rcd.D = rst2 & z_act;
+   z_rcd.CLK = CLK100M;	// GCK    
+
+z_wait.D = rq & rst2 & z_idle
+	# rst2 & !wc<0> & z_wait
+	# rst2 & !wc<1> & z_wait
+	# rst2 & z_wait & !wc<2>;
+   z_wait.CLK = CLK100M;	// GCK    
+
+z_xfer.D = rst2 & z_rcd
+	# CIIN & rst2 & z_xfer
+	# rst2 & z_xfer & !xold;
+   z_xfer.CLK = CLK100M;	// GCK    
 
 ******************************  Device Pin Out *****************************
 

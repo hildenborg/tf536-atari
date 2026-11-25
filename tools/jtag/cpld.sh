@@ -5,21 +5,25 @@
 #   cpld.sh svf     FILE.jed  generate FILE.svf for programming (no hardware)
 #   cpld.sh verify  FILE.jed  read back and compare (writes nothing)
 #   cpld.sh program FILE.jed  erase, program, then verify (asks first; -y skips)
+#   cpld.sh restore FILE.jed  the same for any other .jed, such as the board's
+#                             original firmware; nothing is checked against rtl/
 #
 # program also needs FILE.svf and FILE.sha256 next to FILE.jed. The checksums,
-# written by build.sh, tie both files to the sources in rtl/. The SVF is replayed through
+# written by build.sh, tie both files to the sources in rtl/. restore needs
+# only the .jed and makes its own SVF. The SVF is replayed through
 # svf2tcl.py, which repeats a program pulse until its check passes; OpenOCD's
 # own svf command would stop at the first failed check.
 set -euo pipefail
 
 here=$(cd "$(dirname "$0")" && pwd)
 root=$here/../..
-image=${IMG:-docker.io/terriblefire78/xilinx:v1}
+# terriblefire78/xilinx:v1, by digest so that the tools cannot change unnoticed
+image=${IMG:-docker.io/terriblefire78/xilinx@sha256:d609f62b3216f5034489fb798661472ab23f28f492cefc818a02e1bcda49a44a}
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
 die() { echo "cpld.sh: $*" >&2; exit 1; }
-usage() { sed -n '4,7s/^# *//p' "$0" >&2; exit 2; }
+usage() { sed -n '4,9s/^#   //p' "$0" >&2; exit 2; }
 
 ocd() {
     timeout 280 openocd -f interface/altera-usb-blaster.cfg \
@@ -60,9 +64,14 @@ make_verify() {
         die "unexpected verify file from iMPACT"
 }
 
-make_svf() {
+# gen_svf FILE.jed: write $tmp/prog.svf and its replay script $tmp/prog.tcl
+gen_svf() {
     impact_svf "$1" prog.svf 'program -e -p 1'
     python3 -I "$here/svf2tcl.py" "$tmp/prog.svf" "$tmp/prog.tcl"   # must convert
+}
+
+make_svf() {
+    gen_svf "$1"
     cp "$tmp/prog.svf" "${1%.jed}.svf"
     if [ -f "$sums" ]; then     # replace only the SVF's entry
         local name got
@@ -85,7 +94,7 @@ do_verify() {
 cmd=${1:-}; jed=${2:-}
 case $cmd in
 id) check_id; exit ;;
-svf|verify|program) ;;
+svf|verify|program|restore) ;;
 *) usage ;;
 esac
 
@@ -98,23 +107,27 @@ if [ "$cmd" = svf ]; then
     exit
 fi
 
+# Generate everything before touching the chip
 if [ "$cmd" = program ]; then
     svf=${jed%.jed}.svf
-    for f in "$svf" "$sums"; do [ -f "$f" ] || die "missing $f"; done
+    [ -f "$sums" ] || die "missing $sums, which build.sh writes; for a .jed from elsewhere use: cpld.sh restore $jed"
+    [ -f "$svf" ] || die "missing $svf; run: cpld.sh svf $jed"
     for src in "$root/rtl/tf536atari.v" "$root/rtl/tf536atari.ucf"; do
         [ -f "$src" ] || die "missing $src"
         sum_ok "$src" || die "$jed was not built from this $src; rebuild"
     done
     sum_ok "$jed" || die "$jed does not match $sums; rebuild"
     sum_ok "$svf" || die "$svf does not match $sums; run: cpld.sh svf $jed"
-    # Generate everything before touching the chip
     python3 -I "$here/svf2tcl.py" "$svf" "$tmp/prog.tcl"
+elif [ "$cmd" = restore ]; then
+    gen_svf "$jed"
 fi
 make_verify "$jed"
 check_id
 
-if [ "$cmd" = program ]; then
+if [ "$cmd" = program ] || [ "$cmd" = restore ]; then
     if [ "${3:-}" != -y ]; then
+        [ "$cmd" = program ] || echo "$(basename "$jed") is not checked against rtl/."
         read -r -p "Erase and program with $(basename "$jed")? [y/N] " a
         [ "$a" = y ] || die "cancelled"
     fi

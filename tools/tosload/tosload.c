@@ -2,7 +2,8 @@
  * TOSLOAD - run EmuTOS, or the machine's own TOS, from SDRAM using the TF536 ST ROM shadow.
  *
  * Requires the Atari ST CPLD firmware with the ROM shadow (control register
- * at $05000000) and a 68030. See cpld/rtl/main_top.v for the hardware side.
+ * at $05000000) and a 68030. See sections 4 and 10 of FIRMWARE_SPEC.md for
+ * the hardware side.
  *
  * Two modes, picked automatically:
  *
