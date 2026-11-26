@@ -17,6 +17,7 @@ behaviour of the existing firmware. It has been reviewed by Mikael Hildenborg.
 | `sim/tb.v`, `sim/run.sh` | Bench; `run.sh matrix`, `long`, `mutate`, `gate` or `all`; add `fs` for the variant. Needs Icarus Verilog and Python 3 |
 | `sim/abel2v.py` | Converts a fitter report to a gate model for `run.sh gate` |
 | `tools/jtag/` | Programming scripts |
+| `tools/berrtest/` | BERRTEST.PRG, which makes bus errors for measuring BERR timing; see its README |
 | `tools/tosload/` | TOSLOAD.PRG, which loads a TOS image into the ROM shadow and registers the Alt-RAM. Usage is at the top of `tosload.c`; `make` builds it with an Atari cross-compiler |
 
 ## Programming
