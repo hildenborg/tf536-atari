@@ -62,8 +62,8 @@ mutate(){
  mut coproc   0 's/~(A\[17\] & A\[16\])/~A[17]/' &
  if [ -n "$FS" ]; then
   mut slowrst  1 's/slow <= ~rst2 | /slow <= /' &
-  mut berrhold 0 's/slow <= ~rst2 | ~be1 | m_as/slow <= ~rst2/' &
-  mut berrslow 0 's/ | ~be1 | m_as/ | ~be1/' &
+  # No faults for the 25 MHz clock under BERR or socket strobes: the BR30 hold
+  # covers the same cases in the bench, and the slow clock is kept as margin.
   mut clkmax   0 's/tgl  <= ~slow | ~tgl/tgl <= (~slow \& ~t_mb) | (tc[2:0] == 0)/' &
   mut nolatch  0 's/else if (~cap & ~iend) dl/else dl/' &
   mut early030 0 's/(o1 & ~m_av)) dsk/(m_ack \& ~m_av)) dsk/' &
@@ -71,6 +71,8 @@ mutate(){
   mut latedoe  0 's/(o2 & RW30 & ~m_av)/(o4 \& RW30 \& ~m_av)/' &
   mut earlydoe 0 's/(o2 & RW30 & ~m_av)/(m_ack \& RW30 \& ~m_av)/' &
   mut bgackhi  0 's/BGACK & ~bgk/BGACK/' &
+  mut berrbr   0 's/BR & ~bh & (BERR | ~m_as)/BR/' &
+  mut bgnobr   0 's/ & ~br1 & / \& /' &
   mut wrhold   0 's/busen & ~RW30 & ~o4/busen \& ~RW30 \& ~o0/' &
   mut ashigh   0 's/hicnt\[3\] & hicnt\[2\] & hicnt\[1\]/1/' 's/mrise & arm/(mrise|mfall) \& arm/' &
   mut iderd    0 's/ide_oe   = t_ide & run & RW30 & (hc == 5)/ide_oe = 0/' &

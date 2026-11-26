@@ -55,7 +55,7 @@ reg ba1 = 1, ba2 = 1;
 reg bg1 = 1, bg2 = 1, bg3 = 1;
 reg cq1 = 1, cq2 = 1;
 reg iw1 = 1, iw2 = 1;
-reg be1 = 1;
+reg be1 = 1, br1 = 1;
 always @(posedge clk) begin
     as1 <= AS30;    as2 <= as1;   as3 <= as2;   as4 <= as3;
     ds1 <= DS30;    ds2 <= ds1;
@@ -66,7 +66,7 @@ always @(posedge clk) begin
     bg1 <= BG30;    bg2 <= bg1;   bg3 <= bg2;
     cq1 <= CBREQ;   cq2 <= cq1;
     iw1 <= IDEWAIT; iw2 <= iw1;
-    be1 <= BERR;
+    be1 <= BERR;    br1 <= BR;
 end
 wire run = ~as1 & ~as2;             // inside a CPU cycle, not at its tail
 
@@ -211,13 +211,19 @@ assign AVEC = ~av;
 // --------------------------------------------------------------- arbitration 8
 // BGACK reaches the CPU at once but ends 150 ns late: at 50 MHz the CPU would
 // otherwise drive the address lines only 20 ns after the other master.
-reg bgo = 1, drv = 0, bgk = 0;
+// BERR ending a socket cycle: the socket releases BERR up to about 170 ns after
+// AS (measured 70-80 ns on an STE, but GLUE releases it on a CLK8 rising edge,
+// which the 68030's AS is not in step with). BR30 is held from BERR low until it
+// is high again, so the CPU finishes the cycle, grants the bus and starts no new
+// cycle meanwhile. The socket gets BG only while it asks with BR.
+reg bgo = 1, drv = 0, bgk = 0, bh = 0;
 always @(posedge clk) begin
-    bgo <= ~(~bg3 & ~bg2 & as2 & as3 & ~busen);
+    bh  <= ~be1 & (m_as | bh);
+    bgo <= ~(~bg3 & ~bg2 & ~br1 & as2 & as3 & ~busen & ~bh);
     drv <= bgo & ba2;
     bgk <= ~ba2 | (bgk & ~hiok);
 end
-assign BR30    = BR;
+assign BR30    = BR & ~bh & (BERR | ~m_as);
 assign BGACK30 = BGACK & ~bgk;
 assign BG      = bgo;
 wire own = drv & BGACK;

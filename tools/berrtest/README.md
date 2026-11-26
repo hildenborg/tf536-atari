@@ -1,8 +1,8 @@
 # BERRTEST.PRG
 
 Makes bus errors on purpose so that a logic analyzer can show how long the
-machine holds BERR after AS. The full-speed firmware variant needs this to be
-under about 50 ns (section 16 of the specification).
+machine holds BERR after AS. The full-speed firmware variant is designed
+around the result (section 16 of the specification, and `measurements/`).
 
 It tries `$FFFA40`, `$FF8C80` and `$FF8E00`, which nothing answers on a plain ST or
 STE, and prints which give a bus error. Then it reads the first such address in a

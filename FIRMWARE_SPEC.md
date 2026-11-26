@@ -622,7 +622,7 @@ sections 1-15 except where stated here.
 | 5.1 | 25 MHz while RESET is low: 512 clocks are then 20.5 us, longer than the 68000's 124 clocks (15.5 us, STD). RESET cannot be stretched, because the CPU shares it |
 | 6.1 | The 68000 cycle ends first: read data are captured at the end of S6, then AS, UDS and LDS go off, then DSACK1 or AVEC. Address, FC and R/W stay for 30 ns after AS, and write data for 30 ns after UDS/LDS |
 | 6.1 | If BERR ends the cycle, address and R/W must not change before AS is off; the 30 ns hold is not required |
-| 6.1 | A BERR released up to 50 ns after AS30 rises must not affect the next cycle (the socket's real figure is not measured) |
+| 6.1 | The socket may release BERR up to 200 ns after AS (an STE measured 70-80 ns; GLUE releases it on a CLK8 rising edge, so about 170 ns is possible). From BERR low in a socket cycle until it is high again, BR30 is asserted so the CPU starts no cycle. BG goes to the socket only while its BR is asserted |
 | 7.2 | Data are captured before E falls, and strobes go off after it |
 | 8 | BGACK reaches the CPU at once but is released at least 140 ns late |
 | 11.2 | Reads: capture the data, raise IOR, then DSACK1 with the captured data |

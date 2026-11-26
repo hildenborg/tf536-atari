@@ -9,7 +9,7 @@
 `endif
 module tb;
 parameter PHASE=1, DLY=1; parameter real TAS=5.0, TSK=62.35;
-parameter LONG=1; parameter real BH=50;   // BERR release after AS30, full-speed variant
+parameter LONG=1; parameter real BH=200;  // BERR release after AS30, full-speed variant (STE: 70-80 ns after AS, up to ~170)
 localparam real OF = DLY?5.8:0.2, OS = DLY?10.3:0.2, OC=DLY?18.0:0.2,
                 OA = DLY?14.5:0.2, IN = DLY?3.5:0.1, OR = `FSV?OC:OA-IN, CR=DLY?10.0:4.0;
 integer errs=0, test=0; reg quiet=0;
@@ -100,6 +100,7 @@ always @(negedge as) if($time>100) begin
 always @(posedge as) begin tasr=$realtime; if(!`FSV && !AS30) fail("AS off before AS30"); end
 integer lterm=0;    // how the latest CPU cycle ended
 realtime tbg=0; always @(posedge bgack) tbg=$realtime;
+always @(negedge bg) if(br!==0) fail("BG to the socket without BR");
 always @(posedge as) if(`FSV && $time>100 && !AS30 && !vma && vmao!==1'bz && E) fail("strobes off before E fell");
 always @(posedge bgack30) if(`FSV && $time>100 && $realtime-tbg<140) fail("BGACK30 released early");
 wire anyds=uds&lds;
@@ -198,11 +199,17 @@ always @(negedge ior) begin nior=nior+1; if(!bsen||!roe||cdoe) fail("IOR with ot
 // ---- 68030
 wire dsk1_d,st_d,berr_d,av_d,cbk_d,cii_d; assign #0.1 dsk1_d=dsk1; assign #0.1 st_d=sterm; assign #0.1 berr_d=berr; assign #0.1 av_d=avec; assign #0.1 cbk_d=cback; assign #0.1 cii_d=ciin;
 always @(posedge cclk) if(AS30 && cdoe) begin #3 cdoe=0; end
-reg [31:0] q[0:3]; integer nq, term; reg cii; integer ncb; realtime tcyc,tend; integer lim;
+reg [31:0] q[0:3]; integer nq, term, ngr=0; reg cii; integer ncb; realtime tcyc,tend; integer lim;
 task cyc(input [31:0] a,input [2:0] fc,input rw,input [1:0] siz,input [31:0] wd,input bu);
  reg done,sy,first; begin
   sawu=0;sawl=0;sawas=0;sawvma=0;nq=0;term=0;done=0;first=1;lim=0;ncb=0;
-  @(posedge cclk); #3 A=a; FC=fc; SIZ=siz; RW=rw;
+  @(posedge cclk);
+`ifdef FS
+  if(br30===0 && br===1) begin // the 68030 grants instead of starting a cycle
+   #3 BG30=0; ngr=ngr+1; wait(br30!==0); @(posedge cclk); #3 BG30=1; @(posedge cclk); end
+  if(berr!==1) fail("cycle started under BERR");
+`endif
+  #3 A=a; FC=fc; SIZ=siz; RW=rw;
   @(negedge cclk); #(TAS) AS30=0; tcyc=$realtime; if(rw) DS30=0; if(bu) CBREQ=0;
   while(!done) begin
    @(posedge cclk); lim=lim+1; sy=(st_d===0);
@@ -265,7 +272,8 @@ initial begin
  fork rd(32'h00f70000); begin #5000 if(AS30) fail("ended without DTACK"); xberr=1; wait(AS30); #20 xberr=0; end join exp(3);
  rd(32'h12010); exp(1); expw(mbm[16'h9008]);
  if(`FSV) for(i=0;i<40;i=i+1) begin // the socket releases BERR late
-  fork rd(32'h00f70000); begin #(1000+i*3) xberr=1; wait(AS30); fork #(BH) xberr=0; begin exp(3); rd(32'h12010); exp(1); expw(mbm[16'h9008]); end join end join end
+  fork rd(32'h00f70000); begin #(1000+i*3) xberr=1; wait(AS30); fork #(BH) xberr=0; begin exp(3); rd(32'h12010); exp(1); expw(mbm[16'h9008]); end join end join
+ if(`FSV && BH>30 && ngr==0) fail("no grant while BERR held"); end
  test=4;
  for(i=0;i<25;i=i+1) begin #($random&1023);
   rd(32'hfffffc00); exp(1); if(!sawvma) fail("no VMA"); expw(mbm[16'hfe00]);

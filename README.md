@@ -45,10 +45,12 @@ stays at 25-50 MHz and is made for a 50 MHz 68030. It is described in section 16
 of the specification. A motherboard read still takes 4 clocks (499 ns); an IDE
 data cycle takes 800 ns instead of 900.
 
-Start with phase 1, as above. Its open question is how long the machine holds BERR after
-AS: in simulation up to 70 ns after AS30 rises is tolerated, against a datasheet
-limit of 15 ns. If it is longer, the cycle after a bus error fails too, so test
-software that probes for missing hardware. A 33 MHz or slower part is out of
+Start with phase 1, as above. A plain STE holds BERR 70-80 ns after AS
+(`measurements/`), and with the 68030's AS not in step with CLK8 it can be about
+170 ns. The 68030 allows 15 ns. The variant therefore holds BR30 while BERR is
+low, so the CPU starts no cycle until it is gone; simulation passes with BERR
+held 0-400 ns. Test software that probes for missing hardware, because this
+relies on how the 68030 answers BR. A 33 MHz or slower part is out of
 specification at 50 MHz with either firmware.
 
 ## Timing (fitter report, worst case)

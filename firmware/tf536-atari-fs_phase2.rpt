@@ -1,7 +1,7 @@
  
 cpldfit:  version K.31                              Xilinx Inc.
                                   Fitter Report
-Design Name: tf536atari                          Date: 11-25-2026,  3:26PM
+Design Name: tf536atari                          Date: 11-26-2026,  4:41PM
 Device Used: XC95288XL-10-TQ144
 Fitting Status: Successful
 
@@ -9,7 +9,7 @@ Fitting Status: Successful
 
 Macrocells     Product Terms    Function Block   Registers      Pins           
 Used/Tot       Used/Tot         Inps Used/Tot    Used/Tot       Used/Tot       
-210/288 ( 73%) 455 /1440 ( 32%) 473/864 ( 55%)   201/288 ( 70%) 113/117 ( 97%)
+212/288 ( 74%) 459 /1440 ( 32%) 480/864 ( 56%)   203/288 ( 70%) 113/117 ( 97%)
 
 ** Function Block Resources **
 
@@ -17,22 +17,22 @@ Function    Mcells      FB Inps     Pterms      IO
 Block       Used/Tot    Used/Tot    Used/Tot    Used/Tot    
 FB1          11/18       32/54       21/90       8/ 8*
 FB2          18/18*      32/54       38/90      10/10*
-FB3          18/18*      30/54       34/90       4/ 5
-FB4          18/18*      33/54       47/90       6/ 6*
-FB5          15/18       32/54       49/90       6/ 8
+FB3          18/18*      29/54       26/90       4/ 5
+FB4          16/18       33/54       38/90       6/ 6*
+FB5          13/18       32/54       46/90       6/ 8
 FB6           4/18       32/54        9/90       0/ 8
-FB7           6/18       32/54       20/90       4/ 4*
-FB8          10/18       32/54       20/90       0/ 5
+FB7           8/18       32/54       24/90       4/ 4*
+FB8          18/18*      27/54       27/90       0/ 5
 FB9          18/18*      32/54       55/90       9/ 9*
-FB10         18/18*      21/54       19/90       0/10
-FB11         18/18*      32/54       39/90       3/ 7
-FB12          5/18        5/54        5/90       0/ 6
+FB10          2/18       32/54        4/90       0/10
+FB11         18/18*      32/54       38/90       3/ 7
+FB12          7/18        7/54        7/90       0/ 6
 FB13         15/18       32/54       36/90       4/ 6
-FB14         13/18       32/54       19/90       1/ 8
-FB15          6/18       32/54       10/90       3/ 9
-FB16         17/18       32/54       34/90       5/ 8
+FB14         10/18       32/54       15/90       1/ 8
+FB15         18/18*      32/54       36/90       3/ 9
+FB16         18/18*      32/54       39/90       5/ 8
              -----       -----       -----      -----    
-            210/288     473/864     455/1440    63/117
+            212/288     480/864     459/1440    63/117
 
 * - Resource is exhausted
 
@@ -57,7 +57,7 @@ GSR           :    0           0    |
 
 ** Power Data **
 
-There are 210 macrocells in high performance mode (MCHP).
+There are 212 macrocells in high performance mode (MCHP).
 There are 0 macrocells in low power mode (MCLP).
 End of Mapped Resource Summary
 **************************  Errors and Warnings  ***************************
@@ -134,7 +134,7 @@ D<23>               4     7     FB9_11  56   I/O     I/O     STD  FAST RESET
 IOR                 1     2     FB9_12  57   I/O     O       STD  SLOW 
 IOW                 3     15    FB9_14  58   I/O     O       STD  SLOW SET
 IDECS1              1     2     FB9_17  59   I/O     O       STD  SLOW SET
-BG                  1     5     FB11_5  61   I/O     O       STD  SLOW SET
+BG                  1     7     FB11_5  61   I/O     O       STD  SLOW SET
 E                   1     1     FB11_14 69   I/O     O       STD  SLOW RESET
 VMA                 3     12    FB11_17 70   I/O     O       STD  SLOW SET
 LDS                 2     5     FB13_11 75   I/O     O       STD  SLOW 
@@ -149,9 +149,9 @@ STERM               5     13    FB16_2  91   I/O     O       STD  FAST SET
 DSACK1              4     10    FB16_3  92   I/O     O       STD  FAST SET
 DSACK0              0     0     FB16_5  93   I/O     O       STD  FAST 
 CLKCPU              1     1     FB16_6  94   I/O     O       STD  FAST RESET
-BR30                1     1     FB16_11 97   I/O     O       STD  SLOW 
+BR30                2     4     FB16_11 97   I/O     O       STD  SLOW 
 
-** 147 Buried Nodes **
+** 149 Buried Nodes **
 
 Signal              Total Total Loc     Pwr  Reg Init
 Name                Pts   Inps          Mode State
@@ -166,60 +166,66 @@ col                 1     3     FB2_11  STD  RESET
 rq                  2     4     FB2_13  STD  RESET
 z_xfer              3     5     FB2_16  STD  RESET
 wdone               3     5     FB2_18  STD  RESET
-vp2                 1     1     FB3_1   STD  SET
+vp1                 1     1     FB3_1   STD  SET
 tick                1     9     FB3_3   STD  RESET
-tc<8>               1     8     FB3_4   STD  RESET
-tc<7>               1     7     FB3_5   STD  RESET
-tc<6>               1     6     FB3_6   STD  RESET
-tc<5>               1     5     FB3_7   STD  RESET
-tc<4>               1     4     FB3_8   STD  RESET
-tc<3>               1     3     FB3_9   STD  RESET
-inum<4>             2     7     FB3_11  STD  RESET
-i_we                2     5     FB3_13  STD  RESET
-inum<3>             3     7     FB3_14  STD  RESET
-i_cas               3     5     FB3_16  STD  RESET
-inum<2>             4     7     FB3_17  STD  RESET
-inum<1>             4     7     FB3_18  STD  RESET
-wc<0>               1     3     FB4_1   STD  RESET
-as3                 1     1     FB4_3   STD  SET
-as2                 1     1     FB4_4   STD  SET
-as1                 1     1     FB4_7   STD  SET
-wc<1>               2     4     FB4_9   STD  RESET
-b<1>                2     6     FB4_10  STD  RESET
-wc<2>               3     5     FB4_11  STD  RESET
-fin                 3     8     FB4_13  STD  RESET
-z_wait              4     7     FB4_15  STD  RESET
-gap                 4     7     FB4_16  STD  RESET
-b<0>                4     7     FB4_17  STD  RESET
+tc<6>               1     6     FB3_4   STD  RESET
+tc<5>               1     5     FB3_5   STD  RESET
+tc<4>               1     4     FB3_6   STD  RESET
+tc<3>               1     3     FB3_7   STD  RESET
+tc<2>               1     2     FB3_8   STD  RESET
+tc<1>               1     1     FB3_9   STD  RESET
+rst2                1     1     FB3_11  STD  RESET
+rst1                1     1     FB3_13  STD  RESET
+ifin                1     5     FB3_14  STD  RESET
+hc<2>               2     5     FB3_16  STD  RESET
+hc<1>               2     4     FB3_17  STD  RESET
+hc<0>               3     5     FB3_18  STD  RESET
+wc<0>               1     3     FB4_4   STD  RESET
+tc<0>               0     0     FB4_7   STD  RESET
+p_u                 1     1     FB4_9   STD  RESET
+wc<1>               2     4     FB4_10  STD  RESET
+ctl_rdy             2     5     FB4_11  STD  RESET
+berr_rnm0           2     4     FB4_13  STD  RESET
+arm                 2     4     FB4_15  STD  RESET
+wc<2>               3     5     FB4_16  STD  RESET
+z_wait              4     7     FB4_17  STD  RESET
 z_idle              5     10    FB4_18  STD  SET
-q1                  1     1     FB5_4   STD  RESET
-ec<0>               1     2     FB5_5   STD  RESET
-x1                  2     3     FB5_6   STD  RESET
+q1                  1     1     FB5_6   STD  RESET
+x1                  2     3     FB5_7   STD  RESET
+o1                  2     2     FB5_9   STD  RESET
+o0                  3     7     FB5_11  STD  RESET
+m_s4                3     7     FB5_13  STD  RESET
 
 Signal              Total Total Loc     Pwr  Reg Init
 Name                Pts   Inps          Mode State
-o1                  2     2     FB5_7   STD  RESET
-cap                 2     4     FB5_9   STD  RESET
-o0                  3     7     FB5_11  STD  RESET
-m_s4                3     7     FB5_13  STD  RESET
 m_as                4     10    FB5_16  STD  RESET
 m_ds                5     13    FB5_18  STD  RESET
 p_vec               1     31    FB6_15  STD  RESET
 p_ctl               1     16    FB6_16  STD  RESET
 p_ide               2     26    FB6_17  STD  RESET
 p_ovl               5     32    FB6_18  STD  RESET
-x3                  2     2     FB7_17  STD  RESET
-rcnt<9>             2     18    FB7_18  STD  RESET
-p_cpu               1     3     FB8_9   STD  RESET
-cd_0                1     1     FB8_10  STD  RESET
-c3                  1     1     FB8_11  STD  RESET
-shen                2     4     FB8_12  STD  RESET
-sh512               2     4     FB8_13  STD  RESET
+rcnt<9>             2     18    FB7_14  STD  RESET
+rcnt<8>             2     17    FB7_16  STD  RESET
+rcnt<7>             2     16    FB7_17  STD  RESET
+rcnt<10>            2     19    FB7_18  STD  RESET
+tgl                 1     2     FB8_1   STD  SET
+p_cpu               1     3     FB8_2   STD  RESET
+iw1                 1     1     FB8_3   STD  SET
+dt1                 1     1     FB8_4   STD  SET
+drv                 1     2     FB8_5   STD  RESET
+cd_0                1     1     FB8_6   STD  RESET
+c3                  1     1     FB8_7   STD  RESET
+bg3                 1     1     FB8_8   STD  SET
+bg2                 1     1     FB8_9   STD  SET
+bg1                 1     1     FB8_10  STD  SET
+ba2                 1     1     FB8_11  STD  SET
+x3                  2     2     FB8_12  STD  RESET
+x2                  2     2     FB8_13  STD  RESET
 p_cperr             2     7     FB8_14  STD  RESET
 cf                  2     5     FB8_15  STD  RESET
-lock<1>             3     5     FB8_16  STD  RESET
-lock<0>             3     5     FB8_17  STD  RESET
-imin                3     14    FB8_18  STD  RESET
+bgk                 2     3     FB8_16  STD  RESET
+lock<1>             3     5     FB8_17  STD  RESET
+lock<0>             3     5     FB8_18  STD  RESET
 ic<7>               2     9     FB9_1   STD  RESET
 ic<0>               2     4     FB9_4   STD  RESET
 ior_rnm0            3     15    FB9_7   STD  RESET
@@ -229,47 +235,33 @@ ic<4>               3     8     FB9_13  STD  RESET
 ic<3>               3     7     FB9_15  STD  RESET
 ic<1>               3     5     FB9_16  STD  RESET
 ic<2>               4     6     FB9_18  STD  RESET
-tgl                 1     2     FB10_1  STD  SET
-iw1                 1     1     FB10_2  STD  SET
-e1                  1     1     FB10_3  STD  RESET
-dt2                 1     1     FB10_4  STD  SET
-dt1                 1     1     FB10_5  STD  SET
-ds2                 1     1     FB10_6  STD  SET
-ds1                 1     1     FB10_7  STD  SET
-drv                 1     2     FB10_8  STD  RESET
-cq2                 1     1     FB10_9  STD  SET
+wcap                1     18    FB10_17 STD  RESET
+imin                3     14    FB10_18 STD  RESET
+ec<0>               1     2     FB11_1  STD  RESET
 
 Signal              Total Total Loc     Pwr  Reg Init
 Name                Pts   Inps          Mode State
-cq1                 1     1     FB10_10 STD  SET
-cd<1>               1     1     FB10_11 STD  RESET
-c2                  1     1     FB10_12 STD  RESET
-c1                  1     1     FB10_13 STD  RESET
-bg3                 1     1     FB10_14 STD  SET
-bg2                 1     1     FB10_15 STD  SET
-bg1                 1     1     FB10_16 STD  SET
-be1                 1     1     FB10_17 STD  SET
-bgk                 2     3     FB10_18 STD  RESET
-rcnt<8>             2     17    FB11_1  STD  RESET
-rcnt<7>             2     16    FB11_2  STD  RESET
-rcnt<6>             2     15    FB11_3  STD  RESET
-rcnt<5>             2     14    FB11_4  STD  RESET
-rcnt<4>             2     13    FB11_6  STD  RESET
-rcnt<3>             2     12    FB11_7  STD  RESET
-rcnt<2>             2     11    FB11_8  STD  RESET
-rcnt<1>             2     10    FB11_9  STD  RESET
-rcnt<0>             2     9     FB11_10 STD  RESET
-m_av                2     6     FB11_11 STD  RESET
-ec<2>               2     4     FB11_12 STD  RESET
-e0                  2     3     FB11_13 STD  RESET
+rcnt<6>             2     15    FB11_2  STD  RESET
+rcnt<5>             2     14    FB11_3  STD  RESET
+rcnt<4>             2     13    FB11_4  STD  RESET
+rcnt<3>             2     12    FB11_6  STD  RESET
+rcnt<2>             2     11    FB11_7  STD  RESET
+rcnt<1>             2     10    FB11_8  STD  RESET
+rcnt<0>             2     9     FB11_9  STD  RESET
+m_av                2     6     FB11_10 STD  RESET
+ec<2>               2     4     FB11_11 STD  RESET
+e0                  2     3     FB11_12 STD  RESET
+cap                 2     4     FB11_13 STD  RESET
 ec<3>               3     6     FB11_15 STD  RESET
 ec<1>               3     6     FB11_16 STD  RESET
 m_ack               4     13    FB11_18 STD  RESET
-vp1                 1     1     FB12_14 STD  SET
-rst2                1     1     FB12_15 STD  RESET
-rst1                1     1     FB12_16 STD  RESET
-p_u                 1     1     FB12_17 STD  RESET
-iw2                 1     1     FB12_18 STD  SET
+ds2                 1     1     FB12_12 STD  SET
+ds1                 1     1     FB12_13 STD  SET
+cq2                 1     1     FB12_14 STD  SET
+cq1                 1     1     FB12_15 STD  SET
+cd<1>               1     1     FB12_16 STD  RESET
+c2                  1     1     FB12_17 STD  RESET
+c1                  1     1     FB12_18 STD  RESET
 hiok                1     5     FB13_4  STD  RESET
 t_ide               2     5     FB13_5  STD  RESET
 t_ctl               2     5     FB13_6  STD  RESET
@@ -281,36 +273,46 @@ t_err               3     6     FB13_12 STD  RESET
 iend                3     6     FB13_13 STD  RESET
 hicnt<1>            3     6     FB13_16 STD  RESET
 hicnt<2>            4     6     FB13_18 STD  RESET
+rlong               1     4     FB14_9  STD  RESET
+iw2                 1     1     FB14_11 STD  SET
+e1                  1     1     FB14_12 STD  RESET
+dt2                 1     1     FB14_13 STD  SET
+shen                2     4     FB14_14 STD  RESET
+sh512               2     4     FB14_15 STD  RESET
+rcnt<13>            2     22    FB14_16 STD  RESET
+rcnt<12>            2     21    FB14_17 STD  RESET
 
 Signal              Total Total Loc     Pwr  Reg Init
 Name                Pts   Inps          Mode State
-tick2               1     1     FB14_6  STD  RESET
-tc<2>               1     2     FB14_7  STD  RESET
-tc<1>               1     1     FB14_8  STD  RESET
-rlong               1     4     FB14_9  STD  RESET
-ready               1     3     FB14_11 STD  RESET
-i_ras               1     2     FB14_12 STD  RESET
-ba2                 1     1     FB14_13 STD  SET
-rcnt<13>            2     22    FB14_14 STD  RESET
-rcnt<12>            2     21    FB14_15 STD  RESET
-rcnt<11>            2     20    FB14_16 STD  RESET
-rcnt<10>            2     19    FB14_17 STD  RESET
-inum<0>             3     6     FB14_18 STD  RESET
-wcap                1     18    FB15_14 STD  RESET
-slow                1     3     FB15_16 STD  SET
-x2                  2     2     FB15_18 STD  RESET
-xold                1     1     FB16_4  STD  RESET
-tc<0>               0     0     FB16_7  STD  RESET
-ifin                1     5     FB16_8  STD  RESET
-o3                  2     2     FB16_9  STD  RESET
-o2                  2     2     FB16_10 STD  RESET
-hc<2>               2     5     FB16_12 STD  RESET
-hc<1>               2     4     FB16_13 STD  RESET
-ctl_rdy             2     5     FB16_14 STD  RESET
-berr_rnm0           2     4     FB16_15 STD  RESET
-arm                 2     4     FB16_16 STD  RESET
-hc<0>               3     5     FB16_17 STD  RESET
-doe                 4     13    FB16_18 STD  RESET
+rcnt<11>            2     20    FB14_18 STD  RESET
+vp2                 1     1     FB15_1  STD  SET
+tick2               1     1     FB15_2  STD  RESET
+tc<8>               1     8     FB15_3  STD  RESET
+tc<7>               1     7     FB15_4  STD  RESET
+slow                1     3     FB15_5  STD  SET
+ready               1     3     FB15_6  STD  RESET
+i_ras               1     2     FB15_7  STD  RESET
+inum<4>             2     7     FB15_8  STD  RESET
+i_we                2     5     FB15_9  STD  RESET
+bh                  2     3     FB15_10 STD  RESET
+inum<3>             3     7     FB15_11 STD  RESET
+inum<0>             3     6     FB15_13 STD  RESET
+i_cas               3     5     FB15_14 STD  RESET
+inum<2>             4     7     FB15_16 STD  RESET
+inum<1>             4     7     FB15_18 STD  RESET
+xold                1     1     FB16_1  STD  RESET
+br1                 1     1     FB16_4  STD  SET
+be1                 1     1     FB16_7  STD  SET
+as3                 1     1     FB16_8  STD  SET
+as2                 1     1     FB16_9  STD  SET
+as1                 1     1     FB16_10 STD  SET
+o3                  2     2     FB16_12 STD  RESET
+o2                  2     2     FB16_13 STD  RESET
+b<1>                2     6     FB16_14 STD  RESET
+fin                 3     8     FB16_15 STD  RESET
+gap                 4     7     FB16_16 STD  RESET
+doe                 4     13    FB16_17 STD  RESET
+b<0>                4     7     FB16_18 STD  RESET
 
 ** 50 Inputs **
 
@@ -497,61 +499,61 @@ wdone                .............XX...X.......X....X........ 5
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB3  ***********************************
-Number of function block inputs used/remaining:               30/24
-Number of signals used by logic mapping into function block:  30
+Number of function block inputs used/remaining:               29/25
+Number of signals used by logic mapping into function block:  29
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-vp2                   1       0     0   4     FB3_1         (b)     (b)
+vp1                   1       0     0   4     FB3_1         (b)     (b)
 ARAM<3>               2       0     0   3     FB3_2   28    I/O     O
 tick                  1       0     0   4     FB3_3         (b)     (b)
-tc<8>                 1       0     0   4     FB3_4         (b)     (b)
-tc<7>                 1       0     0   4     FB3_5         (b)     (b)
-tc<6>                 1       0     0   4     FB3_6         (b)     (b)
-tc<5>                 1       0     0   4     FB3_7         (b)     (b)
-tc<4>                 1       0     0   4     FB3_8         (b)     (b)
-tc<3>                 1       0     0   4     FB3_9         (b)     (b)
+tc<6>                 1       0     0   4     FB3_4         (b)     (b)
+tc<5>                 1       0     0   4     FB3_5         (b)     (b)
+tc<4>                 1       0     0   4     FB3_6         (b)     (b)
+tc<3>                 1       0     0   4     FB3_7         (b)     (b)
+tc<2>                 1       0     0   4     FB3_8         (b)     (b)
+tc<1>                 1       0     0   4     FB3_9         (b)     (b)
 AVEC                  2       0     0   3     FB3_10  30    GCK/I/O O
-inum<4>               2       0     0   3     FB3_11        (b)     (b)
+rst2                  1       0     0   4     FB3_11        (b)     (b)
 DQM<2>                3       0     0   2     FB3_12  31    I/O     O
-i_we                  2       0     0   3     FB3_13        (b)     (b)
-inum<3>               3       0     0   2     FB3_14  32    GCK/I/O GCK/I
+rst1                  1       0     0   4     FB3_13        (b)     (b)
+ifin                  1       0     0   4     FB3_14  32    GCK/I/O GCK/I
 IDECS0                1       0     0   4     FB3_15  33    I/O     O
-i_cas                 3       0     0   2     FB3_16        (b)     (b)
-inum<2>               4       0     0   1     FB3_17        (b)     (b)
-inum<1>               4       0     0   1     FB3_18        (b)     (b)
+hc<2>                 2       0     0   3     FB3_16        (b)     (b)
+hc<1>                 2       0     0   3     FB3_17        (b)     (b)
+hc<0>                 3       0     0   2     FB3_18        (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: AS30              11: inum<1>           21: tc<1> 
-  2: A<0>              12: inum<2>           22: tc<2> 
-  3: A<14>             13: inum<3>           23: tc<3> 
-  4: A<1>              14: inum<4>           24: tc<4> 
-  5: A<5>              15: m_av              25: tc<5> 
-  6: RW30              16: o1                26: tc<6> 
-  7: SIZ<0>            17: ready             27: tc<7> 
-  8: SIZ<1>            18: rst2              28: tc<8> 
-  9: col               19: t_ide             29: tick 
- 10: inum<0>           20: tc<0>             30: vp1 
+  1: AS30              11: col               21: tc<0> 
+  2: A<0>              12: hc<0>             22: tc<1> 
+  3: A<14>             13: hc<1>             23: tc<2> 
+  4: A<1>              14: hc<2>             24: tc<3> 
+  5: A<5>              15: iend              25: tc<4> 
+  6: RESET             16: m_av              26: tc<5> 
+  7: RW30              17: o1                27: tc<6> 
+  8: SIZ<0>            18: ready             28: tc<7> 
+  9: SIZ<1>            19: rst1              29: tc<8> 
+ 10: VPA               20: t_ide            
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-vp2                  .............................X.......... 1
-ARAM<3>              ..X.X...X.......X....................... 4
-tick                 ...................XXXXXXXXX............ 9
-tc<8>                ...................XXXXXXXX............. 8
-tc<7>                ...................XXXXXXX.............. 7
-tc<6>                ...................XXXXXX............... 6
-tc<5>                ...................XXXXX................ 5
-tc<4>                ...................XXXX................. 4
-tc<3>                ...................XXX.................. 3
-AVEC                 X.............XX........................ 3
-inum<4>              .........XXXXX...X..........X........... 7
-DQM<2>               .X.X.XXXX............................... 6
-i_we                 .........XXXXX.......................... 5
-inum<3>              .........XXXXX...X..........X........... 7
-IDECS0               ....X.............X..................... 2
-i_cas                .........XXXXX.......................... 5
-inum<2>              .........XXXXX...X..........X........... 7
-inum<1>              .........XXXXX...X..........X........... 7
+vp1                  .........X.............................. 1
+ARAM<3>              ..X.X.....X......X...................... 4
+tick                 ....................XXXXXXXXX........... 9
+tc<6>                ....................XXXXXX.............. 6
+tc<5>                ....................XXXXX............... 5
+tc<4>                ....................XXXX................ 4
+tc<3>                ....................XXX................. 3
+tc<2>                ....................XX.................. 2
+tc<1>                ....................X................... 1
+AVEC                 X..............XX....................... 3
+rst2                 ..................X..................... 1
+DQM<2>               .X.X..XXX.X............................. 6
+rst1                 .....X.................................. 1
+ifin                 ...........XXXX....X.................... 5
+IDECS0               ....X..............X.................... 2
+hc<2>                ...........XXXX....X.................... 5
+hc<1>                ...........XX.X....X.................... 4
+hc<0>                ...........XXXX....X.................... 5
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB4  ***********************************
@@ -559,58 +561,56 @@ Number of function block inputs used/remaining:               33/21
 Number of signals used by logic mapping into function block:  33
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-wc<0>                 1       0     0   4     FB4_1         (b)     (b)
+(unused)              0       0     0   5     FB4_1         (b)     
 RAMOE                 2       0     0   3     FB4_2   2     GTS/I/O O
-as3                   1       0     0   4     FB4_3         (b)     (b)
-as2                   1       0     0   4     FB4_4         (b)     (b)
+(unused)              0       0     0   5     FB4_3         (b)     
+wc<0>                 1       0     0   4     FB4_4         (b)     (b)
 DQM<0>                5       0     0   0     FB4_5   3     GTS/I/O O
 CLKRAM                1       0     0   4     FB4_6   4     I/O     O
-as1                   1       0     0   4     FB4_7         (b)     (b)
+tc<0>                 0       0     0   5     FB4_7         (b)     (b)
 CLKRAME               4       0     0   1     FB4_8   5     GTS/I/O O
-wc<1>                 2       0     0   3     FB4_9         (b)     (b)
-b<1>                  2       0     0   3     FB4_10        (b)     (b)
-wc<2>                 3       0     0   2     FB4_11        (b)     (b)
+p_u                   1       0     0   4     FB4_9         (b)     (b)
+wc<1>                 2       0     0   3     FB4_10        (b)     (b)
+ctl_rdy               2       0     0   3     FB4_11        (b)     (b)
 ARAM<12>              2       0     0   3     FB4_12  6     GTS/I/O O
-fin                   3       0     0   2     FB4_13        (b)     (b)
+berr_rnm0             2       0     0   3     FB4_13        (b)     (b)
 ARAM<11>              2       0     0   3     FB4_14  7     I/O     O
-z_wait                4       0     0   1     FB4_15        (b)     (b)
-gap                   4       0     0   1     FB4_16        (b)     (b)
-b<0>                  4       0     0   1     FB4_17        (b)     (b)
+arm                   2       0     0   3     FB4_15        (b)     (b)
+wc<2>                 3       0     0   2     FB4_16        (b)     (b)
+z_wait                4       0     0   1     FB4_17        (b)     (b)
 z_idle                5       0     0   0     FB4_18        (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: AS30              12: SIZ<1>            23: rq 
-  2: A<0>              13: STERM             24: rst2 
+  1: AS30              12: SIZ<1>            23: t_err 
+  2: A<0>              13: STERM             24: t_mb 
   3: A<1>              14: as1               25: tgl 
   4: A<22>             15: as2               26: wc<0> 
-  5: A<23>             16: b<0>              27: wc<1> 
-  6: CBACK             17: b<1>              28: wc<2> 
-  7: CIIN              18: col               29: z_act 
-  8: CLKCPU            19: fin               30: z_idle 
-  9: CLK100M           20: gap               31: z_pre 
- 10: RW30              21: p_ovl             32: z_wait 
- 11: SIZ<0>            22: ready             33: z_xfer 
+  5: A<23>             16: col               27: wc<1> 
+  6: CBACK             17: ds2               28: wc<2> 
+  7: CIIN              18: p_ovl             29: z_act 
+  8: CLKCPU            19: ready             30: z_idle 
+  9: CLK100M           20: rq                31: z_pre 
+ 10: RW30              21: rst2              32: z_wait 
+ 11: SIZ<0>            22: t_ctl             33: z_xfer 
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-wc<0>                .......................X.X.....X........ 3
 RAMOE                X............XX.............X........... 4
-as3                  ..............X......................... 1
-as2                  .............X.......................... 1
-DQM<0>               .XX......XXX.....X...................... 6
+wc<0>                ....................X....X.....X........ 3
+DQM<0>               .XX......XXX...X........................ 6
 CLKRAM               ........X............................... 1
-as1                  X....................................... 1
-CLKRAME              .....XXX.X..XXX........XX.......X....... 10
-wc<1>                .......................X.XX....X........ 4
-b<1>                 .......X....X..XX.......X.......X....... 6
-wc<2>                .......................X.XXX...X........ 5
-ARAM<12>             ....X............X..XX.................. 4
-fin                  .....X.X....X..XX.X.....X.......X....... 8
-ARAM<11>             ...X.............X..XX.................. 4
-z_wait               ......................XX.XXX.X.X........ 7
-gap                  .......X....X..XX..X....X.......X....... 7
-b<0>                 .....X.X....X..XX.......X.......X....... 7
-z_idle               ......X..............XXX.XXX.XXX........ 10
+tc<0>                ........................................ 0
+CLKRAME              .....XXX.X..XXX.....X...X.......X....... 10
+p_u                  .X...................................... 1
+wc<1>                ....................X....XX....X........ 4
+ctl_rdy              .........X...XX.X....X.................. 5
+ARAM<12>             ....X..........X.XX..................... 4
+berr_rnm0            X............XX.......X................. 4
+ARAM<11>             ...X...........X.XX..................... 4
+arm                  X............XX........X................ 4
+wc<2>                ....................X....XXX...X........ 5
+z_wait               ...................XX....XXX.X.X........ 7
+z_idle               ......X...........XXX....XXX.XXX........ 10
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB5  ***********************************
@@ -621,12 +621,12 @@ Name                Pt      Pt    Pt  Pt               #    Type    Use
 (unused)              0       0     0   5     FB5_1         (b)     
 (unused)              0       0     0   5     FB5_2   34    I/O     I
 (unused)              0       0     0   5     FB5_3         (b)     
-q1                    1       0     0   4     FB5_4         (b)     (b)
-ec<0>                 1       0     0   4     FB5_5   35    I/O     (b)
-x1                    2       0     0   3     FB5_6         (b)     (b)
-o1                    2       0     0   3     FB5_7         (b)     (b)
+(unused)              0       0     0   5     FB5_4         (b)     
+(unused)              0       0     0   5     FB5_5   35    I/O     
+q1                    1       0     0   4     FB5_6         (b)     (b)
+x1                    2       0     0   3     FB5_7         (b)     (b)
 D<31>                 4       0     0   1     FB5_8   38    GCK/I/O I/O
-cap                   2       0     0   3     FB5_9         (b)     (b)
+o1                    2       0     0   3     FB5_9         (b)     (b)
 D<16>                 5       0     0   0     FB5_10  39    I/O     I/O
 o0                    3       0     0   2     FB5_11        (b)     (b)
 D<30>                 4       0     0   1     FB5_12  40    I/O     I/O
@@ -653,11 +653,9 @@ Signals Used by Logic in Function Block
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
 q1                   .................X...................... 1
-ec<0>                .................X.........X............ 2
 x1                   X.............X.X....................... 3
-o1                   X.........................X............. 2
 D<31>                X.....XX........X.X..X........X......... 7
-cap                  X................X....X....X............ 4
+o1                   X.........................X............. 2
 D<16>                XX........X.....X.X..X.......XX......... 8
 o0                   X.............X..X....X...XX...X........ 7
 D<30>                X....X.....X....X.X..X........X......... 7
@@ -732,84 +730,92 @@ D<19>                 4       0     0   1     FB7_5   46    I/O     I/O
 (unused)              0       0     0   5     FB7_11        (b)     
 D<27>                 4       0     0   1     FB7_12  48    I/O     I/O
 (unused)              0       0     0   5     FB7_13        (b)     
-(unused)              0       0     0   5     FB7_14        (b)     
+rcnt<9>               2       0     0   3     FB7_14        (b)     (b)
 D<20>                 4       0     0   1     FB7_15  49    I/O     I/O
-(unused)              0       0     0   5     FB7_16        (b)     
-x3                    2       0     0   3     FB7_17        (b)     (b)
-rcnt<9>               2       0     0   3     FB7_18        (b)     (b)
+rcnt<8>               2       0     0   3     FB7_16        (b)     (b)
+rcnt<7>               2       0     0   3     FB7_17        (b)     (b)
+rcnt<10>              2       0     0   3     FB7_18        (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: AS30              12: doe               23: rcnt<4> 
-  2: D<19>             13: ec<0>             24: rcnt<5> 
-  3: D<20>             14: ec<1>             25: rcnt<6> 
-  4: D<27>             15: ec<2>             26: rcnt<7> 
-  5: D<28>             16: ec<3>             27: rcnt<8> 
-  6: D<20>.PIN         17: iend              28: rcnt<9> 
-  7: D<19>.PIN         18: q1                29: rlong 
-  8: D<28>.PIN         19: rcnt<0>           30: rst2 
-  9: D<27>.PIN         20: rcnt<1>           31: t_ctl 
- 10: cap               21: rcnt<2>           32: x2 
- 11: cd<1>             22: rcnt<3>          
+  1: AS30              12: doe               23: rcnt<3> 
+  2: D<19>             13: ec<0>             24: rcnt<4> 
+  3: D<20>             14: ec<1>             25: rcnt<5> 
+  4: D<27>             15: ec<2>             26: rcnt<6> 
+  5: D<28>             16: ec<3>             27: rcnt<7> 
+  6: D<20>.PIN         17: iend              28: rcnt<8> 
+  7: D<19>.PIN         18: q1                29: rcnt<9> 
+  8: D<28>.PIN         19: rcnt<0>           30: rlong 
+  9: D<27>.PIN         20: rcnt<10>          31: rst2 
+ 10: cap               21: rcnt<1>           32: t_ctl 
+ 11: cd<1>             22: rcnt<2>          
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-D<28>                X...X..X.X.X....X.............X......... 7
-D<19>                XX....X..X.X....X.............X......... 7
-D<27>                X..X....XX.X....X.............X......... 7
-D<20>                X.X..X...X.X....X.............X......... 7
-x3                   X..............................X........ 2
-rcnt<9>              ..........X.XXXX.XXXXXXXXXXXXX.......... 18
+D<28>                X...X..X.X.X....X..............X........ 7
+D<19>                XX....X..X.X....X..............X........ 7
+D<27>                X..X....XX.X....X..............X........ 7
+rcnt<9>              ..........X.XXXX.XX.XXXXXXXXXXX......... 18
+D<20>                X.X..X...X.X....X..............X........ 7
+rcnt<8>              ..........X.XXXX.XX.XXXXXXXX.XX......... 17
+rcnt<7>              ..........X.XXXX.XX.XXXXXXX..XX......... 16
+rcnt<10>             ..........X.XXXX.XXXXXXXXXXXXXX......... 19
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB8  ***********************************
-Number of function block inputs used/remaining:               32/22
-Number of signals used by logic mapping into function block:  32
+Number of function block inputs used/remaining:               27/27
+Number of signals used by logic mapping into function block:  27
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-(unused)              0       0     0   5     FB8_1         (b)     
-(unused)              0       0     0   5     FB8_2   130   I/O     I
-(unused)              0       0     0   5     FB8_3   131   I/O     I
-(unused)              0       0     0   5     FB8_4         (b)     
-(unused)              0       0     0   5     FB8_5   132   I/O     I
-(unused)              0       0     0   5     FB8_6         (b)     
-(unused)              0       0     0   5     FB8_7         (b)     
-(unused)              0       0     0   5     FB8_8   133   I/O     I
-p_cpu                 1       0     0   4     FB8_9         (b)     (b)
-cd_0                  1       0     0   4     FB8_10  134   I/O     I
-c3                    1       0     0   4     FB8_11        (b)     (b)
-shen                  2       0     0   3     FB8_12        (b)     (b)
-sh512                 2       0     0   3     FB8_13        (b)     (b)
+tgl                   1       0     0   4     FB8_1         (b)     (b)
+p_cpu                 1       0     0   4     FB8_2   130   I/O     I
+iw1                   1       0     0   4     FB8_3   131   I/O     I
+dt1                   1       0     0   4     FB8_4         (b)     (b)
+drv                   1       0     0   4     FB8_5   132   I/O     I
+cd_0                  1       0     0   4     FB8_6         (b)     (b)
+c3                    1       0     0   4     FB8_7         (b)     (b)
+bg3                   1       0     0   4     FB8_8   133   I/O     I
+bg2                   1       0     0   4     FB8_9         (b)     (b)
+bg1                   1       0     0   4     FB8_10  134   I/O     I
+ba2                   1       0     0   4     FB8_11        (b)     (b)
+x3                    2       0     0   3     FB8_12        (b)     (b)
+x2                    2       0     0   3     FB8_13        (b)     (b)
 p_cperr               2       0     0   3     FB8_14        (b)     (b)
 cf                    2       0     0   3     FB8_15        (b)     (b)
-lock<1>               3       0     0   2     FB8_16        (b)     (b)
-lock<0>               3       0     0   2     FB8_17        (b)     (b)
-imin                  3       0     0   2     FB8_18        (b)     (b)
+bgk                   2       0     0   3     FB8_16        (b)     (b)
+lock<1>               3       0     0   2     FB8_17        (b)     (b)
+lock<0>               3       0     0   2     FB8_18        (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: A<16>             12: D<17>.PIN         23: ic<6> 
-  2: A<17>             13: D<16>.PIN         24: ic<7> 
-  3: A<18>             14: c2                25: imin 
-  4: A<19>             15: c3                26: lock<0> 
-  5: A<2>              16: cf                27: lock<1> 
-  6: A<3>              17: ic<0>             28: rlong 
-  7: A<4>              18: ic<1>             29: sh512 
-  8: A<5>              19: ic<2>             30: shen 
-  9: FC<0>             20: ic<3>             31: t_ide 
- 10: FC<1>             21: ic<4>             32: wcap 
- 11: FC<2>             22: ic<5>            
+  1: AS30              10: FC<1>             19: c3 
+  2: A<16>             11: FC<2>             20: cf 
+  3: A<17>             12: IDEWAIT           21: hiok 
+  4: A<18>             13: ba1               22: lock<0> 
+  5: A<19>             14: ba2               23: lock<1> 
+  6: BG                15: bg1               24: slow 
+  7: BG30              16: bg2               25: tgl 
+  8: DTACK             17: bgk               26: x1 
+  9: FC<0>             18: c2                27: x2 
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
+tgl                  .......................XX............... 2
 p_cpu                ........XXX............................. 3
-cd_0                 ...............X........................ 1
-c3                   .............X.......................... 1
-shen                 ............X..............X.X.X........ 4
-sh512                ...........X...............XX..X........ 4
-p_cperr              XXXX....XXX............................. 7
-cf                   .............XXX.........XX............. 5
-lock<1>              .............XXX.........XX............. 5
-lock<0>              .............XXX.........XX............. 5
-imin                 ....XXXX........XXXXXXXXX.....X......... 14
+iw1                  ...........X............................ 1
+dt1                  .......X................................ 1
+drv                  .....X.......X.......................... 2
+cd_0                 ...................X.................... 1
+c3                   .................X...................... 1
+bg3                  ...............X........................ 1
+bg2                  ..............X......................... 1
+bg1                  ......X................................. 1
+ba2                  ............X........................... 1
+x3                   X.........................X............. 2
+x2                   X........................X.............. 2
+p_cperr              .XXXX...XXX............................. 7
+cf                   .................XXX.XX................. 5
+bgk                  .............X..X...X................... 3
+lock<1>              .................XXX.XX................. 5
+lock<0>              .................XXX.XX................. 5
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB9  ***********************************
@@ -872,58 +878,46 @@ ic<2>                ....................XXX...XX...X........ 6
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB10 ***********************************
-Number of function block inputs used/remaining:               21/33
-Number of signals used by logic mapping into function block:  21
+Number of function block inputs used/remaining:               32/22
+Number of signals used by logic mapping into function block:  32
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-tgl                   1       0     0   4     FB10_1        (b)     (b)
-iw1                   1       0     0   4     FB10_2  117   I/O     I
-e1                    1       0     0   4     FB10_3  118   I/O     I
-dt2                   1       0     0   4     FB10_4        (b)     (b)
-dt1                   1       0     0   4     FB10_5  119   I/O     I
-ds2                   1       0     0   4     FB10_6  120   I/O     I
-ds1                   1       0     0   4     FB10_7        (b)     (b)
-drv                   1       0     0   4     FB10_8  121   I/O     I
-cq2                   1       0     0   4     FB10_9        (b)     (b)
-cq1                   1       0     0   4     FB10_10 124   I/O     I
-cd<1>                 1       0     0   4     FB10_11 125   I/O     I
-c2                    1       0     0   4     FB10_12 126   I/O     I
-c1                    1       0     0   4     FB10_13       (b)     (b)
-bg3                   1       0     0   4     FB10_14 128   I/O     I
-bg2                   1       0     0   4     FB10_15       (b)     (b)
-bg1                   1       0     0   4     FB10_16       (b)     (b)
-be1                   1       0     0   4     FB10_17 129   I/O     I
-bgk                   2       0     0   3     FB10_18       (b)     (b)
+(unused)              0       0     0   5     FB10_1        (b)     
+(unused)              0       0     0   5     FB10_2  117   I/O     I
+(unused)              0       0     0   5     FB10_3  118   I/O     I
+(unused)              0       0     0   5     FB10_4        (b)     
+(unused)              0       0     0   5     FB10_5  119   I/O     I
+(unused)              0       0     0   5     FB10_6  120   I/O     I
+(unused)              0       0     0   5     FB10_7        (b)     
+(unused)              0       0     0   5     FB10_8  121   I/O     I
+(unused)              0       0     0   5     FB10_9        (b)     
+(unused)              0       0     0   5     FB10_10 124   I/O     I
+(unused)              0       0     0   5     FB10_11 125   I/O     I
+(unused)              0       0     0   5     FB10_12 126   I/O     I
+(unused)              0       0     0   5     FB10_13       (b)     
+(unused)              0       0     0   5     FB10_14 128   I/O     I
+(unused)              0       0     0   5     FB10_15       (b)     
+(unused)              0       0     0   5     FB10_16       (b)     
+wcap                  1       0     0   4     FB10_17 129   I/O     I
+imin                  3       0     0   2     FB10_18       (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: BG                 8: BERR.PIN          15: cq1 
-  2: BG30               9: ba2               16: ds1 
-  3: CBREQ             10: bg1               17: dt1 
-  4: CLK7M_RAW         11: bg2               18: e0 
-  5: DS30              12: bgk               19: hiok 
-  6: DTACK             13: c1                20: slow 
-  7: IDEWAIT           14: cd_0              21: tgl 
+  1: A<2>              12: D<27>.PIN         23: ic<1> 
+  2: A<3>              13: D<26>.PIN         24: ic<2> 
+  3: A<4>              14: D<25>.PIN         25: ic<3> 
+  4: A<5>              15: D<24>.PIN         26: ic<4> 
+  5: D<31>.PIN         16: D<23>.PIN         27: ic<5> 
+  6: D<22>.PIN         17: RW30              28: ic<6> 
+  7: D<21>.PIN         18: as1               29: ic<7> 
+  8: D<20>.PIN         19: as2               30: imin 
+  9: D<30>.PIN         20: ctl_rdy           31: t_ctl 
+ 10: D<29>.PIN         21: ds2               32: t_ide 
+ 11: D<28>.PIN         22: ic<0>            
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-tgl                  ...................XX................... 2
-iw1                  ......X................................. 1
-e1                   .................X...................... 1
-dt2                  ................X....................... 1
-dt1                  .....X.................................. 1
-ds2                  ...............X........................ 1
-ds1                  ....X................................... 1
-drv                  X.......X............................... 2
-cq2                  ..............X......................... 1
-cq1                  ..X..................................... 1
-cd<1>                .............X.......................... 1
-c2                   ............X........................... 1
-c1                   ...X.................................... 1
-bg3                  ..........X............................. 1
-bg2                  .........X.............................. 1
-bg1                  .X...................................... 1
-be1                  .......X................................ 1
-bgk                  ........X..X......X..................... 3
+wcap                 ....XXXXXXXXXXXXXXXXX.........X......... 18
+imin                 XXXX.................XXXXXXXXX.X........ 14
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB11 ***********************************
@@ -931,19 +925,19 @@ Number of function block inputs used/remaining:               32/22
 Number of signals used by logic mapping into function block:  32
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-rcnt<8>               2       0     0   3     FB11_1        (b)     (b)
-rcnt<7>               2       0     0   3     FB11_2        (b)     (b)
-rcnt<6>               2       0     0   3     FB11_3  60    I/O     I
-rcnt<5>               2       0     0   3     FB11_4        (b)     (b)
+ec<0>                 1       0     0   4     FB11_1        (b)     (b)
+rcnt<6>               2       0     0   3     FB11_2        (b)     (b)
+rcnt<5>               2       0     0   3     FB11_3  60    I/O     I
+rcnt<4>               2       0     0   3     FB11_4        (b)     (b)
 BG                    1       0     0   4     FB11_5  61    I/O     O
-rcnt<4>               2       0     0   3     FB11_6        (b)     (b)
-rcnt<3>               2       0     0   3     FB11_7        (b)     (b)
-rcnt<2>               2       0     0   3     FB11_8        (b)     (b)
-rcnt<1>               2       0     0   3     FB11_9        (b)     (b)
-rcnt<0>               2       0     0   3     FB11_10 64    I/O     I
-m_av                  2       0     0   3     FB11_11 66    I/O     I
-ec<2>                 2       0     0   3     FB11_12 68    I/O     I
-e0                    2       0     0   3     FB11_13       (b)     (b)
+rcnt<3>               2       0     0   3     FB11_6        (b)     (b)
+rcnt<2>               2       0     0   3     FB11_7        (b)     (b)
+rcnt<1>               2       0     0   3     FB11_8        (b)     (b)
+rcnt<0>               2       0     0   3     FB11_9        (b)     (b)
+m_av                  2       0     0   3     FB11_10 64    I/O     I
+ec<2>                 2       0     0   3     FB11_11 66    I/O     I
+e0                    2       0     0   3     FB11_12 68    I/O     I
+cap                   2       0     0   3     FB11_13       (b)     (b)
 E                     1       0     0   4     FB11_14 69    I/O     O
 ec<3>                 3       0     0   2     FB11_15       (b)     (b)
 ec<1>                 3       0     0   2     FB11_16       (b)     (b)
@@ -951,43 +945,43 @@ VMA                   3       0     0   2     FB11_17 70    I/O     O
 m_ack                 4       0     0   1     FB11_18       (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: AS30              12: e1                23: rcnt<2> 
-  2: BGACK             13: ec<0>             24: rcnt<3> 
-  3: BUSEN             14: ec<1>             25: rcnt<4> 
-  4: VMA               15: ec<2>             26: rcnt<5> 
-  5: as2               16: ec<3>             27: rcnt<6> 
-  6: as3               17: m_ack             28: rcnt<7> 
-  7: bg2               18: m_s4              29: rcnt<8> 
-  8: bg3               19: p_cpu             30: rlong 
-  9: cd<1>             20: q1                31: rst2 
- 10: drv               21: rcnt<0>           32: vp2 
- 11: dt2               22: rcnt<1>          
+  1: AS30              12: drv               23: rcnt<0> 
+  2: BGACK             13: dt2               24: rcnt<1> 
+  3: BUSEN             14: e1                25: rcnt<2> 
+  4: VMA               15: ec<0>             26: rcnt<3> 
+  5: as2               16: ec<1>             27: rcnt<4> 
+  6: as3               17: ec<2>             28: rcnt<5> 
+  7: bg2               18: ec<3>             29: rcnt<6> 
+  8: bg3               19: m_ack             30: rlong 
+  9: bh                20: m_s4              31: rst2 
+ 10: br1               21: p_cpu             32: vp2 
+ 11: cd<1>             22: q1               
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-rcnt<8>              ........X...XXXX...XXXXXXXXXXXX......... 17
-rcnt<7>              ........X...XXXX...XXXXXXXXX.XX......... 16
-rcnt<6>              ........X...XXXX...XXXXXXXX..XX......... 15
-rcnt<5>              ........X...XXXX...XXXXXXX...XX......... 14
-BG                   ..X.XXXX................................ 5
-rcnt<4>              ........X...XXXX...XXXXXX....XX......... 13
-rcnt<3>              ........X...XXXX...XXXXX.....XX......... 12
-rcnt<2>              ........X...XXXX...XXXX......XX......... 11
-rcnt<1>              ........X...XXXX...XXX.......XX......... 10
-rcnt<0>              ........X...XXXX...XX........XX......... 9
-m_av                 X.......X........XXX...........X........ 6
-ec<2>                ........X...XX.....X.................... 4
-e0                   .............XXX........................ 3
-E                    ...........X............................ 1
-ec<3>                ........X...XXXX...X.................... 6
-ec<1>                ........X...XXXX...X.................... 6
-VMA                  .X.X....XX..XXXX.XXX...........X........ 12
-m_ack                X..X....X.X.XXXXXXXX...........X........ 13
+ec<0>                ..........X..........X.................. 2
+rcnt<6>              ..........X...XXXX...XXXXXXXXXX......... 15
+rcnt<5>              ..........X...XXXX...XXXXXXX.XX......... 14
+rcnt<4>              ..........X...XXXX...XXXXXX..XX......... 13
+BG                   ..X.XXXXXX.............................. 7
+rcnt<3>              ..........X...XXXX...XXXXX...XX......... 12
+rcnt<2>              ..........X...XXXX...XXXX....XX......... 11
+rcnt<1>              ..........X...XXXX...XXX.....XX......... 10
+rcnt<0>              ..........X...XXXX...XX......XX......... 9
+m_av                 X.........X........XXX.........X........ 6
+ec<2>                ..........X...XX.....X.................. 4
+e0                   ...............XXX...................... 3
+cap                  X.........X.......X..X.................. 4
+E                    .............X.......................... 1
+ec<3>                ..........X...XXXX...X.................. 6
+ec<1>                ..........X...XXXX...X.................. 6
+VMA                  .X.X......XX..XXXX.XXX.........X........ 12
+m_ack                X..X......X.X.XXXXXXXX.........X........ 13
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB12 ***********************************
-Number of function block inputs used/remaining:               5/49
-Number of signals used by logic mapping into function block:  5
+Number of function block inputs used/remaining:               7/47
+Number of signals used by logic mapping into function block:  7
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
 (unused)              0       0     0   5     FB12_1        (b)     
@@ -1001,25 +995,28 @@ Name                Pt      Pt    Pt  Pt               #    Type    Use
 (unused)              0       0     0   5     FB12_9        (b)     
 (unused)              0       0     0   5     FB12_10 115   I/O     I
 (unused)              0       0     0   5     FB12_11       (b)     
-(unused)              0       0     0   5     FB12_12 116   I/O     I
-(unused)              0       0     0   5     FB12_13       (b)     
-vp1                   1       0     0   4     FB12_14       (b)     (b)
-rst2                  1       0     0   4     FB12_15       (b)     (b)
-rst1                  1       0     0   4     FB12_16       (b)     (b)
-p_u                   1       0     0   4     FB12_17       (b)     (b)
-iw2                   1       0     0   4     FB12_18       (b)     (b)
+ds2                   1       0     0   4     FB12_12 116   I/O     I
+ds1                   1       0     0   4     FB12_13       (b)     (b)
+cq2                   1       0     0   4     FB12_14       (b)     (b)
+cq1                   1       0     0   4     FB12_15       (b)     (b)
+cd<1>                 1       0     0   4     FB12_16       (b)     (b)
+c2                    1       0     0   4     FB12_17       (b)     (b)
+c1                    1       0     0   4     FB12_18       (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: A<0>               3: VPA                5: rst1 
-  2: RESET              4: iw1              
+  1: CBREQ              4: c1                 6: cq1 
+  2: CLK7M_RAW          5: cd_0               7: ds1 
+  3: DS30             
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-vp1                  ..X..................................... 1
-rst2                 ....X................................... 1
-rst1                 .X...................................... 1
-p_u                  X....................................... 1
-iw2                  ...X.................................... 1
+ds2                  ......X................................. 1
+ds1                  ..X..................................... 1
+cq2                  .....X.................................. 1
+cq1                  X....................................... 1
+cd<1>                ....X................................... 1
+c2                   ...X.................................... 1
+c1                   .X...................................... 1
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB13 ***********************************
@@ -1088,48 +1085,45 @@ Name                Pt      Pt    Pt  Pt               #    Type    Use
 (unused)              0       0     0   5     FB14_3  100   I/O     I
 (unused)              0       0     0   5     FB14_4        (b)     
 (unused)              0       0     0   5     FB14_5  101   I/O     I
-tick2                 1       0     0   4     FB14_6  102   I/O     I
-tc<2>                 1       0     0   4     FB14_7        (b)     (b)
-tc<1>                 1       0     0   4     FB14_8  103   I/O     I
+(unused)              0       0     0   5     FB14_6  102   I/O     I
+(unused)              0       0     0   5     FB14_7        (b)     
+(unused)              0       0     0   5     FB14_8  103   I/O     I
 rlong                 1       0     0   4     FB14_9        (b)     (b)
 BGACK30               1       0     0   4     FB14_10 104   I/O     O
-ready                 1       0     0   4     FB14_11 105   I/O     I
-i_ras                 1       0     0   4     FB14_12       (b)     (b)
-ba2                   1       0     0   4     FB14_13       (b)     (b)
-rcnt<13>              2       0     0   3     FB14_14 106   I/O     I
-rcnt<12>              2       0     0   3     FB14_15 107   I/O     I
-rcnt<11>              2       0     0   3     FB14_16       (b)     (b)
-rcnt<10>              2       0     0   3     FB14_17       (b)     (b)
-inum<0>               3       0     0   2     FB14_18       (b)     (b)
+iw2                   1       0     0   4     FB14_11 105   I/O     I
+e1                    1       0     0   4     FB14_12       (b)     (b)
+dt2                   1       0     0   4     FB14_13       (b)     (b)
+shen                  2       0     0   3     FB14_14 106   I/O     I
+sh512                 2       0     0   3     FB14_15 107   I/O     I
+rcnt<13>              2       0     0   3     FB14_16       (b)     (b)
+rcnt<12>              2       0     0   3     FB14_17       (b)     (b)
+rcnt<11>              2       0     0   3     FB14_18       (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: BGACK             12: inum<4>           23: rcnt<5> 
-  2: ba1               13: q1                24: rcnt<6> 
-  3: bgk               14: rcnt<0>           25: rcnt<7> 
-  4: cd<1>             15: rcnt<10>          26: rcnt<8> 
-  5: ec<0>             16: rcnt<11>          27: rcnt<9> 
-  6: ec<1>             17: rcnt<12>          28: rlong 
-  7: ec<2>             18: rcnt<13>          29: rst2 
-  8: ec<3>             19: rcnt<1>           30: tc<0> 
-  9: inum<0>           20: rcnt<2>           31: tc<1> 
- 10: inum<2>           21: rcnt<3>           32: tick 
- 11: inum<3>           22: rcnt<4>          
+  1: BGACK             12: iw1               23: rcnt<5> 
+  2: D<17>.PIN         13: q1                24: rcnt<6> 
+  3: D<16>.PIN         14: rcnt<0>           25: rcnt<7> 
+  4: bgk               15: rcnt<10>          26: rcnt<8> 
+  5: cd<1>             16: rcnt<11>          27: rcnt<9> 
+  6: dt1               17: rcnt<12>          28: rlong 
+  7: e0                18: rcnt<13>          29: rst2 
+  8: ec<0>             19: rcnt<1>           30: sh512 
+  9: ec<1>             20: rcnt<2>           31: shen 
+ 10: ec<2>             21: rcnt<3>           32: wcap 
+ 11: ec<3>             22: rcnt<4>          
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-tick2                ...............................X........ 1
-tc<2>                .............................XX......... 2
-tc<1>                .............................X.......... 1
 rlong                ................XX.......XX............. 4
-BGACK30              X.X..................................... 2
-ready                .........XXX............................ 3
-i_ras                ..........XX............................ 2
-ba2                  .X...................................... 1
-rcnt<13>             ...XXXXX....XXXXXXXXXXXXXXXXX........... 22
-rcnt<12>             ...XXXXX....XXXXX.XXXXXXXXXXX........... 21
-rcnt<11>             ...XXXXX....XXXX..XXXXXXXXXXX........... 20
-rcnt<10>             ...XXXXX....XXX...XXXXXXXXXXX........... 19
-inum<0>              ........XXXX................X..X........ 6
+BGACK30              X..X.................................... 2
+iw2                  ...........X............................ 1
+e1                   ......X................................. 1
+dt2                  .....X.................................. 1
+shen                 ..X........................X..XX........ 4
+sh512                .X.........................X.X.X........ 4
+rcnt<13>             ....X..XXXX.XXXXXXXXXXXXXXXXX........... 22
+rcnt<12>             ....X..XXXX.XXXXX.XXXXXXXXXXX........... 21
+rcnt<11>             ....X..XXXX.XXXX..XXXXXXXXXXX........... 20
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB15 ***********************************
@@ -1137,46 +1131,58 @@ Number of function block inputs used/remaining:               32/22
 Number of signals used by logic mapping into function block:  32
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-(unused)              0       0     0   5     FB15_1        (b)     
-(unused)              0       0     0   5     FB15_2  79    I/O     I
-(unused)              0       0     0   5     FB15_3  80    I/O     I
-(unused)              0       0     0   5     FB15_4        (b)     
-(unused)              0       0     0   5     FB15_5        (b)     
-(unused)              0       0     0   5     FB15_6        (b)     
-(unused)              0       0     0   5     FB15_7        (b)     
-(unused)              0       0     0   5     FB15_8  81    I/O     I
-(unused)              0       0     0   5     FB15_9        (b)     
-(unused)              0       0     0   5     FB15_10 82    I/O     I
-(unused)              0       0     0   5     FB15_11 83    I/O     I
+vp2                   1       0     0   4     FB15_1        (b)     (b)
+tick2                 1       0     0   4     FB15_2  79    I/O     I
+tc<8>                 1       0     0   4     FB15_3  80    I/O     I
+tc<7>                 1       0     0   4     FB15_4        (b)     (b)
+slow                  1       0     0   4     FB15_5        (b)     (b)
+ready                 1       0     0   4     FB15_6        (b)     (b)
+i_ras                 1       0     0   4     FB15_7        (b)     (b)
+inum<4>               2       0     0   3     FB15_8  81    I/O     I
+i_we                  2       0     0   3     FB15_9        (b)     (b)
+bh                    2       0     0   3     FB15_10 82    I/O     I
+inum<3>               3       0     0   2     FB15_11 83    I/O     I
 CBACK                 3       0     0   2     FB15_12 85    I/O     O
-(unused)              0       0     0   5     FB15_13       (b)     
-wcap                  1       0     0   4     FB15_14 86    I/O     I
+inum<0>               3       0     0   2     FB15_13       (b)     (b)
+i_cas                 3       0     0   2     FB15_14 86    I/O     I
 BERR                  1       0     0   4     FB15_15 87    I/O     I/O
-slow                  1       0     0   4     FB15_16       (b)     (b)
+inum<2>               4       0     0   1     FB15_16       (b)     (b)
 BUSEN                 2       0     0   3     FB15_17 88    I/O     O
-x2                    2       0     0   3     FB15_18       (b)     (b)
+inum<1>               4       0     0   1     FB15_18       (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: AS30              12: D<28>.PIN         23: berr_rnm0 
-  2: A<2>              13: D<27>.PIN         24: cq2 
-  3: A<3>              14: D<26>.PIN         25: ctl_rdy 
-  4: BUSEN             15: D<25>.PIN         26: ds2 
-  5: CIIN              16: D<24>.PIN         27: m_as 
-  6: D<31>.PIN         17: D<23>.PIN         28: o4 
-  7: D<22>.PIN         18: RW30              29: p_vec 
-  8: D<21>.PIN         19: STERM             30: rst2 
-  9: D<20>.PIN         20: as1               31: t_ctl 
- 10: D<30>.PIN         21: as2               32: x1 
- 11: D<29>.PIN         22: be1              
+  1: AS30              12: bh                23: tc<0> 
+  2: A<2>              13: cq2               24: tc<1> 
+  3: A<3>              14: inum<0>           25: tc<2> 
+  4: BUSEN             15: inum<1>           26: tc<3> 
+  5: CIIN              16: inum<2>           27: tc<4> 
+  6: RW30              17: inum<3>           28: tc<5> 
+  7: STERM             18: inum<4>           29: tc<6> 
+  8: as1               19: m_as              30: tc<7> 
+  9: as2               20: o4                31: tick 
+ 10: be1               21: p_vec             32: vp1 
+ 11: berr_rnm0         22: rst2             
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-CBACK                XXX.X............XXXX..X....X........... 10
-wcap                 .....XXXXXXXXXXXXX.XX...XX....X......... 18
-BERR                 X.....................X................. 2
-slow                 .....................X....X..X.......... 3
-BUSEN                ...X.............X..X.....XX............ 5
-x2                   X..............................X........ 2
+vp2                  ...............................X........ 1
+tick2                ..............................X......... 1
+tc<8>                ......................XXXXXXXX.......... 8
+tc<7>                ......................XXXXXXX........... 7
+slow                 .........X........X..X.................. 3
+ready                ...............XXX...................... 3
+i_ras                ................XX...................... 2
+inum<4>              .............XXXXX...X........X......... 7
+i_we                 .............XXXXX...................... 5
+bh                   .........X.X......X..................... 3
+inum<3>              .............XXXXX...X........X......... 7
+CBACK                XXX.XXXXX...X.......X................... 10
+inum<0>              .............X.XXX...X........X......... 6
+i_cas                .............XXXXX...................... 5
+BERR                 X.........X............................. 2
+inum<2>              .............XXXXX...X........X......... 7
+BUSEN                ...X.X..X.........XX.................... 5
+inum<1>              .............XXXXX...X........X......... 7
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *********************************** FB16 ***********************************
@@ -1184,57 +1190,58 @@ Number of function block inputs used/remaining:               32/22
 Number of signals used by logic mapping into function block:  32
 Signal              Total   Imp   Exp Unused  Loc     Pin   Pin     Pin
 Name                Pt      Pt    Pt  Pt               #    Type    Use
-(unused)              0       0     0   5     FB16_1        (b)     
+xold                  1       0     0   4     FB16_1        (b)     (b)
 STERM                 5       0     0   0     FB16_2  91    I/O     O
 DSACK1                4       0     0   1     FB16_3  92    I/O     O
-xold                  1       0     0   4     FB16_4        (b)     (b)
+br1                   1       0     0   4     FB16_4        (b)     (b)
 DSACK0                0       0     0   5     FB16_5  93    I/O     O
 CLKCPU                1       0     0   4     FB16_6  94    I/O     O
-tc<0>                 0       0     0   5     FB16_7        (b)     (b)
-ifin                  1       0     0   4     FB16_8  95    I/O     I
-o3                    2       0     0   3     FB16_9        (b)     (b)
-o2                    2       0     0   3     FB16_10 96    I/O     I
-BR30                  1       0     0   4     FB16_11 97    I/O     O
-hc<2>                 2       0     0   3     FB16_12 98    I/O     I
-hc<1>                 2       0     0   3     FB16_13       (b)     (b)
-ctl_rdy               2       0     0   3     FB16_14       (b)     (b)
-berr_rnm0             2       0     0   3     FB16_15       (b)     (b)
-arm                   2       0     0   3     FB16_16       (b)     (b)
-hc<0>                 3       0     0   2     FB16_17       (b)     (b)
-doe                   4       0     0   1     FB16_18       (b)     (b)
+be1                   1       0     0   4     FB16_7        (b)     (b)
+as3                   1       0     0   4     FB16_8  95    I/O     I
+as2                   1       0     0   4     FB16_9        (b)     (b)
+as1                   1       0     0   4     FB16_10 96    I/O     I
+BR30                  2       0     0   3     FB16_11 97    I/O     O
+o3                    2       0     0   3     FB16_12 98    I/O     I
+o2                    2       0     0   3     FB16_13       (b)     (b)
+b<1>                  2       0     0   3     FB16_14       (b)     (b)
+fin                   3       0     0   2     FB16_15       (b)     (b)
+gap                   4       0     0   1     FB16_16       (b)     (b)
+doe                   4       0     0   1     FB16_17       (b)     (b)
+b<0>                  4       0     0   1     FB16_18       (b)     (b)
 
 Signals Used by Logic in Function Block
-  1: AS30              12: cq2               23: m_av 
-  2: BR                13: ctl_rdy           24: o1 
-  3: CIIN              14: doe               25: o2 
-  4: CLKCPU            15: ds2               26: t_ctl 
-  5: DSACK1            16: fin               27: t_err 
-  6: RW30              17: gap               28: t_ide 
-  7: STERM             18: hc<0>             29: t_mb 
-  8: as1               19: hc<1>             30: tgl 
-  9: as2               20: hc<2>             31: wdone 
- 10: b<0>              21: iend              32: z_xfer 
- 11: b<1>              22: ifin             
+  1: AS30              12: b<0>              23: ifin 
+  2: BR                13: b<1>              24: m_as 
+  3: CBACK             14: bh                25: m_av 
+  4: CIIN              15: cq2               26: o1 
+  5: CLKCPU            16: ctl_rdy           27: o2 
+  6: DSACK1            17: doe               28: t_ctl 
+  7: BERR.PIN          18: fin               29: t_ide 
+  8: RW30              19: gap               30: tgl 
+  9: STERM             20: hc<0>             31: wdone 
+ 10: as1               21: hc<1>             32: z_xfer 
+ 11: as2               22: hc<2>            
 
 Signal                        1         2         3         4 FB
 Name                0----+----0----+----0----+----0----+----0 Inputs
-STERM                ..XX..XXXXXX...XX............XXX........ 13
-DSACK1               X...X..XX...X........XXX.X.X............ 10
 xold                 ...............................X........ 1
+STERM                ...XX...XXXXX.X..XX..........XXX........ 13
+DSACK1               X....X...XX....X......X.XX.XX........... 10
+br1                  .X...................................... 1
 DSACK0               ........................................ 0
 CLKCPU               .............................X.......... 1
-tc<0>                ........................................ 0
-ifin                 .................XXXX......X............ 5
-o3                   X.......................X............... 2
-o2                   X......................X................ 2
-BR30                 .X...................................... 1
-hc<2>                .................XXXX......X............ 5
-hc<1>                .................XX.X......X............ 4
-ctl_rdy              .....X.XX.....X..........X.............. 5
-berr_rnm0            X......XX.................X............. 4
-arm                  X......XX...................X........... 4
-hc<0>                .................XXXX......X............ 5
-doe                  X....X.XX...XX...XXX..X.XX.X............ 13
+be1                  ......X................................. 1
+as3                  ..........X............................. 1
+as2                  .........X.............................. 1
+as1                  X....................................... 1
+BR30                 .X....X......X.........X................ 4
+o3                   X.........................X............. 2
+o2                   X........................X.............. 2
+b<1>                 ....X...X..XX................X.X........ 6
+fin                  ..X.X...X..XX....X...........X.X........ 8
+gap                  ....X...X..XX.....X..........X.X........ 7
+doe                  X......X.XX....XX..XXX..X.XXX........... 13
+b<0>                 ..X.X...X..XX................X.X........ 7
                     0----+----1----+----2----+----3----+----4
                               0         0         0         0
 *******************************  Equations  ********************************
@@ -1313,12 +1320,13 @@ BA<1>.D = A<25> & ready & !p_ovl;
 BERR = Gnd;
    BERR.OE = !AS30 & berr_rnm0;    
 
-!BG.D = as2 & as3 & !bg2 & !bg3 & BUSEN;
+!BG.D = as2 & !bh & as3 & !bg2 & !bg3 & !br1 & BUSEN;
    BG.CLK = CLK100M;	// GCK    
 
 BGACK30 = BGACK & !bgk;    
 
-BR30 = BR;    
+BR30 = !m_as & BR & !bh
+	# BR & !bh & BERR.PIN;    
 
 !BUSEN.D = m_as
 	# !RW30 & !o4 & !as2 & !BUSEN;
@@ -1590,6 +1598,13 @@ bg3.D = bg2;
 bgk.D = !ba2
 	# !hiok & bgk;
    bgk.CLK = CLK100M;	// GCK    
+
+bh.D = m_as & !be1
+	# bh & !be1;
+   bh.CLK = CLK100M;	// GCK    
+
+br1.D = BR;
+   br1.CLK = CLK100M;	// GCK    
 
 c1.D = CLK7M_RAW;
    c1.CLK = CLK100M;	// GCK    
